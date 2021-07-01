@@ -97,6 +97,43 @@ public class MemoryCheck {
 마지막으로 세번째는 중첩된 내부 스택프레임의 변수에서 외부 스택프레임의 변수에 접근하는 것은 가능하나 그 역은 불가능하다는 것이다.
 
 ### 전역 변수와 메모리
+두 메서드 사이에 값을 전달하는 방법은 메서드를 호출할 때 메서드의 인자를 이용하는 방법과 메서드를 종료할 때 반환값을 넘겨주는 방법이 있다. 
+이와 같이 메서드의 서명(인자, 반환값)을 이용하지 않고도 메서드간에 값을 공유하는 방법은 전역변수를 이용하는 것 뿐이다.
+```
+public class MemoryCheck {
+
+    static int globalVar1;
+
+    public static void main(String[] args){
+        globalVar1 = 10;
+        
+        int temp = foo(6, 3);
+        
+        System.out.println(globalVar1);
+        System.out.println(temp);
+    }
+    
+    public static int foo(int a, int b){
+        globalVar1 = a + b;
+        return a - b;
+    }
+}
+```
+코드를 보면 share 변수에 static 키워드가 붙어있다. 그래서 share 변수는 T 메모리의 스태틱 영역에 변수 공간이 할당된다. static 키워드의 의미를 간단히 살펴보면 다음과 같다.
+
+그렇다면, 위 코드의 실행에 따른 메모리의 변화를 살펴보자 
+1. MemoryCheck 클래스가 T 메모리의 스태틱 영역에 배치될 때 그 안에 share 변수가 클래스의 멤버로 공간을 만들어 저장된다.
+2. main() 메서드의 스택프레임이 생성된다.
+3. globalVar1 에 10을 할당한다. 
+3. 지역변수 temp를 위한 메모리 공간이 스택프레임내에 생성된다,
+4. temp에 값을 할당하는 foo() 메서드의 스택프레임이 생성되고 제어권이 넘어간다. 
+5. foo()에서 globalVar1에 값을 할당하면 globalVar1의 메모리에 접근하여 변수의 값을 변경시킨다.
+6. 반환값이 temp에 할당되고, foo() 스택프레임이 소멸된다.
+7. main() 메서드의 스택프레임이 소멸된다. 
+
+지역변수와 전역변수의 선언과 할당에 따른 메모리 변화를 살펴보면 다음과 같은 해석이 가능하다.
+
+| 스택 프레임에 종속적인 지역변수 <-> 스택 프레임에 독립적인 전역변수
 
 # 메서드와 메모리
 
