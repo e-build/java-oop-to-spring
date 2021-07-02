@@ -12,11 +12,11 @@
 얼마나 정확하고 깊게 탐구할 수 있을지 혹은 얼마나 유용한 저장소로 활용될 수 있을지는 모르겠지만, 단계별 실습과 설명을 통하여 저와 같은 주니어 개발자들의 자바 학습에 조금이라도 실용적인 저장소되었으면 좋겠습니다.
 
 # 목차
-[1. 자바 프로그램의 구동과 메모리 구조]("https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md")
+[1. 자바 프로그램의 구동과 메모리 구조](https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md)
 
-[2. 자바의 객체지향]("https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-on-java.md")
+[2. 자바의 객체지향](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-on-java.md)
 
-[3. 스프링 프레임워크의 디자인패턴]("https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md")
+[3. 스프링 프레임워크의 디자인패턴](https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md)
 
 
 
