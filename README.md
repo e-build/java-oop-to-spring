@@ -13,8 +13,12 @@
 
 # 목차
 [1. 자바 프로그램의 구동과 메모리 구조]("https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md")
-2. 자바의 객체지향
-3. 스프링 프레임워크의 디자인패턴
+
+[2. 자바의 객체지향]("https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-on-java.md")
+
+[3. 스프링 프레임워크의 디자인패턴]("https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md")
+
+
 
 
 
