@@ -162,19 +162,77 @@ Car 타입의 크기가 5인 배열을 선언하고 Car 클래스를 상속하�
 
 
 > ***<u>다중 상속과 자바</u>***
-> > 자바는 다중 상속을 지원하지 않는다. "사람"과 "물고기" 클래스를 상속하는 인어클래스를 가정해보자. 
+> 
+> 자바는 다중 상속을 지원하지 않는다. "사람"과 "물고기" 클래스를 상속하는 인어클래스를 가정해보자. 
 사람도 수영할 수 있고, 물고기도 수영할 수 있는데 인어에게 수영하라고 지시한다면 인어는 사람과 물고기의 수영방식 중 어떤 것을 따라야 할까?
 이와 같은 문제를 다중 상속의 다이아몬드 문제라고 했고, 결국 득보다 실이 더 많았기에 자바는 다중상속을 포기했다고 한다.
 
+***정리***
 > - 객체지향의 상속은 상위 클래스의 특성을 재사용하는 것이다.
 > - 객체지향의 상속은 상위 클래스의 특성을 확장하는 것이다.
 > - 객체지향의 상속은 is a 관계가 아니라 is a kind of 관계를 만족해야 한다.
 
 ### 상속과 인터페이스
+클래스와 인터페이스의 관계는 be able to 의 의미로 표현할 수 있다. 다음의 자바 API 예를 보자.
+* Serializable 인터페이스 : 직렬화할 수 있는
+* Cloneable 인터페이스 : 복제할 수 있는
+* Comparable 인터페이스 : 비교할 수 있는
+* Runnable 인터페이스 : 실행할 수 있는
 
+자바 API에서도 인터페이스의 이름에 able이라는 접미어를 붙임으로써 의미적으로 인터페이스가 클래스가 어떤 관계로 사용되도록 하는 지 암시하고 있다.
+또한 해당 인터페이스들을 구현(implements)하면, 각각의 인터페이스들에서 강제하는 메서드들을 하위클래스에서 구체적으로 구현해야만 인터페이스에서 제공하는 기능들을
+오류없이 사용할 수 있다.
 
+상위 클래스는 하위 클래스에게 멤버(속성과 메서드)를 상속해주고, 인터페이스는 클래스가 '무엇을 할 수 있다.'라고 하는 기능을 구현하도록 강제하는 것이다.
+상위 클래스는 물려줄 멤버가 풍부할수록 좋고, 인터페이스는 구현을 강제할 메서드의 개수가 적을 수록 좋다. 이는 객체 지향 설계 5원칙 중에서 
+상속의 풍부함은 LSP(리스코프 치환 원칙)에 따른 이유이고, 인터페이스의 메서드가 적을 수록 좋은 이유는 ISP(인터페이스 분할 원칙)에 따른 이유이다.  
 
 ### 상속과 T 메모리
+```java
+class Car {
+    String modelName;
+    int currentPrice;
+    
+    public void go(){
+      System.out.println(this.name +  " 이(가) 움직입니다.");
+    }
+
+}
+
+```
+```java
+class Suv extends Car {
+    int trunkSize;
+
+    public int printTrunkSize(){
+      System.out.println(this.trunkSize);
+    }
+}
+```
+```java
+class CarMain {
+    
+    public static void main(String[] args){
+        Suv sportage = new Suv();
+        sportage.modelName = "sportage";
+        sportage.currentPrice = 10000;
+        sportage.trunkSize = 500;
+  
+        sportage.printTrunkSize();
+        sportage.go();
+
+        Car santafe = new Suv();
+        santafe.modelName = "santafe";
+        santafe.currentPrice = 10000;
+        santafe.trunkSize = 500;
+    }
+}
+```
+sportage와 santafe라고 하는 객체를 만들었다. 두 객체 모두 상속받고 있는 Suv 클래스의 인스턴스를 할당받기 때문에 힙메모리 상에서는
+상위 클래스인 Car의 인스턴스와 하위 클래스인 Suv의 인스턴스가 함께 생성된다. 그렇다면 사실 유추해보길 모든 클래스의 최상의 클래스인 Object 클래스의
+인스턴스도 함께 생성될 것이다. sportage와 santafe의 차이는 sportage는 Suv 타입이면서 Suv 클래스이 인스턴스를 할당받지만,
+santafe는 Car 타입이면서 Suv 클래스의 인스턴스를 할당받는다는 것이다. 이는 힙메모리 상에 실제로 참조하는 인스턴스에 다르다는 차이가 있는데,
+Suv 타입으로 선언된 sportage 는 Suv 클래스의 인스턴스를 참조하는 반면, Car 타입으로 선언된 santafe 는 Car 클래스의 인스턴스를 참조한다는 것이다.
 
 # 다형성
 다형성은 사용편의성과 관계가 깊다.
