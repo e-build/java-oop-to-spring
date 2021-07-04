@@ -1,6 +1,6 @@
 # 객체지향 설계 5원칙
 <u>***목차***</u>
-- [SRP(Single Responsibility Principle)](#SRP(Single Responsibility Principle))
+- [SRP(Single Responsibility Principle)](#SRP(Single-Responsibility-Principle))
 - [OCP(Open Closed Principle)](#ocp-open-closed-principle-)
 - [LSP(Liskov Substitution Principle)](#lsp-liskov-substitution-principle-)
 - [ISP(Interface Segregation Principle)](#isp-interface-segregation-principle-)
