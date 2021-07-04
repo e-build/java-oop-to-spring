@@ -1,5 +1,10 @@
 # 객체지향 설계 5원칙
-
+<u>***목차***</u>
+- [SRP(Single Responsibility Principle)](#srp-single-responsibility-principle-)
+- [OCP(Open Closed Principle)](#ocp-open-closed-principle-)
+- [LSP(Liskov Substitution Principle)](#lsp-liskov-substitution-principle-)
+- [ISP(Interface Segregation Principle)](#isp-interface-segregation-principle-)
+- [DIP(Dependency Inversion Principle)](#dip-dependency-inversion-principle-)
 
 
 객체지향 설계 5원칙(SOLID)은 응집도는 높이고, 결합도는 낮추라는 고전 원칙을 객체 지향의 관점에서 재정립한 것이다. 
