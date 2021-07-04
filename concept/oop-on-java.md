@@ -7,11 +7,10 @@
     + [프로그래밍에서 추상화란](#객체지향-프로그래밍에서-추상화란?)
     + [추상화와 T 메모리](#추상화와-T-메모리)
     + [static 멤버와 인스턴스 멤버](#static-멤버와-인스턴스-멤버)
-- [상속](#상속)
-    + [다중 상속과 자바](#다중-상속과-자바)
+- [상속(Inheritance)](#상속(Inheritance))
     + [상속과 인터페이스](#상속과-인터페이스)
     + [상속과 T 메모리](#상속과-T-메모리)
-- [다형성](#다형성)
+- [다형성(Polymorphism)](#다형성(Polymorphism))
     + [다형성과 T 메모리](#다형성과-T-메모리)
 - [캡슐화](#캡슐화)
 - [참조변수의 복사](#참조변수의-복사)
@@ -122,7 +121,7 @@ T 메모리의 스태틱 영역에 클래스가 배치될 때 클래스 속성�
 |인스턴스 변수|객체 [멤버]속성, 객체 변수, ...|힙 영역|
 |지역 변수|지역 변수|스택 영역 (스택프레임 내부)|
 
-# 상속
+# 상속(Inheritance)
 객체지향의 상속은 '상속'이라는 단어 그대로의 의미보다 '재사용'과 '확장'이라는 의미로 이해하는 것이 옳다. 다음은 상속 관계에서 반드시 만족해야 할 문장이다. 
 > 하위 클래스는 상위 클래스다. 
 
@@ -203,9 +202,19 @@ class Car {
 ```java
 class Suv extends Car {
     int trunkSize;
-
+  
+    @Override
+    public void go(){
+      System.out.println(this.name +" 이(가) 공기의 저항을 강하게 받으며 움직입니다.");
+    }
+    
     public int printTrunkSize(){
       System.out.println(this.trunkSize);
+    }
+
+    public int printTrunkSize(int plusSize){
+        this.trunkSize += 100;
+        System.out.println(this.trunkSize);
     }
 }
 ```
@@ -219,7 +228,7 @@ class CarMain {
         sportage.trunkSize = 500;
   
         sportage.printTrunkSize();
-        sportage.go();
+        sportage.go(); 
 
         Car santafe = new Suv();
         santafe.modelName = "santafe";
@@ -234,12 +243,42 @@ sportage와 santafe라고 하는 객체를 만들었다. 두 객체 모두 상�
 santafe는 Car 타입이면서 Suv 클래스의 인스턴스를 할당받는다는 것이다. 이는 힙메모리 상에 실제로 참조하는 인스턴스에 다르다는 차이가 있는데,
 Suv 타입으로 선언된 sportage 는 Suv 클래스의 인스턴스를 참조하는 반면, Car 타입으로 선언된 santafe 는 Car 클래스의 인스턴스를 참조한다는 것이다.
 
-# 다형성
-다형성은 사용편의성과 관계가 깊다.
-### 다형성과 T 메모리
+# 다형성(Polymorphism)
+다형성은 사용편의성과 관계가 깊다. 객체지향에서 다형성이라 하면 overriding과 overloading이라고 할 수 있다.
+* Overriding (오버라이딩): 같은 메서드 이름, ***같은 인자*** 목록으로 상위 클래스의 메서드를 ***재정의*** 
+* Overloading (오버로딩): 같은 메서드 이름, ***다른 인자*** 목록으로 다수의 메서드를 ***중복 정의***
+
+```java
+class CarMain {
+    public static void main(String[] args){
+        Car santafe = new Suv();
+        santafe.modelName = "santafe";
+        santafe.currentPrice = 10000;
+        santafe.trunkSize = 500;
+
+        santafe.printTrunkSize();    // 500
+        santafe.printTrunkSize(200); // 700
+        santafe.go();                // santafe 이(가) 공기의 저항을 강하게 받으며 움직입니다.
+    }
+}
+```
+상속에서 사용했던 예제를 그대로 사용해서 CarMain 클래스만 조금 바꿔보았다. printTrunkSize()메서드는 오버로딩하여 인자가 무항이거나 1개인 경우로 
+사용 케이스를 분리하였고, go()메서드는 Suv클래스에서 오버라이딩, 즉 재정의하여 출력 텍스트를 조금 바꿔보았다. ***상위클래스 타입의 객체 참조 변수를 사용하더라도
+하위 클래스에서 오버라이딩한 메서드가 호출***되어 "santafe 이(가) 공기의 저항을 강하게 받으며 움직입니다." 가 출력될 것이다.
+
 
 # 캡슐화
-캡슐화는 정보은닉과 관계가 깊다. 자바는 접근제어자를 통해 캡슐화를 구현한다
+캡슐화는 정보은닉과 관계가 깊다. 자바는 접근제어자를 통해 캡슐화를 구현한다. 접근 제어자가 인스턴스 멤버와 쓰일 때와 클래스 멤버와 함께 쓰일 때를 비교해서 살펴볼 필요가 있다.
+* [-----이펙티브 자바로 정리-----]
+
 
 # 참조변수의 복사
+Call By Value와 Call By Reference를 다르다고 이해하기 보다는 기본 자료형 변수는 저장하고 값을 그 값 자체로 판단하고, 
+참조 변수는 저장하고 있는 값을 주소로 판단한다고 이해하는것이 더 쉽다.
+> - 기본 자료형 변수는 값을 값 자체로 판단한다.
+> - 참조 자료형 변수는 값을 주소, 즉 포인터로 판단한다.
+> - 기본 자료형 변수를 복사할 때, 참조 자료형 변수를 복사할 때 일어나는 일은 같다.
+즉 가지고 있는 값을 그대로 복사해서 넘겨준다.
+
+위와 같은 변수의 값을 복사하는 기준은 메서드 내부에서의 동작, 메서드의 인자나 반환값으로 사용되는 경우에 모두 동일하게 작용한다.
 
