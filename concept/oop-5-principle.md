@@ -4,7 +4,7 @@
 - [OCP(Open Closed Principle)](#ocpopen-closed-principle)
 - [LSP(Liskov Substitution Principle)](#lspliskov-substitution-principle)
 - [ISP(Interface Segregation Principle)](#ispinterface-segregation-principle)
-- [DIP(Dependency Inversion Principle)](#dipdependency-inversion-principle)
+- [DIP(Dependency Inversion Principle)](#dipndency-inversion-principle)
 
 
 객체지향 설계 5원칙(SOLID)은 응집도는 높이고, 결합도는 낮추라는 고전 원칙을 객체 지향의 관점에서 재정립한 것이다. 
@@ -75,10 +75,15 @@ SRP를 위반하고 있다고 볼 수 있다. 이를 역할별로 클래스를 �
 > 클래스들의 속성과 메서드를 설계할 때, 단일 책임 원칙에 위배되지 않도록 짜는 사고습관이 요구된다.
 
 # OCP(Open Closed Principle)
-개방 폐쇄 원칙
+개방 폐쇄 원칙이라고도 하며, 확장에는 열려있고 수정에는 닫혀있는. 기존의 코드를 변경하지 않으면서 기능을 추가할 수 있도록 설계가 되어야 한다는 의미이다.
+
 # LSP(Liskov Substitution Principle)
 리스코프 치환원칙
 # ISP(Interface Segregation Principle)
-인터페이스 분리 원칙
+인터페이스 분리 원칙이라고도하며, 
+
+
+같은 문제에 대하여 SRP로 해결이 가능하기도 하고, ISP로 해결이 가능하기도 한 것이다. 
 # DIP(Dependency Inversion Principle)
-의존 역전 원칙
+의존 역전 원칙이라고도 한다. 의존 관계를 맺을 때 변화하기 쉬운 것 또는 자주 변화하는 것보다는 변화하기 어려운 것, 거의 변화가 없는 것에 의존하라는 것이다. 
+한마디로 구체적인 클래스보다 인터페이스나 추상 클래스와 관계를 맺으라는 것이다.
