@@ -19,7 +19,7 @@
 
 [3. 객체지향 설계 5원칙](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-5-principle.md)
 
-[4. 스프링 프레임워크의 디자인패턴](https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md)
+[4. 스프링 프레임워크의 디자인패턴](https://github.com/e-build/java-oop-to-spring/blob/main/concept/spring-design-pattern.md)
 
 
 
