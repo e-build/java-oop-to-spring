@@ -118,6 +118,19 @@ Proxy클래스르 보면 Service 와 같은 인터페이스를 구현하면서 S
 * Proxy는 실제 서비스의 메서드 호출 전후에 별도의 로직을 수행할 수도 있다.
 # Decorator
 ```java
+public interface IService{
+    void runSomething();
+}
+```
+```java
+public class Service implements IService{
+    @Override
+    void runSomething(){
+        // ...
+    }
+}
+```
+```java
 public class Decorator implements IService{
     Service service = new Service();
     String decoration = "***";
