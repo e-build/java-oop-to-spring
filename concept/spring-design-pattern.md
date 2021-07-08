@@ -328,6 +328,11 @@ public interface ToyStrategy{
 }
 ```
 ```java
+public interface ToyStrategy{
+    public abstract void play();
+}
+```
+```java
 public class Children {
     void runContext(ToyStrategy toyStrategy){
         System.out.println("놀이 시작");
@@ -369,14 +374,31 @@ public class Children {
         playWithToy(toyStory).play();
         System.out.println("놀이 끝");
     }
-    
+
+    void runContext(Toy toy) {
+        System.out.println("놀이 시작");
+        playWithToy(toy).play();
+        System.out.println("놀이 끝");
+    }
+
     private ToyStrategy playWithToy(final String toyStory){
         return new ToyStrategy(){
             @Override
             public void play(){
                 System.out.println(toyStory);
             }
-        }; 
+        };
+    }
+
+    private ToyStrategy playWithToy(final Toy toy){
+        return new ToyStrategy(){
+            @Override
+            public void play(){
+                toy.setUp();
+                toy.execute();
+                toy.tearDown();
+            }
+        };
     }
 }
 ```
@@ -386,15 +408,26 @@ package com.practice.refatoring;
 public class MainClient{
     public static void main(String[] args){
         Children children = new Children();
+        Toy lego = new Lego();
         
         children.runContext("비비의 팔다리를 이렇게~ 저렇게~");
         children.runContext("적군을 향해 오로지 전진 앞으로!");
+        children.runContext(lego);
     }
 }
 ```
 
 ToyStrategy 인터페이스를 구현하고 오버라이드 하는 과정의 코드를 컨텍스트 내부에서 공통적으로 처리하여 중복을 없애고, 클라이언트에서는 최소한의 변경사항들만
-전달함으로써 전보다 깔끔하고 직관적으로 코드를 작성하고 있음을 알 수 있다. 전략패턴과 템플릿 콜백 패턴은 모두 개방 폐쇄 원칙과 의존 역전 원칙이 
-잘 적용된 설께 패턴이며, 템플릿 콜백패턴에 대해 한 문장으로 정리하면 다음과 같다.
+전달함으로써 전보다 깔끔하고 직관적으로 코드를 작성하고 있음을 알 수 있다. 리팩토링의 예시에서 Toy 타입의 객체를 인자로 받는 메서드를 오버로드하여
+좀 더 다양한 동작을 수행할 수 있도록 구현하고 있음을 알 수 있다. Toy와 Lego 클래스의 코드예시는 안 나와 있지만 서로 상속관계의 구현이라고 생각하고 예시를 이해해보자.     
+
+참고로 클라이언트가 컨텍스트의 템플릿 메소드를 호출하면서 콜백 오브젝트를 전달하는 것은 메소드 레벨에서 일어나는 의존성 주입이라고 할 수 있다.
+Children의 놀이라고 하는 컨텍스트는 클라이언트에서 전달해주는 콜백 오브젝트에 의존하여 실행되고 있다는 것과 
+Toy 타입의 콜백 객체가 자신을 생성한 클라이언트 정보를 직접 참조한다는 것에 주목할 필요가 있다.
+
+전략 패턴의 전략은 여러 개의 메소드를 가진 인터페이스로 사용하는 것과 달리 템플릿 콜백 패턴의 콜백은 보통 단일 메소드 인터페이스를 사용한다.
+콜백은 일반적으로 하나의 메소드를 가진 인터페이스를 구현한 익명 클래스로 만들어기 때문에, 람다를 활용하여 보다 직관적으로 코드를 작성할 수 있다는 것 또한
+추가적인 장점이다. 전략패턴과 템플릿 콜백 패턴은 모두 개방 폐쇄 원칙과 의존 역전 원칙이 잘 적용된 설계 패턴이며, 
+템플릿 콜백패턴에 대해 한 문장으로 정리하면 다음과 같다.
 
 > 전략을 익명 내부 클래스로 구현한 전략 패턴
