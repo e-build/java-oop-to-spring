@@ -289,7 +289,6 @@ public class Children {
     }
 }
 ```
-
 ```java
 public class MainClient{
     public static void main(String[] args){
@@ -316,9 +315,85 @@ public class MainClient{
 
 위의 예시처럼 컨텍스트에 어떤 객체를 주입하냐에 따라 다양한 전략을 취하면서 컨텍스트를 실행할 수 있다. 컨텍스트(Context)라는 단어가 일상적인 대화에서 흔히 사용되는 영단어는 아니지만
 학문적인 용어로써 혹은 생활 교양단어로써 다양한 분야와 서적에서 활용된다. 분야에 따라 의미의 차이는 존재하지만 일반적으로 '맥락'이라고 하는 의미에 가깝게 사용되며,
-프로그래밍에서도 이와 비슷한 의미로 이해할 수 있다. 어느 맥락에서 어떤 객체를 활용하냐에 따라 다양한 결과물을 만들어 낼 수 있는 것이다. 전략패턴을 한 문장으로 정리하며 다음과 같다.
+프로그래밍에서도 이와 비슷한 의미로 이해할 수 있다. **어느 맥락에서 어떤 객체를 활용하냐에 따라 다양한 결과물을 만들어 낼 수 있는 것**이다. 전략패턴을 한 문장으로 정리하면 다음과 같다.
 > 클라이언트가 컨텍스트에서 실행시킬 전략을 주입하는 패턴
 
 # Template Callback
-템플릿 콜백 패턴은 전략패턴의 변형이다. 스프링의 3대 프로그래밍 모델 중 하나인 DI(Dependency Injection, 의존성 주입)에서 사용하느 특별한 형태의 전략 패턴이다.
-템플릿 콜백 패턴은 전략 패턴과 모든 것이 동일하지만 전략을 익명 내부 클래스로 정의해서 사용한다는 차이가 있다.
+템플릿 콜백 패턴은 전략패턴의 변형이다. 스프링의 3대 프로그래밍 모델 중 하나인 DI(Dependency Injection, 의존성 주입)에서 사용하는 특별한 형태의 전략 패턴이다.
+**템플릿 콜백 패턴은 전략 패턴과 모든 것이 동일하지만 전략을 익명 내부 클래스로 정의해서 사용한다는 차이가 있다.** 앞에서 살펴본 전략패턴의 예시를 템플릿 콜백 패턴으로 변경해보자.
+
+```java
+public interface ToyStrategy{
+    public abstract void play();
+}
+```
+```java
+public class Children {
+    void runContext(ToyStrategy toyStrategy){
+        System.out.println("놀이 시작");
+        toyStrategy.play();
+        System.out.println("놀이 끝");
+    }
+}
+```
+```java
+public class MainClient{
+    public static void main(String[] args){
+        Children children = new Children();
+
+        children.runContext(new ToyStrategy(){
+            @Override
+            public void play(){
+                System.out.println("비비의 팔다리를 이렇게~ 저렇게~");
+            }
+        });
+        children.runContext(new ToyStrategy(){
+            @Override
+            public void play(){
+                System.out.println("적군을 향해 오로지 전진 앞으로!");
+            }
+        });
+    }
+}
+```
+위의 예시 처럼 runContext를 실행할 때 익명클래스를 활용하여 인터페이스의 추상메서드를 구현함으로써 객체를 전달하고 있다. 위의 예시를 실행해도 
+전략패턴의 출력과 똑같이 나올 것이다. 그러나 ToyStrategy 인터페이스를 구현하고 오버라이드 하는 과정에서 사용할 때 마다 중복된 코드가 생성된다는 것을 알 수 있다.
+다음과 같이 리팩토링을 실시해보자.
+
+```java
+package com.practice.refatoring;
+
+public class Children {
+    void runContext(String toyStory){
+        System.out.println("놀이 시작");
+        playWithToy(toyStory).play();
+        System.out.println("놀이 끝");
+    }
+    
+    private ToyStrategy playWithToy(final String toyStory){
+        return new ToyStrategy(){
+            @Override
+            public void play(){
+                System.out.println(toyStory);
+            }
+        }; 
+    }
+}
+```
+```java
+package com.practice.refatoring;
+
+public class MainClient{
+    public static void main(String[] args){
+        Children children = new Children();
+        
+        children.runContext("비비의 팔다리를 이렇게~ 저렇게~");
+        children.runContext("적군을 향해 오로지 전진 앞으로!");
+    }
+}
+```
+
+ToyStrategy 인터페이스를 구현하고 오버라이드 하는 과정의 코드를 컨텍스트 내부에서 공통적으로 처리하여 중복을 없애고, 클라이언트에서는 최소한의 변경사항들만
+전달함으로써 전보다 깔끔하고 직관적으로 코드를 작성하고 있음을 알 수 있다.
+
+> 전략을 익명 내부 클래스로 구현한 전략 패턴
