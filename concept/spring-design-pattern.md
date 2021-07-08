@@ -246,6 +246,79 @@ public class MainClass{
 
 # Factory Method
 팩토리는 흔히 알다시피 공장을 의미한다. 공장은 일반적으로 물건을 생산하는데, 객체지향에서 팩터리는 객체를 생성한다.
+> 오버라이드된 메서드가 객체를 반환하는 패턴
+
 # Strategy
+전략패턴은 디자인 패턴 중에서도 아주 핵심적인 패턴이다. 전략 패턴을 구성하는 세 가지 요소는 다음과 같다.
+* 전략 메서드를 가진 전략 객체
+* 전략 객체를 사용하는 컨텍스트(전략 객체의 사용자)
+* 전략 객체를 생성해 컨텍스트에 주입하는 클라이언트(전략 객체의 공급자)
+
+클라이언트는 다양한 전략 중 하나를 선택해 생성한 후 컨텍스트에 주입한다.
+ 
+초등학생 아이가 엄마가 준 장난감을 가지고 놀고 있다고 생각해보자. 아이는 엄마가 준 장난감에 따라 각기 다른 놀이를 수행한다. 여기서 장난감은 전략이 되고
+엄마느 클라이언트, 아이는 컨텍스트라고 할 수 있다. 
+
+```java
+public interface ToyStrategy{
+    public abstract void play();
+}
+```
+```java
+public class ToyBibi implements ToyStrategy{
+    @Override
+    public void play(){
+        System.out.println("비비의 팔다리를 이렇게~ 저렇게~");
+    }
+}
+```
+```java
+public class ToyTank implements ToyStrategy{
+    @Override
+    public void play(){
+        System.out.println("적군을 향해 오로지 전진 앞으로!");
+    }
+}
+```
+```java
+public class Children {
+    void runContext(ToyStrategy toyStrategy){
+        System.out.println("놀이 시작");
+        toyStrategy.play();
+        System.out.println("놀이 끝");
+    }
+}
+```
+
+```java
+public class MainClient{
+    public static void main(String[] args){
+        Children children = new Children();
+
+        // 아이에게 비비 인형을 주며 놀도록 한다.
+        children.runContext(new ToyBibi());
+        // 아이에게 탱크 장난감을 주며 놀도록 한다.
+        children.runContext(new ToyTank());
+        
+    }
+}
+```
+실행 결과는 다음과 같을 것이다.
+
+```text
+놀이 시작
+비비의 팔다리를 이렇게~ 저렇게~
+놀이 끝
+놀이 시작
+적군을 향해 오로지 전진 앞으로!
+놀이 끝
+```
+
+위의 예시처럼 컨텍스트에 어떤 객체를 주입하냐에 따라 다양한 전략을 취하면서 컨텍스트를 실행할 수 있다. 컨텍스트(Context)라는 단어가 일상적인 대화에서 흔히 사용되는 영단어는 아니지만
+학문적인 용어로써 혹은 생활 교양단어로써 다양한 분야와 서적에서 활용된다. 분야에 따라 의미의 차이는 존재하지만 일반적으로 '맥락'이라고 하는 의미에 가깝게 사용되며,
+프로그래밍에서도 이와 비슷한 의미로 이해할 수 있다. 어느 맥락에서 어떤 객체를 활용하냐에 따라 다양한 결과물을 만들어 낼 수 있는 것이다. 전략패턴을 한 문장으로 정리하며 다음과 같다.
+> 클라이언트가 컨텍스트에서 실행시킬 전략을 주입하는 패턴
 
 # Template Callback
+템플릿 콜백 패턴은 전략패턴의 변형이다. 스프링의 3대 프로그래밍 모델 중 하나인 DI(Dependency Injection, 의존성 주입)에서 사용하느 특별한 형태의 전략 패턴이다.
+템플릿 콜백 패턴은 전략 패턴과 모든 것이 동일하지만 전략을 익명 내부 클래스로 정의해서 사용한다는 차이가 있다.
