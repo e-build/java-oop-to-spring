@@ -328,11 +328,6 @@ public interface ToyStrategy{
 }
 ```
 ```java
-public interface ToyStrategy{
-    public abstract void play();
-}
-```
-```java
 public class Children {
     void runContext(ToyStrategy toyStrategy){
         System.out.println("놀이 시작");
