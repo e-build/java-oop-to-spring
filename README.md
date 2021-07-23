@@ -4,6 +4,9 @@
 ```
 - 이펙티브 자바 (조슈아 블로크 지음)
 - 스프링 입문을 위한 자바 객체지향의 원리와 이해 (김종민 지음)
+- 토비의 스프링 3.1 (이일민 지음)
+- 자바 웹 프로그래밍 NEXT STEP (박재성 지음)
+- 클린코드 (로버트 C.마틴 지음)
 ```
 
 # 저장소 설명  
@@ -25,9 +28,9 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 
 [3. 객체지향 설계 5원칙](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-5-principle.md)
 
-[4. 디자인패턴](https://github.com/e-build/java-oop-to-spring/blob/main/concept/spring-design-pattern.md)
+[4. 디자인패턴](https://github.com/e-build/java-oop-to-spring/blob/main/concept/design-pattern.md)
 
-[5. 스프링이 사랑한 디자인 패턴](https://github.com/e-build/java-oop-to-spring/blob/main/concept/spring-design-pattern.md)
+[5. 스프링은 디자인패턴을 어떻게 활용하였을까?](https://github.com/e-build/java-oop-to-spring/blob/main/concept/how-did-spring-utilize-design-patterns.md)
 
 
 
