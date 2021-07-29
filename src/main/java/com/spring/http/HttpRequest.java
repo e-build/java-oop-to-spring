@@ -23,8 +23,6 @@ public class HttpRequest {
     }
 
     public static HttpRequest parseFromHttpString(String httpString){
-        log.info("[HTTP REQUEST] : {}", httpString);
-
         HttpRequest request = new HttpRequest(Maps.newHashMap(), Maps.newHashMap());
 
         String[] httpStringArray = httpString.split("\n");

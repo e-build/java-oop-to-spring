@@ -23,11 +23,10 @@ public class RequestHandler implements Runnable  {
                 connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-
             StringBuilder httpStringBuilder = new StringBuilder();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+
             String line;
-            String firstLine;
             while ( StringUtils.isNotBlank(line = bufferedReader.readLine()) )
                 httpStringBuilder.append(line).append("\n");
             HttpRequest httpRequest = HttpRequest.parseFromHttpString(httpStringBuilder.toString());

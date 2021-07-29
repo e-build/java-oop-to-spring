@@ -14,11 +14,10 @@ public class WebServer {
 
     public static void main(String[] args) throws IOException {
         int port = 0;
-        if (args == null || args.length == 0) {
+        if (args == null || args.length == 0)
             port = DEFAULT_PORT;
-        } else {
+        else
             port = Integer.parseInt(args[0]);
-        }
 
         // 서버소켓을 생성한다. 웹서버는 기본적으로 8080번 포트를 사용한다.
         try (ServerSocket listenSocket = new ServerSocket(port)) {
@@ -31,6 +30,5 @@ public class WebServer {
                 thread.start();
             }
         }
-
     }
 }
