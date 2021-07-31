@@ -1,0 +1,16 @@
+GET /user/login.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"
+sec-ch-ua-mobile: ?0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Cookie: em_cdn_uid=t%3D1613952697495%26u%3D1370f85f318a4c78825808190a1f59f2; Idea-7b0eb7c4=d979d015-0564-43ea-8e03-e79ba229303a; Idea-7b0ebb83=f93c9c7e-2b87-4832-be65-5b0e532dee91; _ga=GA1.1.2055411308.1620140545; csrftoken=biWN2QGUPAoiBSw0wiQ0n5KkOuOCOWf8y6cN5EOvxfwdHpozfQNnZVYflef7fSu5

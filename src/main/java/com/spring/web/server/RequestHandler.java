@@ -24,27 +24,31 @@ public class RequestHandler implements Runnable  {
 
     public void run() {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-
             HttpRequest httpRequest = new HttpRequest(in);
             log.info("[HTTP REQUEST] : {} {}", httpRequest.getMethod(), httpRequest.getPath());
 
             byte[] body = "Hello World".getBytes();
             File htmlFile;
-            if ( StringUtils.equals(httpRequest.getMethod(), HttpConstants.Method.GET) ){
+            if ( StringUtils.equals(httpRequest.getMethod(), HttpConstants.Method.GET) ) {
+                String webResource = WebAppUtils.WEBAPP_ROOT_PATH + WebAppUtils.PREFIX;
                 if ( StringUtils.equals(httpRequest.getPath(), "/home") )
-                    htmlFile = new File(WebAppUtils.WEBAPP_PATH + "/index.html");
+                    webResource += "/index";
                 else
-                    htmlFile = new File(WebAppUtils.WEBAPP_PATH + httpRequest.getPath());
-
-                if (htmlFile.exists() && !htmlFile.isDirectory())
-                    body = Files.readAllBytes(htmlFile.toPath());
+                    webResource += httpRequest.getPath();
+                File webResourceFile = new File(webResource + WebAppUtils.SUFFIX);
+                if ( webResourceFile.exists() && !webResourceFile.isDirectory() )
+                    body = Files.readAllBytes(webResourceFile.toPath());
                 else
                     body = "존재하지 않는 페이지입니다".getBytes();
             }
 
             if ( StringUtils.equals(httpRequest.getMethod(), HttpConstants.Method.POST) ){
-                if ( StringUtils.equals(httpRequest.getPath(), "/user/login") )
+                if ( StringUtils.equals(httpRequest.getPath(), "/user/login") )  {
                     log.info("111");
+
+
+
+                }
 
             }
 
