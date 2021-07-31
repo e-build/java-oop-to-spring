@@ -23,9 +23,10 @@ public class WebServer {
         try (ServerSocket listenSocket = new ServerSocket(port)) {
             logger.info("Web Application Server started {} port.", port);
 
-            // 클라이언트가 연결될때까지 대기한다.
+            // 클라이언트 대기
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
+                // Request 당 하나의 스레드 할당
                 Thread thread = new Thread(new RequestHandler(connection));
                 thread.start();
             }
