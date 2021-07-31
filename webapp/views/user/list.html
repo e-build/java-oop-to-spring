@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <script src="../../js/common.js"></script>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h1>사용자 리스트 화면</h1>
+<div>
+    <ul id="user-list">
+        <li>
+            <span id="id"></span>
+            <span id="username"></span>
+            <span id="password"></span>
+            <span id="nickname"></span>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <button onclick="goHome()">홈화면으로</button>
+</div>
+
+</body>
+
+<script>
+    $(function(){
+        loadUserList();
+
+    })
+
+    function loadUserList(){
+        $.ajax({
+            type : "GET",
+            contentType: "application/json",
+            url : "/api/user/list",
+            dataType :"application/json",
+            success : function(result){
+                console.log(result);
+            },
+            error : function(e){
+                console.error(e);
+            }
+        })
+
+    }
+</script>
+
+
+
+</html>
