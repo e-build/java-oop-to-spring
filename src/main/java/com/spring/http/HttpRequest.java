@@ -1,73 +1,129 @@
 package com.spring.http;
 
-import com.google.common.collect.Maps;
+import com.spring.utils.IOUtils;
 import com.spring.utils.KeyValue;
+import lombok.Builder;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class HttpRequest {
+public final class HttpRequest implements HttpRequestProps{
 
     private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 
-    private String method;
-    private String url;
-    private String version;
-    private Map<String, String> header;
-    private Map<String, String> cookies;
+    private final String requestBody;
+    private final HttpHeader header;
+    private final RequestLine requestLine;
+    private final Cookies cookies;
+    private final Map<String, String> queryParams;
 
-    private HttpRequest(Map<String, String> header, Map<String, String> cookies){
-        this.header = header;
-        this.cookies = cookies;
-    }
+    @Builder
+    @Getter
+    private static class RequestLine{
+        private String method;
+        private String path;
+        private String version;
 
-    public static HttpRequest parseFromHttpString(String httpString){
-        HttpRequest request = new HttpRequest(Maps.newHashMap(), Maps.newHashMap());
-
-        String[] httpStringArray = httpString.split("\n");
-        request.setHttpRequestOutline(httpStringArray[0].split(" "));
-
-        for ( int i = 1 ; i < httpStringArray.length  ; i++ ){
-            KeyValue kv = KeyValue.of(httpStringArray[i].split(": "));
-            if ( StringUtils.equals(kv.getKey(), HttpConstants.COOKIE) ){
-                request.parseCookies(kv);
-                continue;
-            }
-            request.putHeaderKeyValue(kv.getKey(), kv.getValue());
-        }
-
-        return request;
-    }
-
-    private void setHttpRequestOutline(String[] firstLine){
-        this.method = firstLine[0];
-        this.url = firstLine[1];
-        this.version = firstLine[2];
-    }
-
-    private void putHeaderKeyValue(String key, String value){
-        this.header.put(key, value);
-    }
-
-    private void parseCookies(KeyValue kv){
-        String[] cookies = kv.getValue().split("; ");
-        for (String cookie : cookies){
-            KeyValue cookieKv = KeyValue.of(cookie.split("="));
-            putCookieKeyValue(cookieKv.getKey(), cookieKv.getValue());
+        public static RequestLine of(String requestLine){
+            String[] requestLineArr = requestLine.split(" ");
+            return RequestLine.builder()
+                    .method(requestLineArr[0])
+                    .path(requestLineArr[1])
+                    .version(requestLineArr[2])
+                    .build();
         }
     }
 
-    private void putCookieKeyValue(String key, String value){
-        this.cookies.put(key, value);
+    public HttpRequest(InputStream in) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+
+        // Request Line
+        this.requestLine = RequestLine.of(reader.readLine());
+        this.queryParams = parseQueryParams(this.requestLine.getPath());
+        String line;
+        StringBuilder httpHeaderMessageBuilder = new StringBuilder();
+
+        // Header
+        while ( StringUtils.isNotBlank(line = reader.readLine()) )
+            httpHeaderMessageBuilder.append(line).append("\n");
+        this.header = HttpHeader.of(httpHeaderMessageBuilder.toString().split("\n"));
+
+        // Cookie
+        this.cookies = Cookies.of(getHeader(HttpConstants.COOKIE).split("; "));
+
+        // Body String
+        String contentLength = getHeader("Content-Length");
+        if ( StringUtils.isNotBlank(contentLength) )
+            this.requestBody = readRequestBody(reader, Integer.parseInt(contentLength));
+        else
+            this.requestBody = "";
     }
 
-    public String getHeader(String key){
-        return this.header.get(key);
+    public String readRequestBody(BufferedReader br, int contentLength){
+        try{
+            return IOUtils.readData(br, contentLength);
+        } catch(Exception e){
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
-    public String getCookie(String key){
-        return this.cookies.get(key);
+    @Override
+    public String getPath() {
+        return this.requestLine.getPath();
     }
 
+    @Override
+    public String getMethod() {
+        return this.requestLine.getMethod();
+    }
+
+    @Override
+    public String getVersion() {
+        return this.requestLine.getVersion();
+    }
+
+    @Override
+    public String getHeader(String key) {
+        return this.header.getData().get(key);
+    }
+
+    @Override
+    public String getCookies(String key) {
+        return this.cookies.getData().get(key);
+    }
+
+    @Override
+    public String getParameter(String key) {
+        return this.queryParams.get(key);
+    }
+
+    @Override
+    public String getRequestBody() {
+        return this.requestBody;
+    }
+
+    public String toString(){
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    private Map<String, String> parseQueryParams(String path){
+        if ( !StringUtils.contains(path, "?"))
+            return null;
+        return KeyValue.toMap(toKeyValueArray(path));
+    }
+
+    private String[] toKeyValueArray(String path){
+        return path.split("\\?")[1].split("&");
+    }
 }
