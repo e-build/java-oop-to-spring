@@ -1,4 +1,4 @@
-package com.spring.http;
+package com.framework.http;
 
 interface HttpRequestSupport {
 

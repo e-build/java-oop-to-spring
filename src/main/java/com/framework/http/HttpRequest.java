@@ -1,8 +1,7 @@
-package com.spring.http;
+package com.framework.http;
 
-import com.spring.utils.IOUtils;
-import com.spring.utils.KeyValue;
-import lombok.Builder;
+import com.framework.utils.IOUtils;
+import com.framework.utils.KeyValue;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,23 +20,29 @@ public final class HttpRequest implements HttpRequestSupport{
 
     private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 
-    private final String requestBody;
     private final HttpHeader header;
     private final RequestLine requestLine;
     private final Cookies cookies;
     private final Map<String, String> queryParams;
+    private final String requestBody;
 
     @Getter
     private static class RequestLine{
         private final String method;
         private final String path;
         private final String version;
+        private final String url;
 
         public RequestLine(String requestLine){
             String[] requestLineArr = requestLine.split(" ");
             this.method = requestLineArr[0];
-            this.path = requestLineArr[1];
+            this.url = requestLineArr[1];
+            this.path = getParsePath(requestLineArr[1]);
             this.version = requestLineArr[2];
+        }
+
+        private String getParsePath(String url){
+            return url.split("\\?")[0];
         }
     }
 
@@ -46,7 +51,7 @@ public final class HttpRequest implements HttpRequestSupport{
 
         // Request Line
         this.requestLine = new RequestLine(reader.readLine());
-        this.queryParams = parseQueryParams(this.requestLine.getPath());
+        this.queryParams = parseQueryParams(this.requestLine.getUrl());
         String line;
         StringBuilder httpHeaderMessageBuilder = new StringBuilder();
 
@@ -59,7 +64,7 @@ public final class HttpRequest implements HttpRequestSupport{
         this.cookies = new Cookies(getHeader(HttpConstants.COOKIE).split("; "));
 
         // Body String
-        String contentLength = getHeader("Content-Length");
+        String contentLength = getHeader(HttpConstants.Header.CONTENT_LENGTH);
         if ( StringUtils.isNotBlank(contentLength) )
             this.requestBody = readRequestBody(reader, Integer.parseInt(contentLength));
         else
@@ -105,9 +110,17 @@ public final class HttpRequest implements HttpRequestSupport{
         return this.queryParams.get(key);
     }
 
+    public Map<String, String> getParameters() {
+        return this.queryParams;
+    }
+
     @Override
     public String getRequestBody() {
         return this.requestBody;
+    }
+
+    public String getSimpleAccept(){
+        return getHeader(HttpConstants.Header.ACCEPT).split(",")[0];
     }
 
     public String toString(){
