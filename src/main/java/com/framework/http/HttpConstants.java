@@ -1,4 +1,4 @@
-package com.spring.http;
+package com.framework.http;
 
 public class HttpConstants {
 
@@ -11,6 +11,7 @@ public class HttpConstants {
 
     public static class Header{
         public static final String CONTENT_LENGTH = "Content-Length";
+        public static final String CONTENT_TYPE = "Content-Type";
         public static final String HOST = "Host";
         public static final String CONNECTION = "Connection";
         public static final String CACHE_CONTROL = "Cache-Control";
