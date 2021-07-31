@@ -1,16 +1,20 @@
 package com.spring.web.server;
 
+import com.spring.http.HttpConstants;
 import com.spring.http.HttpRequest;
+import com.spring.utils.WebAppUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 public class RequestHandler implements Runnable  {
 
-    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket connection;
 
@@ -19,24 +23,36 @@ public class RequestHandler implements Runnable  {
     }
 
     public void run() {
-        logger.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
-                connection.getPort());
-
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            StringBuilder httpStringBuilder = new StringBuilder();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
 
-            String line;
-            while ( StringUtils.isNotBlank(line = bufferedReader.readLine()) )
-                httpStringBuilder.append(line).append("\n");
-            HttpRequest httpRequest = HttpRequest.parseFromHttpString(httpStringBuilder.toString());
+            HttpRequest httpRequest = new HttpRequest(in);
+            log.info("[HTTP REQUEST] : {} {}", httpRequest.getMethod(), httpRequest.getPath());
+
+            byte[] body = "Hello World".getBytes();
+            File htmlFile;
+            if ( StringUtils.equals(httpRequest.getMethod(), HttpConstants.Method.GET) ){
+                if ( StringUtils.equals(httpRequest.getPath(), "/home") )
+                    htmlFile = new File(WebAppUtils.WEBAPP_PATH + "/index.html");
+                else
+                    htmlFile = new File(WebAppUtils.WEBAPP_PATH + httpRequest.getPath());
+
+                if (htmlFile.exists() && !htmlFile.isDirectory())
+                    body = Files.readAllBytes(htmlFile.toPath());
+                else
+                    body = "존재하지 않는 페이지입니다".getBytes();
+            }
+
+            if ( StringUtils.equals(httpRequest.getMethod(), HttpConstants.Method.POST) ){
+                if ( StringUtils.equals(httpRequest.getPath(), "/user/login") )
+                    log.info("111");
+
+            }
 
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = "Hello World".getBytes();
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -47,7 +63,7 @@ public class RequestHandler implements Runnable  {
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -56,7 +72,7 @@ public class RequestHandler implements Runnable  {
             dos.write(body, 0, body.length);
             dos.flush();
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }
