@@ -1,4 +1,4 @@
-package com.spring.http;
+package com.framework.http;
 
 import com.google.common.collect.Maps;
 import lombok.Getter;
@@ -26,8 +26,13 @@ public class HttpHeader {
         this.data = data;
     }
 
+    public void addHeader(String key, String value){
+        this.data.put(key, value);
+    }
+
     private int getSeparatorIndex(String notParsedKeyValue) {
         return notParsedKeyValue.indexOf(": ");
     }
+
 
 }
