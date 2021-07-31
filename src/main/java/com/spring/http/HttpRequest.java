@@ -27,20 +27,17 @@ public final class HttpRequest implements HttpRequestSupport{
     private final Cookies cookies;
     private final Map<String, String> queryParams;
 
-    @Builder
     @Getter
     private static class RequestLine{
-        private String method;
-        private String path;
-        private String version;
+        private final String method;
+        private final String path;
+        private final String version;
 
-        public static RequestLine of(String requestLine){
+        public RequestLine(String requestLine){
             String[] requestLineArr = requestLine.split(" ");
-            return RequestLine.builder()
-                    .method(requestLineArr[0])
-                    .path(requestLineArr[1])
-                    .version(requestLineArr[2])
-                    .build();
+            this.method = requestLineArr[0];
+            this.path = requestLineArr[1];
+            this.version = requestLineArr[2];
         }
     }
 
@@ -48,7 +45,7 @@ public final class HttpRequest implements HttpRequestSupport{
         BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
         // Request Line
-        this.requestLine = RequestLine.of(reader.readLine());
+        this.requestLine = new RequestLine(reader.readLine());
         this.queryParams = parseQueryParams(this.requestLine.getPath());
         String line;
         StringBuilder httpHeaderMessageBuilder = new StringBuilder();
@@ -56,10 +53,10 @@ public final class HttpRequest implements HttpRequestSupport{
         // Header
         while ( StringUtils.isNotBlank(line = reader.readLine()) )
             httpHeaderMessageBuilder.append(line).append("\n");
-        this.header = HttpHeader.of(httpHeaderMessageBuilder.toString().split("\n"));
+        this.header = new HttpHeader(httpHeaderMessageBuilder.toString().split("\n"));
 
         // Cookie
-        this.cookies = Cookies.of(getHeader(HttpConstants.COOKIE).split("; "));
+        this.cookies = new Cookies(getHeader(HttpConstants.COOKIE).split("; "));
 
         // Body String
         String contentLength = getHeader("Content-Length");

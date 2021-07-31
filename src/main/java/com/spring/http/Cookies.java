@@ -7,18 +7,20 @@ import lombok.Getter;
 
 import java.util.Map;
 
-@Builder
 public class Cookies {
 
     @Getter
     private final Map<String, String> data;
 
-    public static Cookies of(String[] cookieKeyValueArr){
-        Map<String, String> data = Maps.newHashMap();
+    public Cookies(String[] cookieKeyValueArr){
+        this.data = Maps.newHashMap();
         for (String keyValue : cookieKeyValueArr ){
-            KeyValue kv = KeyValue.of(keyValue.split("="));
-            data.put(kv.getKey(), kv.getValue());
+            int index = getSeparatorIndex(keyValue);
+            this.data.put(keyValue.substring(0, index), keyValue.substring(index + 1));
         }
-        return Cookies.builder().data(data).build();
+    }
+
+    private int getSeparatorIndex(String notParsedKeyValue) {
+        return notParsedKeyValue.indexOf("=");
     }
 }
