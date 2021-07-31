@@ -9,5 +9,10 @@ public class HttpConstants {
         public static String DELETE = "DELETE";
     }
 
+    public static class Header{
+        public static String GET = "Content-Length";
+    }
+
+
     public static String COOKIE = "Cookie";
 }
