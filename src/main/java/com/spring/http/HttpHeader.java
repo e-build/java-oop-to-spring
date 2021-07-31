@@ -1,10 +1,7 @@
 package com.spring.http;
 
 import com.google.common.collect.Maps;
-import com.spring.utils.KeyValue;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
