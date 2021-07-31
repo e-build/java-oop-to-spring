@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public final class HttpRequest implements HttpRequestProps{
+public final class HttpRequest implements HttpRequestSupport{
 
     private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 
