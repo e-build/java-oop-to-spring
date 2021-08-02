@@ -6,11 +6,12 @@
     + [블록 구문과 메모리](#블록-구문과-메모리)
     + [전역 변수와 메모리](#전역-변수와-메모리)
 - [메서드와 메모리](#메서드와-메모리)
+- [인스턴스와 메모리](#인스턴스와-메모리)
 - [멀티 스레드와 멀티 프로세스의 이해](#멀티-스레드와-멀티-프로세스의-메모리-사용)
 
 ### 학습목표
 > 1. 자바에서 지역변수, 전역변수, 멤버변수가 메모리의 어느 영역에 어떻게 저장되고 소멸되는지 이해한다. 
-> 2. 메서드에 호출에 따른 메모리의 변화를 이해한다.
+> 2. 메서드 호출에 따른 메모리의 변화를 이해한다.
 
 
 # 개요 
@@ -24,6 +25,17 @@
 - 스태틱(static) 영역 : 클래스들의 놀이터
 - 스택(stack) 영역 : 메서드들의 놀이터
 - 힙(heap) 영역 : 객체들의 놀이터
+<table>
+    <tr>
+        <th colspan="2">STATIC 영역</th>
+    </tr>
+    <tr>
+        <th>STACK 영역</th>
+        <th>HEAP 영역</th>
+    </tr>
+</table>
+
+> 위와 같이 데이터 저장 영역을 삼분할한 메모리 구조를 `T메모리`라고 부를 것이다.
 
 # main() 메서드와 메서드 스택 프레임
 
@@ -36,8 +48,8 @@ main() 메서드는 프로그램이 실행되는 시작점이다. main() 메서�
       1. 우선 java.lang 패키지를 메모리의 스태틱 영역에 로딩시켜 놓는다. 그 다음 
       2. 개발자가 작성한 모든 클래스와 import 패키지를 스태틱 영역에 가져다 놓는다.
     > ***목적파일이란?***
-   > *  소스 코드 파일이 컴파일 되어 생성되는 파일이다. 자바 프로그래밍에서는 일반적으로 .java 파일에 소스코드를 작성하고 
-   > 자바 컴파일러를 통해 컴파일된 파일은 .class 파일이 된다.
+   > *  소스 코드가 컴파일 되어 생성되는 파일이다. 자바 프로그래밍에서는 일반적으로 `.java` 파일에 소스코드를 작성하고 
+   > 자바 컴파일러를 통해 컴파일된 파일은 `.class` 파일이 된다.
 4. main() 메서드가 실행될 스택 프레임(stack frame)이 스택 영역에 할당된다.
     - 정확히 이야기하면, 여는 중괄호 "{" 를 만날 때마다 스택 프레임이 하나씩 생긴다.(클래스 수준의 중괄호 제외)
     - 이후 닫는 중괄호 "}"를 만나면 스택 프레임이 소멸된다.
@@ -151,6 +163,124 @@ public class MemoryCheck {
     대략 직선 형태라면 선형 자료구조이고 그렇지 않은 것은 비선형 자료구조이다.
 > * 스택은 흔히 큐와 비교된다. 스택은 **가장 마지막에 들어온 데이터가 가장 먼저 출력되는 형태의 자료구조**이지만, 큐는 가장 먼저 들어온 데이터가 
 > 가장먼저 출력되기 때문에 서로 상반되는 형태의 자료구조이기 때문이다. 
+
+# 인스턴스와 메모리
+다음과 같이 정의된 Car 클래스의 인스턴스가 생성되고 참조변수에 할당됨에 따라 메모리에 어떤 변화가 발생하는 지 알아보자.  
+```java
+class Car {
+  public String modelName;
+  public int currentPrice;
+  public int type;
+  
+  public void go(){
+    System.out.println(this.name +  " 이(가) 움직입니다.");
+  }
+}
+public class CarMain{
+
+  public static void main(String[] args){
+    Car morning = new Car();
+    morning.modelName = "morning";
+    morning.currentPrice = "10000";
+    morning.type = "LIGHT";
+    morning.go();
+    morning = null;
+    
+    Car sportage = new Car();
+    sportage.modelName = "sportage";
+    sportage.currentPrice = "20000";
+    sportage.type = "SUV";
+    sportage.go();
+  
+  }
+}
+```
+CarMain 클래스의 main()메서드가 시작할 시점에 T 메모리는 다음과 같을 것이다.
+* static 영역: java.lang 패키지, Car 클래스 로딩
+    - Car 클래스의 속성들은 스태틱영역에서 아직 값을 가지고 있지 않는데, 이는 클래스의 멤버가 아니라 인스턴스 멤버이기 때문이다.
+    - 클래스 멤버와 인스턴스 멤버는 static 키워드를 통해 구분한다.
+
+morning 지역변수가 선언되고 객체를 할당하고, 이후에 null을 할당할 때 까지 T 메모리의 과정은 다음과 같다.
+1. main() 메서드의 스택프레임에 morning 지역변수를 위한 메모리 공간이 생성된다.
+2. new 연산자를 통해 새로운 Car 객체가 생성되고, 이 객체는 힙 영역에 메모리 공간이 생성된다.
+3. 힙 영역에 존재하는 Car 객체의 메모리 주소값을 morning에 할당한다. 변수 morning이 새로 생성된 Car객체를 참조한다고 표현할 수 있다.
+4. morning 에 . 이라는 참조 연산자를 사용해 실제 힙 영역에 있는 Car 객체에 접근하여, modelName, currentPrice, type에 값을 할당한다.
+5. go() 를 실행하면 T 메모리 상의 변화는 없고, 코드 실행 영역에서 실행되어 콘솔에 "morning 이(가) 움직입니다." 가 출력된다.
+6. morning 에 null 이 할당되면, 힙영역에 있는 Car 객체는 어느곳에서도 참조하지 않는 고아상태가 되고 이는 곧 JVM의 가비지 컬렉터가 수거한다.
+
+다시 sportage 지역변수가 선언되고 새로운 Car 객체를 생성하여 할당하는 것을 볼 수 있는데, 이는 이전에 생성됐던 Car 객체가 아니라는 점을 알아야 한다.
+따라서 인스턴스의 속성과 그에 따른 행위는 다르게 동작하게 되는 것이다. main() 메서드가 종료되면서 스택프레임이 소멸된다.
+
+### 정적 멤버와 인스턴스 멤버
+클래스 멤버, static 멤버, 정적 멤버 모두 다 같은 말이다. 또한 객체 멤버, 인스턴스 멤버, 오브젝트 멤버도 다 같은 말이다.
+T 메모리의 스태틱 영역에 클래스가 배치될 때 클래스 속성과 인스턴스 속성의 동작이 다른데, 클래스 속성인 경우 클래스 내부에 메모리 공간이 확보된다.
+이에 반해 인스턴스 속성은 속성명만 있고 실제 메모리 공간은 확보되지 않는다.
+인스턴스 속성은 힙 영역에 객체가 생성되면 바로 그때 힙 영역내에 각각의 객체의 메모리 공간 안에 멤버 속성을 위한 메모리 공간이 할당된다.
+
+### 상속 관계에서의 메모리 변화
+상위 클래스인 Car와 하위클래스인 
+```java
+class Car {
+    String modelName;
+    int currentPrice;
+    
+    public void go(){
+      System.out.println(this.name +  " 이(가) 움직입니다.");
+    }
+}
+
+```
+```java
+class Sedan extends Car {
+    int trunkSize;
+  
+    @Override
+    public void go(){
+      System.out.println(this.name +" 이(가) 공기의 저항을 강하게 받으며 움직입니다.");
+    }
+    
+    public int printTrunkSize(){
+      System.out.println(this.trunkSize);
+    }
+
+    public int printTrunkSize(int plusSize){
+        this.trunkSize += 100;
+        System.out.println(this.trunkSize);
+    }
+}
+```
+```java
+class CarMain {
+    
+    public static void main(String[] args){
+        Sedan sonata = new Sedan();
+        sonata.modelName = "sonata";
+        sonata.currentPrice = 10000;
+        sonata.trunkSize = 500;
+
+        sonata.printTrunkSize();
+        sonata.go(); 
+
+        Car grandeur = new Sedan();
+        grandeur.modelName = "grandeur";
+        grandeur.currentPrice = 10000;
+        grandeur.trunkSize = 500;
+    }
+}
+```
+sonata와 grandeur라고 하는 객체를 만들었다. 두 객체 모두 상속받고 있는 Sedan 클래스의 인스턴스를 할당받기 때문에 힙메모리 상에서는
+상위 클래스인 Car의 인스턴스와 하위 클래스인 Sedan의 인스턴스가 함께 생성된다. 상위클래스의 인스턴스도 함께 생성된다는 점을 통해 유추해보자면,
+모든 클래스의 최상위 클래스인 Object 클래스의 인스턴스도 함께 생성될 것임을 알 수 있다. sonata와 grandeur의 차이는 sportage는 Sedan 타입이면서 Sedan 클래스의 인스턴스를 할당받지만,
+grandeur는 Car 타입이면서 Sedan 클래스의 인스턴스를 할당받는다는 것이다. 이는 실제로 참조하는 힙메모리 상의 인스턴스가 다르다는 것인데,
+Sedan 타입으로 선언된 sonata는 Sedan 클래스의 인스턴스를 참조하는 반면, Car 타입으로 선언된 grandeur는 Car 클래스의 인스턴스를 참조하는 것이다.
+
+<b><i><u>자바에서 변수의 세가지 유형</u></i></b>
+
+|이름|다른 이름|T 메모리 배치|
+|--------------|---|---|
+|정적 변수|클래스 [멤버]속성, 정적 변수, 정적 속성|스태틱 영역|
+|인스턴스 변수|객체 [멤버]속성, 객체 변수, ...|힙 영역|
+|지역 변수|지역 변수|스택 영역 (스택프레임 내부)|
 
 # 멀티 스레드와 멀티 프로세스의 메모리 사용
 멀티스레드는 T 메모리의 스택 영역을 스레드 개수만큼 분할해서 사용한다. 즉 하나의 T 메모리 안에서 스택 영역만 분할한 것이기 때문에 각 스레드들은 스태틱영역과 힙영역을 공유해서 사용할 수 있다.

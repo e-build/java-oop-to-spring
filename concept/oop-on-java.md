@@ -97,68 +97,7 @@ class Menu {
 만약 식당의 인적/물적 자원들을 관리하는 애플리케이션이었다면 '직원 수'는 충분히 관심영역 내에 있었을 것이다. 또한 '점심 식사'라고 하는 11:00~13:00 사이의 특정 시간대를 타겟으로 하는 
 상황에서 '브레이크 타임'의 시작시간, 종료시간이 정말 필요할까? 만약 비즈니스가 확장되어, 사용자가 원하는 시간대를 지정하고 식사를 추천 해주는 어플리케이션이라고 한다면 식당들의 '브레이크 타임'은 
 중요한 속성이 될 수 있을 것이다. 이와 같이 애플리케이션이 어떠한 맥락에서 활용되고자 하는 지에 따라, 동일한 사물에 대한 추상화라 할 지라도 추출되는 속성들에 대한 차이가 존재하며, 클래스들 간의
-관계 또한 다르게 정의될 것이다. 
-### 추상화와 T 메모리
-```java
-class Car {
-  public String modelName;
-  public int currentPrice;
-  public int type;
-  
-  public void go(){
-    System.out.println(this.name +  " 이(가) 움직입니다.");
-  }
-  
-}
-
-public class CarMain{
-
-  public static void main(String[] args){
-    Car morning = new Car();
-    morning.modelName = "morning";
-    morning.currentPrice = "10000";
-    morning.type = "LIGHT";
-    morning.go();
-    morning = null;
-    
-    Car sportage = new Car();
-    sportage.modelName = "sportage";
-    sportage.currentPrice = "20000";
-    sportage.type = "SUV";
-    sportage.go()
-  
-  }
-}
-```
-CarMain 클래스의 main()메서드가 시작할 시점에 T 메모리는 다음과 같을 것이다.
-* static 영역: java.lang 패키지, Car 클래스 로딩
-    - Car 클래스의 속성들은 스태틱영역에서 아직 값을 가지고 있지 않는데, 이는 클래스의 멤버가 아니라 인스턴스 멤버이기 때문이다. 
-    - 클래스 멤버와 인스턴스 멤버는 static 키워드를 통해 구분한다.
-
-morning 지역변수가 선언되고 객체를 할당하고, 이후에 null을 할당할 때 까지 T 메모리의 과정은 다음과 같다.
-1. main() 메서드의 스택프레임에 morning 지역변수를 위한 메모리 공간이 생성된다.
-2. new 연산자를 통해 새로운 Car 객체가 생성되고, 이 객체는 힙 영역에 메모리 공간이 생성된다.
-3. 힙 영역에 존재하는 Car 객체의 메모리 주소값을 morning에 할당한다. 변수 morning이 새로 생성된 Car객체를 참조한다고 표현할 수 있다.
-4. morning 에 . 이라는 참조 연산자를 사용해 실제 힙 영역에 있는 Car 객체에 접근하여, modelName, currentPrice, type에 값을 할당한다.
-5. go() 를 실행하면 T 메모리 상의 변화는 없고, 코드 실행 영역에서 실행되어 콘솔에 "morning 이(가) 움직입니다." 가 출력된다.
-6. morning 에 null 이 할당되면, 힙영역에 있는 Car 객체는 어느곳에서도 참조하지 않는 고아상태가 되고 이는 곧 JVM의 가비지 컬렉터가 수거한다.
-
-다시 sportage 지역변수가 선언되고 새로운 Car 객체를 생성하여 할당하는 것을 볼 수 있는데, 이는 이전에 생성됐던 Car 객체가 아니라는 점을 알아야 한다.
-따라서 인스턴스의 속성과 그에 따른 행위는 다르게 동작하게 되는 것이다. main() 메서드가 종료되면서 스택프레임이 소멸된다.
-
-### 정적 멤버와 인스턴스 멤버
-클래스 멤버, static 멤버, 정적 멤버 모두 다 같은 말이다. 또한 객체 멤버, 인스턴스 멤버, 오브젝트 멤버도 다 같은 말이다.
-T 메모리의 스태틱 영역에 클래스가 배치될 때 클래스 속성과 인스턴스 속성의 동작이 다른데, 클래스 속성인 경우 클래스 내부에 메모리 공간이 확보된다.
-이에 반해 인스턴스 속성은 속성명만 있고 실제 메모리 공간은 확보되지 않는다. 
-인스턴스 속성은 힙 영역에 객체가 생성되면 바로 그때 힙 영역내에 각각의 객체의 메모리 공간 안에 멤버 속성을 위한 메모리 공간이 할당된다.
-
-<b><i><u>자바에서 변수의 세가지 유형</u></i></b>
-
-|이름|다른 이름|T 메모리 배치|
-|------|---|---|
-|정적 변수|클래스 [멤버]속성, 정적 변수, 정적 속성|스태틱 영역|
-|인스턴스 변수|객체 [멤버]속성, 객체 변수, ...|힙 영역|
-|지역 변수|지역 변수|스택 영역 (스택프레임 내부)|
+관계 또한 다르게 정의될 것이다.
 
 # 상속(Inheritance)
 객체지향의 상속은 '상속'이라는 단어 그대로의 의미보다 '재사용'과 '확장'이라는 의미로 이해하는 것이 옳다. 다음은 상속 관계에서 반드시 만족해야 할 문장이다. 
@@ -223,63 +162,6 @@ Car 타입의 크기가 5인 배열을 선언하고 Car 클래스를 상속하�
 상위 클래스는 하위 클래스에게 멤버(속성과 메서드)를 상속해주고, 인터페이스는 클래스가 '무엇을 할 수 있다.'라고 하는 기능을 구현하도록 강제하는 것이다.
 상위 클래스는 물려줄 멤버가 풍부할수록 좋고, 인터페이스는 구현을 강제할 메서드의 개수가 적을 수록 좋다. 이는 객체 지향 설계 5원칙 중에서 
 상속의 풍부함은 LSP(리스코프 치환 원칙)에 따른 이유이고, 인터페이스의 메서드가 적을 수록 좋은 이유는 ISP(인터페이스 분할 원칙)에 따른 이유이다.  
-
-### 상속과 T 메모리
-```java
-class Car {
-    String modelName;
-    int currentPrice;
-    
-    public void go(){
-      System.out.println(this.name +  " 이(가) 움직입니다.");
-    }
-
-}
-
-```
-```java
-class Suv extends Car {
-    int trunkSize;
-  
-    @Override
-    public void go(){
-      System.out.println(this.name +" 이(가) 공기의 저항을 강하게 받으며 움직입니다.");
-    }
-    
-    public int printTrunkSize(){
-      System.out.println(this.trunkSize);
-    }
-
-    public int printTrunkSize(int plusSize){
-        this.trunkSize += 100;
-        System.out.println(this.trunkSize);
-    }
-}
-```
-```java
-class CarMain {
-    
-    public static void main(String[] args){
-        Suv sportage = new Suv();
-        sportage.modelName = "sportage";
-        sportage.currentPrice = 10000;
-        sportage.trunkSize = 500;
-  
-        sportage.printTrunkSize();
-        sportage.go(); 
-
-        Car santafe = new Suv();
-        santafe.modelName = "santafe";
-        santafe.currentPrice = 10000;
-        santafe.trunkSize = 500;
-    }
-}
-```
-sportage와 santafe라고 하는 객체를 만들었다. 두 객체 모두 상속받고 있는 Suv 클래스의 인스턴스를 할당받기 때문에 힙메모리 상에서는
-상위 클래스인 Car의 인스턴스와 하위 클래스인 Suv의 인스턴스가 함께 생성된다. 그렇다면 사실 유추해보길 모든 클래스의 최상의 클래스인 Object 클래스의
-인스턴스도 함께 생성될 것이다. sportage와 santafe의 차이는 sportage는 Suv 타입이면서 Suv 클래스이 인스턴스를 할당받지만,
-santafe는 Car 타입이면서 Suv 클래스의 인스턴스를 할당받는다는 것이다. 이는 힙메모리 상에 실제로 참조하는 인스턴스에 다르다는 차이가 있는데,
-Suv 타입으로 선언된 sportage 는 Suv 클래스의 인스턴스를 참조하는 반면, Car 타입으로 선언된 santafe 는 Car 클래스의 인스턴스를 참조한다는 것이다.
 
 # 다형성(Polymorphism)
 다형성은 사용편의성과 관계가 깊다. 객체지향에서 다형성이라 하면 overriding과 overloading이라고 할 수 있다.
