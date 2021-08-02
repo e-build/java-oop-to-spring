@@ -5,30 +5,46 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../../css/common.css">
     <script src="../../js/common.js"></script>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
 <h1>Welcome Home!</h1>
 
-<form method="POST" action="/user/login">
-    <div class="login-form">
-        <label for="username">ID</label>
-        <input type="text" id="username" placeholder="사용할 ID를 입력해주세요"/>
-    </div>
-    <div class="login-form">
-        <label for="username">PW</label>
-        <input type="text" id="password" placeholder="사용할 PAWSSWORD를 입력해주세요"/>
-    </div>
-    <div class="login-form">
-        <input type="submit" value="제출"/>
-    </div>
-</form>
+<div id="login-form">
+    <form method="POST" action="/user/login">
+        <div class="login-form">
+            <label for="username">ID</label>
+            <input type="text" name="username" id="username" placeholder="사용할 ID를 입력해주세요"/>
+        </div>
+        <div class="login-form">
+            <label for="username">PW</label>
+            <input type="text" name="password" id="password" placeholder="사용할 PAWSSWORD를 입력해주세요"/>
+        </div>
+        <div class="login-form">
+            <input type="submit" value="제출"/>
+        </div>
+    </form>
+</div>
+
+<div id="welcome-view">
+    <span id="login-user-nickname"></span> 님 환영합니다!
+</div>
 
 <div>
     <button onclick="goHome()">홈화면으로</button>
 </div>
 
 </body>
+
+<script type="text/javascript">
+    $("#welcome-view").hide();
+    if( getCookie("login") == "true" ){
+        $("#login-user-nickname").text("동걸");
+        $("#login-form").hide();
+        $("#welcome-view").show();
+    }
+</script>
 
 
 </html>
