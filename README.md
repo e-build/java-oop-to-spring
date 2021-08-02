@@ -21,6 +21,16 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 
 얼마나 정확하고 깊게 탐구할 수 있을지 혹은 얼마나 유용한 저장소로 활용될 수 있을지는 모르겠지만, 단계별 실습과 설명을 통하여 저와 같은 주니어 개발자들의 자바 학습에 조금이라도 실용적인 저장소가 되었으면 좋겠습니다.
 
+# 저장소 구성
+개념을 설명하는 `concept` 디렉토리와 자바 소스코드로 구성되어 있습니다. 하나의 저장소에서 <i>**개념에 대한 학습**</i>과 <i>**실제 적용이 어떻게 이루어지는 지**</i> 보다 간편하게 파악할 수 있도록 
+구성하고자 하였습니다.
+모든 브런치는 가장 최신으로 정리된 `concept` 디렉토리가 유지되고, 소스코드를 기준으로 다음과 같이 브런치를 구분하였습니다.
+- no-framework-web-not-refactoring : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현  
+- no-framework-web : no-framework-web-not-refactoring 리팩토링
+- servlet-framework-not-refactoring : 서블릿을 사용하여, 웹 어플리케이션을 구현
+- servlet-framework : servlet-framework-not-refactoring 리팩토링
+
+
 # 목차
 [1. 자바 프로그램의 구동과 메모리 구조](https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md)
 
