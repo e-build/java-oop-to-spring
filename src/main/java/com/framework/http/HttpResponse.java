@@ -62,7 +62,7 @@ public class HttpResponse implements HttpResponseSupport{
     }
 
     public void responseBody(Object obj) throws IOException {
-        addHeader(HttpConstants.Header.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8");
+//        addHeader(HttpConstants.Header.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8");
 
         try {
             dos.writeBytes("HTTP/1.1 " + this.statusCode + " OK \r\n");

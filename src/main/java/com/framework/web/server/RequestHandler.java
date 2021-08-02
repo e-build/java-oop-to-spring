@@ -27,7 +27,7 @@ public class RequestHandler implements Runnable  {
 
             Controller controller = RequestMapping.getController(HandlerKey.of(httpRequest.getMethod(), httpRequest.getPath()));
             httpResponse.addHeader(HttpConstants.Header.CONTENT_TYPE, httpRequest.getSimpleAccept() + "; charset=UTF-8");
-            if ( controller == null ){
+            if ( controller == null ) {
                 httpResponse.forwardWebResource(httpRequest.getPath());
             } else {
                 controller.service(httpRequest, httpResponse);
