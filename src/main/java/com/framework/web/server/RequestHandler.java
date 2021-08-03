@@ -26,12 +26,14 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-            String requestLineString = bufferedReader.readLine();
+
             // Request Line 추출
+            String requestLineString = bufferedReader.readLine();
             String[] requestLine = requestLineString.split(" ");
             String method = requestLine[0];
             String url = requestLine[1];
             String version = requestLine[2];
+
             // Header 추출
             Map<String, String> headers = Maps.newHashMap();
             String line;
