@@ -1,11 +1,14 @@
 package com.framework.web.server;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.util.Map;
 
+import com.framework.utils.JsonUtils;
+import com.framework.utils.WebAppUtils;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,13 +22,36 @@ public class RequestHandler extends Thread {
     }
 
     public void run() {
-        log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
-                connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            DataOutputStream dos = new DataOutputStream(out);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            String requestLineString = bufferedReader.readLine();
+            // Request Line 추출
+            String[] requestLine = requestLineString.split(" ");
+            String method = requestLine[0];
+            String url = requestLine[1];
+            String version = requestLine[2];
+            // Header 추출
+            Map<String, String> headers = Maps.newHashMap();
+            String line;
+            while( StringUtils.isNotEmpty(line = bufferedReader.readLine())){
+                int headerKeyValueSeparatorIdx = line.indexOf(": ");
+                headers.put(line.substring(0, headerKeyValueSeparatorIdx), line.substring(headerKeyValueSeparatorIdx + 2));
+            }
+            log.info("headers : {}", JsonUtils.serialize(headers));
+
             byte[] body = "Hello World".getBytes();
+            if ( StringUtils.equals(method, "GET") ) {
+                if ( StringUtils.equals(url, "/") ){
+                    File htmlFile = new File(WebAppUtils.WEBAPP_ROOT_PATH + WebAppUtils.PREFIX + "/index.html");
+                    body = Files.readAllBytes(htmlFile.toPath());
+                } else {
+
+                }
+            }
+
+            DataOutputStream dos = new DataOutputStream(out);
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
