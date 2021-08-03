@@ -41,15 +41,15 @@ public class RequestHandler extends Thread {
                 int headerKeyValueSeparatorIdx = line.indexOf(": ");
                 headers.put(line.substring(0, headerKeyValueSeparatorIdx), line.substring(headerKeyValueSeparatorIdx + 2));
             }
-            log.info("headers : {}", JsonUtils.serialize(headers));
 
             byte[] body = "Hello World".getBytes();
             if ( StringUtils.equals(method, "GET") ) {
                 if ( StringUtils.equals(url, "/") ){
                     File htmlFile = new File(WebAppUtils.WEBAPP_ROOT_PATH + WebAppUtils.PREFIX + "/index.html");
                     body = Files.readAllBytes(htmlFile.toPath());
-                } else {
-
+                } else if (StringUtils.containsAny(url,".js", ".css")) {
+                    File resourceFile = new File(WebAppUtils.WEBAPP_ROOT_PATH + url);
+                    body = Files.readAllBytes(resourceFile.toPath());
                 }
             }
 
