@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class QueryStringUtils {
 
+    private QueryStringUtils() {}
+
     public static Map<String, String> toMap(String queryString){
         Map<String, String> returnMap = Maps.newHashMap();
         for (String keyValue : queryString.split("&")){

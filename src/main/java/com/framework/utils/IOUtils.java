@@ -5,6 +5,8 @@ import java.io.IOException;
 
 public class IOUtils {
 
+    private IOUtils() {}
+
     public static String readData(BufferedReader br, int length) throws IOException {
         char[] body = new char[length];
         br.read(body, 0, length);
