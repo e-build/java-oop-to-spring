@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../../css/common.css">
     <script src="../../js/common.js"></script>
-    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <title>LOGIN</title>
 </head>
 <body>
-
-<h1>Welcome Home!</h1>
-
 <div id="login-form">
     <form method="POST" action="/user/login">
         <div class="login-form">
@@ -26,25 +22,9 @@
         </div>
     </form>
 </div>
-
-<div id="welcome-view">
-    <span id="login-user-nickname"></span> 님 환영합니다!
-</div>
-
 <div>
     <button onclick="goHome()">홈화면으로</button>
 </div>
 
 </body>
-
-<script type="text/javascript">
-    $("#welcome-view").hide();
-    if( getCookie("login") == "true" ){
-        $("#login-user-nickname").text("동걸");
-        $("#login-form").hide();
-        $("#welcome-view").show();
-    }
-</script>
-
-
 </html>
