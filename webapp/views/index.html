@@ -2,14 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
+    <title>JOS</title>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <script src="../js/common.js"></script>
 </head>
 <body>
 
-
-<h1>Welcome Home!</h1>
-<p><a href="/user/login">로그인 페이지로 이동</a></p>
+<h1>웰컴 홈!</h1>
+<div id="welcome-view">
+    로그인되었습니다. 환영합니다!
+</div>
+<p id="go-login-page"><a href="/user/login">로그인 페이지로 이동</a></p>
+<p id="go-user-list"><a href="/user/list">사용자 목록 조회 페이지로 이동</a></p>
 
 </body>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#welcome-view").hide();
+        $("#go-login-page").hide();
+        $("#go-user-list").hide();
+        if( getCookie("login") === "true" ){
+            $("#welcome-view").show();
+            $("#go-user-list").show();
+        } else {
+            $("#go-login-page").show();
+        }
+    });
+
+</script>
+
 </html>

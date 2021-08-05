@@ -1,8 +1,8 @@
 function goHome(){
-    location.href = "/home";
+    location.href = "/";
 }
 
 function getCookie(name) {
     var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return value? value[2] : null;
+    return value ? value[2] : null;
 }
