@@ -26,7 +26,7 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 구성하고자 하였습니다.
 모든 브런치는 가장 최신으로 정리된 `concept` 디렉토리가 유지되고, 소스코드를 기준으로 다음과 같이 브런치를 구분하였습니다.
 - no-framework-web-not-refactoring : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
-- no-framework-web-refactoring : no-framework-web-not-refactoring 브런치 리팩토링
+- [no-framework-web-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-web-refactoring.md) : no-framework-web-not-refactoring 브런치 리팩토링
 - di-framework-not-refactoring : no-framework-web-refactoring 에 DI 컨테이너를 직접 구현해봅니다. 
 - di-framework-refactoring : di-framework-not-refactoring 브런치 리팩토링
 
