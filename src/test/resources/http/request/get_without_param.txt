@@ -1,4 +1,4 @@
-GET /user/login.html HTTP/1.1
+GET /user/isUser?username=1 HTTP/1.1
 Host: localhost:8080
 Connection: keep-alive
 Cache-Control: max-age=0
@@ -13,4 +13,4 @@ Sec-Fetch-User: ?1
 Sec-Fetch-Dest: document
 Accept-Encoding: gzip, deflate, br
 Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
-Cookie: em_cdn_uid=t%3D1613952697495%26u%3D1370f85f318a4c78825808190a1f59f2; Idea-7b0eb7c4=d979d015-0564-43ea-8e03-e79ba229303a; Idea-7b0ebb83=f93c9c7e-2b87-4832-be65-5b0e532dee91; _ga=GA1.1.2055411308.1620140545; csrftoken=biWN2QGUPAoiBSw0wiQ0n5KkOuOCOWf8y6cN5EOvxfwdHpozfQNnZVYflef7fSu5
+Cookie: login=true; em_cdn_uid=t%3D1613952697495%26u%3D1370f85f318a4c78825808190a1f59f2; Idea-7b0eb7c4=d979d015-0564-43ea-8e03-e79ba229303a; Idea-7b0ebb83=f93c9c7e-2b87-4832-be65-5b0e532dee91; _ga=GA1.1.2055411308.1620140545; csrftoken=biWN2QGUPAoiBSw0wiQ0n5KkOuOCOWf8y6cN5EOvxfwdHpozfQNnZVYflef7fSu5
