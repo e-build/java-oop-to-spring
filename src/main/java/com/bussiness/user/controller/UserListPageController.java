@@ -8,6 +8,6 @@ public class UserListPageController implements Controller {
 
     @Override
     public void service(HttpRequest request, HttpResponse response) {
-        
+        response.forward("/user/list");
     }
 }
