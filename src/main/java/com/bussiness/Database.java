@@ -1,6 +1,6 @@
 package com.bussiness;
 
-import com.bussiness.user.User;
+import com.bussiness.user.domain.User;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
