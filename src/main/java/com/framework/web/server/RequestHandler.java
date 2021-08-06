@@ -23,7 +23,6 @@ public class RequestHandler extends Thread {
     public void run() {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-
             HttpRequest request = new HttpRequest(in);
             HttpResponse response = new HttpResponse(out);
             response.addHeader("Content-Type", parseContentType(request.getHeader("Accept"))+";charset=utf-8");

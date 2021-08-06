@@ -19,10 +19,9 @@ public class HttpResponse {
     Logger log = LoggerFactory.getLogger(HttpResponse.class);
 
     private final DataOutputStream dos;
-    private byte[] body;
     private final Map<String, String> headers;
-    @Setter
-    private int statusCode;
+    private byte[] body;
+    @Setter private int statusCode;
 
     public HttpResponse(OutputStream out){
         this.dos = new DataOutputStream(out);
@@ -59,6 +58,7 @@ public class HttpResponse {
     public void sendRedirect(String path){
         this.addHeader("Location", path);
         this.setStatusCode(302);
+        this.body = "".getBytes(StandardCharsets.UTF_8);
         responseflush();
     }
 
