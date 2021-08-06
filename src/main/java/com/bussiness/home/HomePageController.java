@@ -8,6 +8,6 @@ public class HomePageController implements Controller {
 
     @Override
     public void service(HttpRequest request, HttpResponse response) {
-        response.forward("/index.html");
+        response.forward("/index");
     }
 }
