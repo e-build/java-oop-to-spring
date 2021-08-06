@@ -1,6 +1,7 @@
 package com.framework.http;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,8 +21,31 @@ class HttpResponseTest {
         response = new HttpResponse(out);
     }
 
+    @Test
+    void sendRedirect(){
 
-    // 테스트코드 작성예정
+    }
+
+    @Test
+    void forward(){
+
+    }
+
+    @Test
+    void forwardResource(){
+
+    }
+
+    @Test
+    void responseBody(){
+
+    }
+
+    @Test
+    void responseCssFile(){
+
+    }
+
 
 
 }
