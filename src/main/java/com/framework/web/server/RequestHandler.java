@@ -52,27 +52,4 @@ public class RequestHandler extends Thread {
     private String parseContentType(String accept){
         return accept.split(",")[0];
     }
-
-    private boolean isLogin(String cookieLoginValue){
-        if (cookieLoginValue == null)
-            return false;
-        return StringUtils.equals(cookieLoginValue, "true");
-    }
-
-    private boolean login(String username, String password){
-        for ( Integer key : Database.USER.keySet() ){
-            if (StringUtils.equals(Database.USER.get(key).getUsername(), username))
-                return StringUtils.equals(Database.USER.get(key).getUsername(), password);
-        }
-        return false;
-    }
-
-    private User findUserByUsername(String username){
-        for (int key : Database.USER.keySet()){
-            if ( StringUtils.equals(username, Database.USER.get(key).getUsername()) )
-                return  Database.USER.get(key);
-        }
-        return null;
-    }
-
 }
