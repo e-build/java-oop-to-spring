@@ -64,7 +64,7 @@ public class HttpResponse {
 
     public void forward(String path) {
         try{
-            File resourceFile = new File(WebAppUtils.WEBAPP_ROOT_PATH + WebAppUtils.PREFIX + path);
+            File resourceFile = new File(WebAppUtils.WEBAPP_ROOT_PATH + WebAppUtils.PREFIX + path + WebAppUtils.SUFFIX);
             if ( resourceFile.exists() )
                 this.body = Files.readAllBytes(resourceFile.toPath());
         } catch(IOException e){
