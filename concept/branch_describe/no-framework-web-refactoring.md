@@ -35,7 +35,7 @@
 2. 비즈니스 변화에 따라 기존의 코드들이 수정되어야 하는 문제 => ***<i><u>인터페이스를 활용한 확장성 부여</i></u>*** 
    - [개방 폐쇄 원칙(OCP)](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-5-principle.md#ocpopen-closed-principle) 
      에 따라 다음과 같이 설계를 변경할 것 이다.
-     - `else if`문에서 HTTP 요청따라 분기하여 응답을 처리하는 것이 아니라, `Controller`인터페이스 구현하는 클래스에서 구체적인 비즈니스 로직을 처리하도록 하여 
+     - `else if`문에서 HTTP 요청에 따라 분기하여 응답을 처리하는 것이 아니라, `Controller`인터페이스 구현하는 클래스에서 구체적인 비즈니스 로직을 처리하도록 하여 
        새로운 HTTP 요청처리가 필요할 때 `Controller` 인터페이스를 구현하는 클래스를 생성하여 기존 코드를 수정하지 않도록 변경할 것 이다. 
      - `Controller` 인터페이스를 통해 HTTP 요청을 처리할 수 있는 기능을 부여받는 클래스들을 생성한다고 생각할 수 있다. [(is able to)](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-on-java.md#%EC%83%81%EC%86%8D%EA%B3%BC-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4)
 3. 상수처리 => ***<i><u>자바 Enum 활용</i></u>***
