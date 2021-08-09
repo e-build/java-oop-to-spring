@@ -1,3 +1,42 @@
 .login-form {
     color: red;
 }
+
+.media-image-login{
+    max-width: 70%;
+    width: 400px;
+    height: 400px;
+    background-image: url(../image/login.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 10px
+}
+.media-image-register{
+    max-width: 70%;
+    width: 400px;
+    height: 400px;
+    background-image: url(../image/regist.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 10px
+}
+@media (min-width: 401px) {
+    .media-image-login {
+        width: 700px;
+        background-image: url(../image/login.png);
+    }
+    .media-image-register {
+        width: 700px;
+        background-image: url(../image/regist.png);
+    }
+}
+@media (min-width: 701px) {
+    .media-image-login {
+        width: 1000px;
+        background-image: url(../image/login.png);
+    }
+    .media-image-register {
+        width: 1000px;
+        background-image: url(../image/regist.png);
+    }
+}
