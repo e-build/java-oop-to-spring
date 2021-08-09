@@ -1,4 +1,13 @@
 package com.bussiness.user.controller;
 
-public class MyInfoPageController {
+import com.framework.http.Controller;
+import com.framework.http.HttpRequest;
+import com.framework.http.HttpResponse;
+
+public class MyInfoPageController implements Controller {
+
+    @Override
+    public void service(HttpRequest request, HttpResponse response) {
+        
+    }
 }

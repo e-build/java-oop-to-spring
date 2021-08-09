@@ -1,4 +1,12 @@
 package com.bussiness.user.controller;
 
-public class MyInfoUpdateApiController {
+import com.framework.http.Controller;
+import com.framework.http.HttpRequest;
+import com.framework.http.HttpResponse;
+
+public class MyInfoUpdateApiController  implements Controller {
+    @Override
+    public void service(HttpRequest request, HttpResponse response) {
+
+    }
 }
