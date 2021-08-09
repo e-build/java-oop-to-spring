@@ -1,3 +1,21 @@
+$(document).ready(function(){
+    $("#link-login").hide();
+    $("#link-logout").hide();
+    $("#link-recipe").hide();
+    if( getCookie("login") === "true" ){
+        $("#link-logout").show();
+        $("#link-recipe").show();
+    } else {
+        $("#link-login").show();
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function (event) {
+    navbarToggleSidebar();
+    // closeMenuBeforeGoingToPage();
+    navActivePage();
+});
+
 function goHome(){
     location.href = "/";
 }

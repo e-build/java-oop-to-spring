@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <div class="media-image-register  center-block"></div>
-                            <a href="/user/regist">
+                            <a href="/user/register">
                                 <p class="btn btn-info center-block">회원가입</p>
                             </a>
                         </div>
@@ -82,30 +82,5 @@
     </div>
 </div>
 
-
-
 </body>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#link-login").hide();
-        $("#link-logout").hide();
-        $("#link-recipe").hide();
-        if( getCookie("login") === "true" ){
-            $("#link-logout").show();
-            $("#link-recipe").show();
-        } else {
-            $("#link-login").show();
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", function (event) {
-        navbarToggleSidebar();
-        // closeMenuBeforeGoingToPage();
-        // navActivePage();
-    });
-</script>
-
-</script>
-
 </html>
