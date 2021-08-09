@@ -8,6 +8,6 @@ public class RecipeListPageController implements Controller {
 
     @Override
     public void service(HttpRequest request, HttpResponse response) {
-        response.forward("/user/login");
+        response.forward("/recipe/list");
     }
 }

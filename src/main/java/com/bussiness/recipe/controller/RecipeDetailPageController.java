@@ -7,7 +7,5 @@ import com.framework.http.HttpResponse;
 public class RecipeDetailPageController implements Controller {
 
     @Override
-    public void service(HttpRequest request, HttpResponse response) {
-
-    }
+    public void service(HttpRequest request, HttpResponse response) { response.forward("/recipe/detail"); }
 }
