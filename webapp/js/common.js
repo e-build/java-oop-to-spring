@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    // nav login 분기 처리
     $("#link-login").hide();
     $("#link-logout").hide();
     $("#link-recipe").hide();
