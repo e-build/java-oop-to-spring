@@ -3,6 +3,7 @@ package com.bussiness;
 import com.bussiness.recipe.domain.Recipe;
 import com.bussiness.user.domain.User;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,15 @@ public class Database {
     public static final Map<Integer, Recipe> RECIPE = Maps.newHashMap();
 
     static {
-        USER.put(1, new User(1, "1", "1", "1"));
-        USER.put(2, new User(2, "2", "2", "2"));
-        USER.put(3, new User(3, "3", "3", "3"));
+        USER.put(1, new User(1, "1@gmail.com", "1234qwer", "11111"));
+    }
+
+    public static User readUserByUsername(String username){
+        for ( int key : USER.keySet() ){
+            if (StringUtils.equals(username, USER.get(key).getUsername()))
+                return USER.get(key);
+        }
+        return null;
     }
 
     public static User readUserById(Integer userId){
@@ -28,7 +35,7 @@ public class Database {
     }
 
     public static void insertUser(User user){
-        USER.put(USER.size()+1,user);
+        USER.put(user.getId(), user);
     }
 
     public static List<Recipe> readRecipeByUser(User user){
