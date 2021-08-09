@@ -2,34 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JOS</title>
+    <title>R-MOAMOA</title>
     <script src="../js/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <script src="../js/main.js"></script>
     <script src="../js/common.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
 </head>
 <body>
 
-<h1>웰컴 홈!</h1>
-<div id="welcome-view">
-    로그인되었습니다. 환영합니다!
+<header>
+    <nav class="navbar navbar-fixed-top navbar-default">
+        <div class="container">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <nav class="navbar-fullscreen" id="navbar-middle">
+                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <ul class="navbar-fullscreen-links">
+                    <li><a href="/" title="">HOME</a></li>
+                    <li><a href="/user/login" title="">LOGIN</a></li>
+                    <li><a href="/user/logout" title="">LOGOUT</a></li>
+                    <li><a href="/recipe/list" title="">ALL RECIPE</a></li>
+                    <li><a href="/user/detail/main" title="">MY</a></li>
+                </ul>
+
+                <div class="footer-container">
+                    <p><small>© Recipe MoaMoa | Website created with E-build</small></p>
+                    <p class="footer-share-icons">
+                        <a href="https://github.com/e-build/java-oop-to-spring" class="fa-icon" title="java-oop-to-spring">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </a>
+                    </p>
+                </div>
+            </nav>
+        </div>
+    </nav>
+</header>
+
+<div class="section-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+
+                <div class="template-example">
+                    <h1 class="template-title-example">레시피 모아모아</h1>
+                    <p>
+                        요리와 음식에 관심이 많은 사용자들 간에 다양한 <b>레시피</b>를 공유하는 커뮤니티입니다.
+                        욕설, 비방, 비난은 금지해주시고 의견 차이에 대해선 존중과 배려의 마음으로 소통해주세요.
+                        모든 레시피는 로그인 후에 조회할 수 있습니다. 아직 회원이 아닌 분들은 회원가입을 통해 먼저 <b>레시피 모아모아</b>의 일원이 되어주세요.
+                    </p>
+                </div>
+
+                <div class="template-example">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="media-image-login center-block"></div>
+                            <a href="/user/login">
+                                <p class="btn btn-success center-block">로그인</p>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <div class="media-image-register  center-block"></div>
+                            <a href="/user/regist">
+                                <p class="btn btn-info center-block">회원가입</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p id="go-login-page"><a href="/user/login">로그인 페이지로 이동</a></p>
-<p id="go-user-list"><a href="/user/list">사용자 목록 조회 페이지로 이동</a></p>
 
 </body>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#welcome-view").hide();
-        $("#go-login-page").hide();
-        $("#go-user-list").hide();
-        if( getCookie("login") === "true" ){
-            $("#welcome-view").show();
-            $("#go-user-list").show();
-        } else {
-            $("#go-login-page").show();
-        }
+    // $(document).ready(function(){
+    //     $("#welcome-view").hide();
+    //     $("#go-login-page").hide();
+    //     $("#go-user-list").hide();
+    //     if( getCookie("login") === "true" ){
+    //         $("#welcome-view").show();
+    //         $("#go-user-list").show();
+    //     } else {
+    //         $("#go-login-page").show();
+    //     }
+    // });
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        navbarToggleSidebar();
+        // closeMenuBeforeGoingToPage();
+        // navActivePage();
     });
+</script>
 
 </script>
 
