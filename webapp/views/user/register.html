@@ -50,21 +50,21 @@
             <h1 class="template-title-example"><u>회원가입</u></h1>
         </div>
         <div  id="register-form">
-            <form method="POST" action="/user/register">
+            <form method="POST" action="/api/user/register">
                 <div class="form-group">
-                    <label class="form-control" for="username">ID</label>
-                    <input class="form-control" type="text" name="username" id="username" placeholder="ex) honggildong@gmail.com"/>
+                    <label for="username">ID</label>
+                    <input class="form-control" type="email" name="username" id="username" placeholder="ex) honggildong@gmail.com"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control" for="username">PW</label>
-                    <input class="form-control" type="text" name="password" id="password" placeholder="영문, 숫자 혼합 8자 이상 입력 해주세요."/>
+                    <label for="password">PW</label>
+                    <input class="form-control" type="password" name="password" id="password" placeholder="영문, 숫자 혼합 8자 이상 입력 해주세요."/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control" for="password-check">PW CHECK</label>
-                    <input class="form-control" type="text" name="password-check" id="password-check" placeholder="패스워드를 한번 더 입력해주세요"/>
+                    <label for="password-check">PW CHECK</label>
+                    <input class="form-control" type="password" name="password-check" id="password-check" placeholder="패스워드를 한번 더 입력해주세요"/>
                 </div>
                 <div class="form-group">
-                    <label class="form-control" for="nickname">NICKNAME</label>
+                    <label for="nickname">NICKNAME</label>
                     <input class="form-control" type="text" name="nickname" id="nickname" placeholder="영문 5자 이상 입력해주세요."/>
                 </div>
                 <div class="form-group">
