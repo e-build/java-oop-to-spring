@@ -9,8 +9,9 @@ public class Recipe {
 
     private String name;
     private String contents;
-    private Integer createdBy;
+    private String category;
+    private String createdBy;
     private LocalDateTime createdAt;
-    private Integer updateBy;
+    private String updateBy;
     private LocalDateTime updateAt;
 }
