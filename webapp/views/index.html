@@ -25,10 +25,11 @@
             <nav class="navbar-fullscreen" id="navbar-middle">
                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <ul class="navbar-fullscreen-links">
-                    <li id="link-home"><a href="/" title="HOME">HOME</a></li>
-                    <li id="link-login"><a href="/user/login" title="LOGIN">LOGIN</a></li>
-                    <li id="link-logout"><a href="/user/logout" title="LOGOUT">LOGOUT</a></li>
-                    <li id="link-recipe"><a href="/recipe/list" title="RECIPE">RECIPE</a></li>
+                    <li><a href="/" title="">HOME</a></li>
+                    <li><a href="/user/login" title="">LOGIN</a></li>
+                    <li><a href="/user/logout" title="">LOGOUT</a></li>
+                    <li><a href="/recipe/list" title="">ALL RECIPE</a></li>
+                    <li><a href="/user/detail/main" title="">MY</a></li>
                 </ul>
 
                 <div class="footer-container">
@@ -50,7 +51,7 @@
             <div class="col-xs-12 col-md-12">
 
                 <div class="template-example">
-                    <h1 class="template-title-example"><u>레시피 모아모아</u></h1>
+                    <h1 class="template-title-example">레시피 모아모아</h1>
                     <p>
                         요리와 음식에 관심이 많은 사용자들 간에 다양한 <b>레시피</b>를 공유하는 커뮤니티입니다.
                         욕설, 비방, 비난은 금지해주시고 의견 차이에 대해선 존중과 배려의 마음으로 소통해주세요.
@@ -74,30 +75,25 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
-
     </div>
 </div>
-
-
 
 </body>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#link-login").hide();
-        $("#link-logout").hide();
-        $("#link-recipe").hide();
-        if( getCookie("login") === "true" ){
-            $("#link-logout").show();
-            $("#link-recipe").show();
-        } else {
-            $("#link-login").show();
-        }
-    });
+    // $(document).ready(function(){
+    //     $("#welcome-view").hide();
+    //     $("#go-login-page").hide();
+    //     $("#go-user-list").hide();
+    //     if( getCookie("login") === "true" ){
+    //         $("#welcome-view").show();
+    //         $("#go-user-list").show();
+    //     } else {
+    //         $("#go-login-page").show();
+    //     }
+    // });
 
     document.addEventListener("DOMContentLoaded", function (event) {
         navbarToggleSidebar();
