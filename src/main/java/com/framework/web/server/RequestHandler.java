@@ -27,18 +27,19 @@ public class RequestHandler extends Thread {
             // 1. 요청, 응답 인스턴스 생성
             HttpRequest request = new HttpRequest(in);
             HttpResponse response = new HttpResponse(out);
-            log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
+
 
             // 2. 응답 헤더 공통 세팅
             response.addHeader(HttpHeader.CONTENT_TYPE.getValue(), parseContentType(request.getHeader(HttpHeader.ACCEPT.getValue()))+";charset=utf-8");
             if (request.getCookie(HttpSession.SESSION_IDENTIFIER.getValue()) == null)
-                response.addHeader("Set-Cookie", HttpSession.SESSION_IDENTIFIER.getValue()+"="+UUIDUtils.newId());
+                response.addCookie(HttpSession.SESSION_IDENTIFIER.getValue(), UUIDUtils.newId());
 
             // 3. HTTP 요청에 해당하는 Controller 확인
             Controller controller = RequestMapping.getController(HandlerKey.of(request.getMethod(), request.getPath()));
 
             // 4. HTTP 요청 처리
             if (controller != null){
+                log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
                 // 4-1. Controller 로 작업 위임
                 controller.service(request, response);
             } else {
