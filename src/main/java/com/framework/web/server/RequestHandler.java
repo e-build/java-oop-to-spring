@@ -8,6 +8,7 @@ import com.framework.http.constants.HttpHeader;
 import com.framework.http.constants.HttpSession;
 import com.framework.utils.UUIDUtils;
 import com.framework.utils.WebAppUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,8 @@ public class RequestHandler extends Thread {
 
             // 2. 응답 헤더 공통 세팅
             response.addHeader(HttpHeader.CONTENT_TYPE.getValue(), parseContentType(request.getHeader(HttpHeader.ACCEPT.getValue()))+";charset=utf-8");
+//            if ( isLogin(request.getCookie("login")) )
+//                response.addCookie("login", "true");
             if (request.getCookie(HttpSession.SESSION_IDENTIFIER.getValue()) == null)
                 response.addCookie(HttpSession.SESSION_IDENTIFIER.getValue(), UUIDUtils.newId());
 
@@ -52,6 +55,17 @@ public class RequestHandler extends Thread {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private boolean isLogin(String loginCookie){
+        log.info("loginCookie : {}", loginCookie);
+        if (StringUtils.isBlank(loginCookie))
+            return false;
+        return StringUtils.equals(loginCookie, "true");
+    }
+
+    private boolean isFirstConnect(String sessionCookie){
+        return StringUtils.isBlank(sessionCookie);
     }
 
     private String parseContentType(String accept){
