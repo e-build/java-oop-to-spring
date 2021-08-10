@@ -58,4 +58,9 @@ class HttpRequestTest {
     void cookieTest(){
         Assertions.assertEquals("true", request.getCookie("login"));
     }
+
+    @Test
+    void getSessionTest(){
+        Assertions.assertEquals("623215a7-9cfa-4d76-85d6-e8199446d9c7", request.getSession().getId());;
+    }
 }

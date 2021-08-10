@@ -114,5 +114,9 @@ public class HttpRequest {
         return this.requestBody;
     }
 
+    public HttpSession getSession(){
+        return HttpSessions.getSession(getCookie("JSESSIONID"));
+    }
+
 
 }
