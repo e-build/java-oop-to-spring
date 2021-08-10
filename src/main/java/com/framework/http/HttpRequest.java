@@ -18,7 +18,7 @@ public class HttpRequest {
     private final BufferedReader br;
     private final RequestLine requestLine;
     private final Map<String,String> headers;
-    private final Map<String,String> cookies;
+    private final HttpCookies cookies;
     private final Map<String,String> parameters;
     private final String requestBody;
 
@@ -48,7 +48,7 @@ public class HttpRequest {
         }
 
         // Cookie 추출
-        this.cookies = parseCookie(this.headers.get("Cookie"));
+        this.cookies = new HttpCookies(this.headers.get("Cookie"));
 
         // Body 추출
         String contentLength = this.headers.get("Content-Length");
@@ -70,16 +70,6 @@ public class HttpRequest {
     private Map<String, String> parseQueryString(String url){
         int idx = url.indexOf("?");
         return QueryStringUtils.toMap(url.substring(idx+1));
-    }
-
-    private Map<String, String> parseCookie(String cookieString){
-        Map<String, String> cookies = Maps.newHashMap();
-        String[] cookieArray = cookieString.split("; ");
-        for (String keyValue : cookieArray){
-            String[] keyValueArr = keyValue.split("=");
-            cookies.put(keyValueArr[0], keyValueArr[1]);
-        }
-        return cookies;
     }
 
     public String getMethod(){
@@ -107,7 +97,7 @@ public class HttpRequest {
     }
 
     public String getCookie(String key){
-        return this.cookies.get(key);
+        return this.cookies.getCookie(key);
     }
 
     public String getRequestBody(){

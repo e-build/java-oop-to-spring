@@ -20,6 +20,7 @@ public class HttpResponse {
 
     private final DataOutputStream dos;
     private final Map<String, String> headers;
+    private final HttpCookies cookies;
     private byte[] body;
     @Setter private int statusCode;
 
@@ -27,6 +28,7 @@ public class HttpResponse {
         this.dos = new DataOutputStream(out);
         this.headers = Maps.newHashMap();
         this.statusCode = 200;
+        this.cookies = new HttpCookies();
     }
 
     private void responseHeader() {
@@ -35,6 +37,7 @@ public class HttpResponse {
             this.dos.writeBytes("Content-Length: " + this.body.length + "\r\n");
             for ( String key : this.headers.keySet() )
                 dos.writeBytes( key + ": " + this.headers.get(key) + "\r\n");
+            dos.writeBytes(  "Set-Cookie: " + cookies.toString() + "\r\n");
             this.dos.writeBytes("\r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -102,5 +105,6 @@ public class HttpResponse {
         this.headers.put(key, value);
     }
 
+    public void addCookie(String key, String value){ this.cookies.addCookie(key, value); }
 
 }
