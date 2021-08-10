@@ -28,7 +28,6 @@ public class RequestHandler extends Thread {
             HttpRequest request = new HttpRequest(in);
             HttpResponse response = new HttpResponse(out);
 
-
             // 2. 응답 헤더 공통 세팅
             response.addHeader(HttpHeader.CONTENT_TYPE.getValue(), parseContentType(request.getHeader(HttpHeader.ACCEPT.getValue()))+";charset=utf-8");
             if (request.getCookie(HttpSession.SESSION_IDENTIFIER.getValue()) == null)
@@ -50,7 +49,6 @@ public class RequestHandler extends Thread {
                 else
                     response.responseBody("404");
             }
-
         } catch (IOException e) {
             log.error(e.getMessage());
         }
