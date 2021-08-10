@@ -41,7 +41,7 @@ public class Database {
     public static List<Recipe> readRecipeByUser(User user){
         List<Recipe> recipeList = new ArrayList<Recipe>();
         for ( int key : RECIPE.keySet() ){
-            if (RECIPE.get(key).getCreatedBy() == user.getId())
+            if (StringUtils.equals(RECIPE.get(key).getCreatedBy(), user.getUsername()))
                 recipeList.add(RECIPE.get(key));
         }
         return recipeList;
