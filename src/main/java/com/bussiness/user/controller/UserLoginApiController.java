@@ -16,7 +16,9 @@ public class UserLoginApiController implements Controller {
     public void service(HttpRequest request, HttpResponse response) {
         Map<String, String> bodyParams = QueryStringUtils.toMap(request.getRequestBody());
         if ( login(bodyParams.get("username"), bodyParams.get("password")) ){
-            response.addHeader("Set-Cookie", "login=true");
+            response.addCookie("login", "true");
+            request.getSession().setAttribute("login", "true");
+            request.getSession().setAttribute("loginUser", Database.readUserByUsername(bodyParams.get("username")));
             response.sendRedirect("/");
         } else {
             response.sendRedirect("/user/login");
