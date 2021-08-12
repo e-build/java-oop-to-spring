@@ -1,13 +1,11 @@
 package com.framework.web.server;
 
 import com.framework.core.db.ConnectionManager;
-import org.h2.engine.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
 
 public class WebServer {
 
