@@ -1,4 +1,4 @@
-package com.bussiness.user;
+package com.bussiness.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,5 @@
 package com.bussiness;
 
-import com.bussiness.recipe.domain.Recipe;
 import com.bussiness.user.domain.User;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,7 @@ import java.util.Map;
 public class Database {
 
     public static final Map<Integer, User> USER = Maps.newHashMap();
-    public static final Map<Integer, Recipe> RECIPE = Maps.newHashMap();
+//    public static final Map<Integer, Recipe> RECIPE = Maps.newHashMap();
 
     static {
         USER.put(1, new User(1, "1@gmail.com", "1234qwer", "11111"));
@@ -38,16 +37,16 @@ public class Database {
         USER.put(user.getId(), user);
     }
 
-    public static List<Recipe> readRecipeByUser(User user){
-        List<Recipe> recipeList = new ArrayList<Recipe>();
-        for ( int key : RECIPE.keySet() ){
-            if (StringUtils.equals(RECIPE.get(key).getCreatedBy(), user.getUsername()))
-                recipeList.add(RECIPE.get(key));
-        }
-        return recipeList;
-    }
-
-    public static void insertRecipe(Recipe recipe){
-        RECIPE.put(RECIPE.size()+1,recipe);
-    }
+//    public static List<Recipe> readRecipeByUser(User user){
+//        List<Recipe> recipeList = new ArrayList<Recipe>();
+//        for ( int key : RECIPE.keySet() ){
+//            if (StringUtils.equals(RECIPE.get(key).getCreatedBy(), user.getUsername()))
+//                recipeList.add(RECIPE.get(key));
+//        }
+//        return recipeList;
+//    }
+//
+//    public static void insertRecipe(Recipe recipe){
+//        RECIPE.put(RECIPE.size()+1,recipe);
+//    }
 }

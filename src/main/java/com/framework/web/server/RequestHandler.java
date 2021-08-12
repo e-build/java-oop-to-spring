@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.util.Map;
 
 import com.bussiness.Database;
-import com.bussiness.user.User;
+import com.bussiness.user.domain.User;
 import com.framework.utils.IOUtils;
 import com.framework.utils.QueryStringUtils;
 import com.framework.utils.WebAppUtils;
