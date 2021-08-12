@@ -43,7 +43,8 @@ public class ConnectionManager {
             stmt.executeUpdate("DROP TABLE IF EXISTS RECIPES");
             stmt.executeUpdate(getCreateUsersTableSQL());
             stmt.executeUpdate(getCreateRecipesTableSQL());
-            pstmt = conn.prepareStatement("INSERT INTO USERS VALUES('1', 'e-build@gmail.com', '1234qwer', 'e-build')");
+//            pstmt = conn.prepareStatement("INSERT INTO USERS VALUES('1', 'e-build@gmail.com', '1234qwer', 'e-build')");
+            pstmt = conn.prepareStatement("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES('e-build@gmail.com', '1234qwer', 'e-build')");
 
             int insertRowCnt = pstmt.executeUpdate();
             if (insertRowCnt == 1)
@@ -66,17 +67,17 @@ public class ConnectionManager {
 
     private static String getCreateUsersTableSQL(){
         return "CREATE TABLE USERS (\n" +
-                "    id varchar(12) NOT NULL,\n" +
-                "    username varchar(50) NOT NULL,\n" +
-                "    password varchar(50) NOT NULL,\n" +
-                "    nickname varchar(50) NOT NULL,\n" +
-                "    PRIMARY KEY (id)\n" +
+                "    ID NUMBER AUTO_INCREMENT,\n" +
+                "    USERNAME VARCHAR(50) NOT NULL,\n" +
+                "    PASSWORD VARCHAR(50) NOT NULL,\n" +
+                "    NICKNAME VARCHAR(50) NOT NULL,\n" +
+                "    CONSTRAINT USER_PK PRIMARY KEY (ID)\n" +
                 ")";
     }
 
 
     private static String getCreateRecipesTableSQL(){
-        return "CREATE TABLE RECIPES(\n" +
+        return "CREATE TABLE RECIPES (\n" +
                 "    ID          NUMBER AUTO_INCREMENT,\n" +
                 "    NAME        VARCHAR(50)    NOT NULL,\n" +
                 "    CONTENTS    VARCHAR(10000) NOT NULL,\n" +
