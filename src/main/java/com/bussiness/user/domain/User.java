@@ -2,6 +2,7 @@ package com.bussiness.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -13,4 +14,12 @@ public class User {
     private String username;
     private String password;
     private String nickname;
+
+    public User(String username, String password, String nickname){
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+    }
+
+
 }
