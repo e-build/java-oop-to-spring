@@ -1,8 +1,8 @@
 package com.framework.utils;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 
 public class JsonUtils {
 
@@ -15,12 +15,12 @@ public class JsonUtils {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return null;
+        return StringUtils.EMPTY;
     }
 
-    public static Object deserialize(String jsonString, Class type) {
+    public static <T> T deserialize(String jsonString, Class type) {
         try {
-            return mapper.readValue(jsonString, type);
+            return (T)mapper.readValue(jsonString, type);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
