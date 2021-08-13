@@ -16,7 +16,10 @@ public class UserDao {
         PreparedStatement pstmt = null;
         Connection conn = ConnectionManager.getConnection();
         try {
-            pstmt = conn.prepareStatement("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES("+user.getUsername()+","+user.getPassword()+","+user.getNickname()+")");
+            pstmt = conn.prepareStatement("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES(?,?,?)");
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getNickname());
             int insertRowCnt = pstmt.executeUpdate();
             if (insertRowCnt == 1)
                 log.info("USER INSERT SUCCESS");
@@ -60,19 +63,28 @@ public class UserDao {
         return user;
     }
 
-    public User selectUserById(String id){
+    public User selectUserById(int id){
         Connection conn = ConnectionManager.getConnection();
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         User user = null;
         try {
-            stmt = conn.createStatement();
-            String query = "SELECT * FROM USERS WHERE ID = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            pstmt = conn.prepareStatement("SELECT * FROM USERS WHERE ID = ?");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
 
             while(rs.next())
                 user = createUserFromResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally{
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return user;
     }
