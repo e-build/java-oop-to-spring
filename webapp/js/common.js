@@ -1,14 +1,14 @@
 $(document).ready(function(){
     // nav login 분기 처리
-    $("#link-login").hide();
-    $("#link-logout").hide();
-    $("#link-recipe").hide();
-    if( getCookie("login") === "true" ){
-        $("#link-logout").show();
-        $("#link-recipe").show();
-    } else {
-        $("#link-login").show();
-    }
+    // $("#link-login").hide();
+    // $("#link-logout").hide();
+    // $("#link-recipe").hide();
+    // if( getCookie("login") === "true" ){
+    //     $("#link-logout").show();
+    //     $("#link-recipe").show();
+    // } else {
+    //     $("#link-login").show();
+    // }
 });
 
 document.addEventListener("DOMContentLoaded", function (event) {

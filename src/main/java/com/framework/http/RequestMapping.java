@@ -1,10 +1,7 @@
 package com.framework.http;
 
 import com.bussiness.home.HomePageController;
-import com.bussiness.recipe.controller.RecipeDetailApiController;
-import com.bussiness.recipe.controller.RecipeDetailPageController;
-import com.bussiness.recipe.controller.RecipeListApiController;
-import com.bussiness.recipe.controller.RecipeListPageController;
+import com.bussiness.recipe.controller.*;
 import com.bussiness.user.controller.*;
 import com.framework.http.constants.HttpMethod;
 import com.google.common.collect.Maps;
@@ -22,6 +19,7 @@ public class RequestMapping {
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/register"), new UserRegistPageController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/list"), new RecipeListPageController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/detail"), new RecipeDetailPageController());
+        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/form"), new RecipeFormPageController());
 
         // API
         controllers.put(HandlerKey.of(HttpMethod.POST, "/api/user/register"), new UserRegistApiController());
