@@ -23,4 +23,7 @@ public class HttpSessions {
         return sessions.containsKey(id);
     }
 
+    public static Map<String, HttpSession> getSessions(){
+        return sessions;
+    }
 }
