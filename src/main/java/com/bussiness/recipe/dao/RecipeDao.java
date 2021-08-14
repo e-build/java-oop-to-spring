@@ -2,11 +2,10 @@ package com.bussiness.recipe.dao;
 
 import com.bussiness.recipe.domain.Recipe;
 import com.framework.core.db.ConnectionManager;
+import com.framework.utils.DateUtils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,10 +73,10 @@ public class RecipeDao {
             pstmt.setString(1, recipe.getName());
             pstmt.setString(2, recipe.getContents());
             pstmt.setString(3, recipe.getCategory());
-            pstmt.setTimestamp(4, recipe.getCreatedAt());
-            pstmt.setInt(5, recipe.getCreatedBy());
-            pstmt.setTimestamp(6, recipe.getUpdateAt());
-            pstmt.setInt(7, recipe.getUpdateBy());
+            pstmt.setInt(4, recipe.getCreatedBy());
+            pstmt.setTimestamp(5, DateUtils.LDTToTimestamp(recipe.getCreatedAt()));
+            pstmt.setInt(6, recipe.getUpdateBy());
+            pstmt.setTimestamp(7, DateUtils.LDTToTimestamp(recipe.getUpdateAt()));
 
             int insertCount = pstmt.executeUpdate();
             if (insertCount == 1)
@@ -105,10 +104,9 @@ public class RecipeDao {
         recipe.setContents(rs.getString(3));
         recipe.setCategory(rs.getString(4));
         recipe.setCreatedBy(rs.getInt(5));
-        recipe.setCreatedAt(rs.getTimestamp(6));
+        recipe.setCreatedAt(DateUtils.TimestampToLDT(rs.getTimestamp(6)));
         recipe.setUpdateBy(rs.getInt(7));
-        recipe.setUpdateAt(rs.getTimestamp(8));
-
+        recipe.setUpdateAt(DateUtils.TimestampToLDT(rs.getTimestamp(8)));
         return recipe;
     }
 

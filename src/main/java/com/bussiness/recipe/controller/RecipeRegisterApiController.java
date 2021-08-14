@@ -6,13 +6,13 @@ import com.bussiness.user.domain.User;
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;
+import com.framework.utils.DateUtils;
 import com.framework.utils.JsonUtils;
+import com.google.common.collect.Maps;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Map;
 
-public class RecipeFormApiController implements Controller {
+public class RecipeRegisterApiController implements Controller {
 
     private final RecipeDao recipeDao = new RecipeDao();
 
@@ -25,14 +25,13 @@ public class RecipeFormApiController implements Controller {
         recipe.setName(params.get("name"));
         recipe.setContents(params.get("contents"));
         recipe.setCategory(params.get("category"));
-        recipe.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        recipe.setCreatedBy(user.getId());
-        recipe.setUpdateAt(Timestamp.valueOf(LocalDateTime.now()));
-        recipe.setUpdateBy(user.getId());
+        recipe.setCreatedAt(DateUtils.currentDateTime());
+//        recipe.setCreatedBy(user.getId());
+        recipe.setUpdateAt(DateUtils.currentDateTime());
+//        recipe.setUpdateBy(user.getId());
 
-        String result = "false";
-        if (recipeDao.insertOne(recipe))
-            result = "true";
-        response.responseBody("{'result':'" + result + "'}");
+        Map<String, Object> bodyMap = Maps.newHashMap();
+        bodyMap.put("result", recipeDao.insertOne(recipe));
+        response.responseBody(bodyMap);
     }
 }

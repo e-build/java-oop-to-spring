@@ -47,19 +47,19 @@
 <div class="section-container">
     <!-- Add your site or app content here -->
     <div class="container">
-        <div class="row">
+        <div class="row recipe-form">
             <div class="col-xs-12 col-md-12">
                 <div class="template-example">
-                    <u><h1 class="template-title-example text-center" id="recipe-form">레시피 등록 폼</h1></u>
+                    <u><h1 class="template-title-example text-center">레시피 등록 폼</h1></u>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="name">레시피 제목</label>
-                        <input class="form-control" id="name" name="name" placeholder="레시피 이름이 무엇인가요?"/>
+                        <input class="form-control" id="name" name="recipe-input-name" placeholder="레시피 이름이 무엇인가요?"/>
                     </div>
                     <div class="form-group">
                         <label for="category">레시피 카테고리</label>
-                        <select class="form-control" id="category" name="category">
+                        <select class="form-control" id="category" name="recipe-input-category">
                             <option>한식</option>
                             <option>양식</option>
                             <option>중식</option>
@@ -67,10 +67,10 @@
                     </div>
                     <div class="form-group">
                         <label for="contents">레시피 상세</label>
-                        <textarea class="form-control" id="contents" name="contents" rows="10" placeholder="레시피를 상세하게 작성해주세요!"></textarea>
+                        <textarea class="form-control" id="contents" name="recipe-input-contents" rows="10" placeholder="레시피를 상세하게 작성해주세요!"></textarea>
                     </div>
                     <div class="form-group">
-                        <button class="form-control btn btn-success">등록하기</button>
+                        <button id="btn-register" class="form-control btn btn-success">등록하기</button>
                     </div>
                 </div>
             </div>
@@ -78,5 +78,33 @@
     </div>
 
 </div>
+<script>
+    $(function(){
+        $("#btn-register").on("click", function(){
+            var inputElements = $("[name^='recipe-input-']");
+            var data = {}
+            $.each(inputElements, function(idx, element){
+                data[element.id] = element.value;
+            })
+
+            $.ajax({
+                url: "/api/recipe/register",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function(data, statusCode){
+                    if (data.result){
+                        alert("레시피 등록이 성공하였습니다.")
+                        location.href = "/recipe/list";
+                    }
+                },
+                error: function(e){
+                    console.log(e);
+                }
+
+            })
+        })
+    })
+</script>
 </body>
 </html>
