@@ -15,7 +15,7 @@ public class Recipe {
     private String contents;
     private String category;
     private int createdBy;
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
     private int updateBy;
-    private Timestamp updateAt;
+    private LocalDateTime updateAt;
 }
