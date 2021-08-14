@@ -92,8 +92,8 @@
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
-                success: function(data, statusCode){
-                    if (data.result){
+                success: function(response, statusCode){
+                    if (response.result){
                         alert("레시피 등록이 성공하였습니다.")
                         location.href = "/recipe/list";
                     }
