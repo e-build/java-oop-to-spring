@@ -1,15 +1,13 @@
 package com.framework.http;
 
+import com.framework.utils.JsonUtils;
 import com.framework.utils.WebAppUtils;
 import com.google.common.collect.Maps;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
@@ -24,7 +22,7 @@ public class HttpResponse {
     private byte[] body;
     @Setter private int statusCode;
 
-    public HttpResponse(OutputStream out){
+    public HttpResponse(OutputStream out) {
         this.dos = new DataOutputStream(out);
         this.headers = Maps.newHashMap();
         this.statusCode = 200;
@@ -79,11 +77,11 @@ public class HttpResponse {
     }
 
     public void forwardResource(String path) {
-        try{
+        try {
             File resourceFile = new File(WebAppUtils.WEBAPP_ROOT_PATH + path);
-            if ( resourceFile.exists() )
+            if (resourceFile.exists())
                 this.body = Files.readAllBytes(resourceFile.toPath());
-        } catch(IOException e){
+        } catch (IOException e) {
             log.error(e.getMessage());
             // TODO: body에 에러 페이지 전달 처리
             this.body = "404".getBytes(StandardCharsets.UTF_8);
@@ -91,13 +89,10 @@ public class HttpResponse {
         responseflush();
     }
 
-    public void responseBody(String body){
-        this.body = body.getBytes(StandardCharsets.UTF_8);
-        responseflush();
-    }
-
-    public void responseBody(byte[] body){
-        this.body = body;
+    public void responseBody(Object obj){
+        String jsonString = JsonUtils.serialize(obj);
+        body = jsonString.getBytes(StandardCharsets.UTF_8);
+        addHeader("Content-Type", "application/json;charset=UTF-8");
         responseflush();
     }
 
@@ -105,6 +100,8 @@ public class HttpResponse {
         this.headers.put(key, value);
     }
 
-    public void addCookie(String key, String value){ this.cookies.addCookie(key, value); }
+    public void addCookie(String key, String value){
+        this.cookies.addCookie(key, value);
+    }
 
 }
