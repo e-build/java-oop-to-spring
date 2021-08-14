@@ -17,6 +17,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
     navActivePage();
 });
 
+function getParams(){
+    return Object.fromEntries(new URLSearchParams(window.location.search).entries());
+}
+
+function getParam(key){
+    return Object.fromEntries(new URLSearchParams(window.location.search).entries())[key];
+}
+
 function goHome(){
     location.href = "/";
 }

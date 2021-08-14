@@ -71,7 +71,7 @@
                     <i><h4 class="template-title-example text-center">댓글</h4></i>
                     <div class="comment-area">
                         <div class="form-group">
-                            <label for="comment_1">recipe-contents</label>
+                            <label for="comment_1">누구</label>
                             <input class="form-control" id="comment_1" disabled/>
                         </div>
                     </div>
@@ -81,4 +81,28 @@
     </div>
 </div>
 </body>
+<script>
+    $(function(){
+        loadRecipe();
+    })
+    function loadRecipe(){
+        $.ajax({
+            url: "/api/recipe/detail?id=" + getParam("id"),
+            method: "GET",
+            // contentType: "application/json",
+            // data: JSON.stringify(data),
+            success: function(response, statusCode) {
+                $("#recipe-name").text(response.name);
+                $("#recipe-category").text(response.category);
+                $("#recipe-createdBy").text(response.createdBy);
+                $("#recipe-createdAt").text(response.createdAt);
+                $("#recipe-contents").val(response.contents);
+            },
+            error: function(e){
+                console.log(e);
+            }
+
+        })
+    }
+</script>
 </html>
