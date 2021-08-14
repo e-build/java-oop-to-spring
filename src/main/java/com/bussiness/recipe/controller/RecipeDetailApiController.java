@@ -4,7 +4,6 @@ import com.bussiness.recipe.dao.RecipeDao;
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;
-import com.framework.utils.JsonUtils;
 
 public class RecipeDetailApiController implements Controller {
 
@@ -13,6 +12,6 @@ public class RecipeDetailApiController implements Controller {
     @Override
     public void service(HttpRequest request, HttpResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        response.responseBody(JsonUtils.serialize(recipeDao.selectRecipeById(id)));
+        response.responseBody(recipeDao.selectRecipeById(id));
     }
 }
