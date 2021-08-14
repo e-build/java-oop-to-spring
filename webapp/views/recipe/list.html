@@ -83,17 +83,13 @@
                             <tr>
                                 <th class="text-center">번호</th>
                                 <th class="text-center">레시피 이름</th>
+                                <th class="text-center">카테고리</th>
                                 <th class="text-center">작성자</th>
                                 <th class="text-center">수정시간</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>ALL</td>
-                                <td>ALL</td>
-                                <td>ALL</td>
-                                <td>ALL</td>
-                            </tr>
+                            <tbody id="recipe-list">
+
                             </tbody>
                         </table>
                     </div>
@@ -103,4 +99,34 @@
     </div>
 </div>
 </body>
+<script>
+    $(function(){
+        loadRecipeList();
+    })
+
+    function loadRecipeList(){
+        $.ajax({
+            url: "/api/recipe/list",
+            method: "GET",
+            contentType: "application/json",
+            // data: JSON.stringify(data),
+            success: function(response, statusCode){
+                $.each(response, function(idx, row){
+                    var rowToAdd = "<tr class='text-center'>\n" +
+                        "<td>" + row.id + "</td>\n" +
+                        "<td><a href='/recipe/detail?id="+row.id+"'>" + row.name + "</a></td>\n" +
+                        "<td>" + row.category + "</td>\n" +
+                        "<td>" + row.createdBy + "</td>\n" +
+                        "<td>" + row.updateAt + "</td>\n" +
+                        "</tr>"
+                    $("#recipe-list").append(rowToAdd);
+                });
+            },
+            error: function(e){
+                console.log(e);
+            }
+
+        })
+    }
+</script>
 </html>
