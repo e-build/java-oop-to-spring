@@ -1,10 +1,13 @@
 package com.framework.web.server;
 
+import com.framework.core.db.ConnectionManager;
+import org.h2.engine.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
 
 public class WebServer {
 
@@ -19,8 +22,11 @@ public class WebServer {
             port = Integer.parseInt(args[0]);
 
         // 서버소켓을 생성한다. 웹서버는 기본적으로 8080번 포트를 사용한다.
-        try (ServerSocket listenSocket = new ServerSocket(port)) {
+        try (ServerSocket listenSocket = new ServerSocket(port);){
             logger.info("Web Application Server started {} port.", port);
+
+            // 데이터 베이스 초기화 (테이블 생성)
+            ConnectionManager.executeInitialScript();
 
             // 클라이언트 대기
             Socket connection;

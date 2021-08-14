@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class HttpRequest {
@@ -16,12 +18,12 @@ public class HttpRequest {
     private final BufferedReader br;
     private final RequestLine requestLine;
     private final Map<String,String> headers;
-    private final Map<String,String> cookies;
+    private final HttpCookies cookies;
     private final Map<String,String> parameters;
     private final String requestBody;
 
     public HttpRequest(InputStream in) throws IOException {
-        this.br = new BufferedReader(new InputStreamReader(in));
+        this.br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         // Request Line 추출
         String requestLineString = this.br.readLine();
         String[] requestLine = requestLineString.split(" ");
@@ -46,14 +48,14 @@ public class HttpRequest {
         }
 
         // Cookie 추출
-        this.cookies = parseCookie(this.headers.get("Cookie"));
+        this.cookies = new HttpCookies(this.headers.get("Cookie"));
 
         // Body 추출
         String contentLength = this.headers.get("Content-Length");
         String requestBody = null;
         if ( contentLength != null)
             requestBody = IOUtils.readData(this.br, Integer.parseInt(contentLength));
-        this.requestBody = requestBody;
+        this.requestBody = requestBody != null ? URLDecoder.decode(requestBody): null;
     }
 
     private boolean existsParam(String url){
@@ -68,16 +70,6 @@ public class HttpRequest {
     private Map<String, String> parseQueryString(String url){
         int idx = url.indexOf("?");
         return QueryStringUtils.toMap(url.substring(idx+1));
-    }
-
-    private Map<String, String> parseCookie(String cookieString){
-        Map<String, String> cookies = Maps.newHashMap();
-        String[] cookieArray = cookieString.split("; ");
-        for (String keyValue : cookieArray){
-            String[] keyValueArr = keyValue.split("=");
-            cookies.put(keyValueArr[0], keyValueArr[1]);
-        }
-        return cookies;
     }
 
     public String getMethod(){
@@ -105,11 +97,15 @@ public class HttpRequest {
     }
 
     public String getCookie(String key){
-        return this.cookies.get(key);
+        return this.cookies.getCookie(key);
     }
 
     public String getRequestBody(){
         return this.requestBody;
+    }
+
+    public HttpSession getSession(){
+        return HttpSessions.getSession(getCookie("JSESSIONID"));
     }
 
 

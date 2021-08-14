@@ -4,7 +4,11 @@ import java.io.*;
 import java.net.Socket;
 
 import com.framework.http.*;
+import com.framework.http.constants.HttpHeader;
+import com.framework.http.constants.HttpSession;
+import com.framework.utils.UUIDUtils;
 import com.framework.utils.WebAppUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,16 +28,20 @@ public class RequestHandler extends Thread {
             // 1. 요청, 응답 인스턴스 생성
             HttpRequest request = new HttpRequest(in);
             HttpResponse response = new HttpResponse(out);
-            log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
 
-            // 2. 공통으로 적용되는 응답 헤더 세팅
-            response.addHeader("Content-Type", parseContentType(request.getHeader("Accept"))+";charset=utf-8");
+            // 2. 응답 헤더 공통 세팅
+            response.addHeader(HttpHeader.CONTENT_TYPE.getValue(), parseContentType(request.getHeader(HttpHeader.ACCEPT.getValue()))+";charset=utf-8");
+//            if ( isLogin(request.getCookie("login")) )
+//                response.addCookie("login", "true");
+            if (request.getCookie(HttpSession.SESSION_IDENTIFIER.getValue()) == null)
+                response.addCookie(HttpSession.SESSION_IDENTIFIER.getValue(), UUIDUtils.newId());
 
             // 3. HTTP 요청에 해당하는 Controller 확인
             Controller controller = RequestMapping.getController(HandlerKey.of(request.getMethod(), request.getPath()));
 
             // 4. HTTP 요청 처리
             if (controller != null){
+                log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
                 // 4-1. Controller 로 작업 위임
                 controller.service(request, response);
             } else {
@@ -44,13 +52,25 @@ public class RequestHandler extends Thread {
                 else
                     response.responseBody("404");
             }
-
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
+    private boolean isLogin(String loginCookie){
+        log.info("loginCookie : {}", loginCookie);
+        if (StringUtils.isBlank(loginCookie))
+            return false;
+        return StringUtils.equals(loginCookie, "true");
+    }
+
+    private boolean isFirstConnect(String sessionCookie){
+        return StringUtils.isBlank(sessionCookie);
+    }
+
     private String parseContentType(String accept){
+        if (accept == null)
+            return "*/*";
         return accept.split(",")[0];
     }
 }

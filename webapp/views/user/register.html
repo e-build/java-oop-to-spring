@@ -47,10 +47,10 @@
 <div class="section-container">
     <div class="container">
         <div class="template-example">
-            <h1 class="template-title-example"><u>로그인</u></h1>
+            <h1 class="template-title-example"><u>회원가입</u></h1>
         </div>
         <div  id="register-form">
-            <form method="POST" action="/api/user/login">
+            <form method="POST" action="/api/user/register">
                 <div class="form-group">
                     <label for="username">ID</label>
                     <input class="form-control" type="email" name="username" id="username" placeholder="ex) honggildong@gmail.com"/>
@@ -60,12 +60,19 @@
                     <input class="form-control" type="password" name="password" id="password" placeholder="영문, 숫자 혼합 8자 이상 입력 해주세요."/>
                 </div>
                 <div class="form-group">
-                    <input class="form-control btn btn-warning" type="submit" value="로그인"/>
+                    <label for="password-check">PW CHECK</label>
+                    <input class="form-control" type="password" name="password-check" id="password-check" placeholder="패스워드를 한번 더 입력해주세요"/>
+                </div>
+                <div class="form-group">
+                    <label for="nickname">NICKNAME</label>
+                    <input class="form-control" type="text" name="nickname" id="nickname" placeholder="영문 5자 이상 입력해주세요."/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control btn btn-primary" type="submit" value="제출"/>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 </body>
 </html>

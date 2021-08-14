@@ -2,17 +2,14 @@ package com.framework.http.constants;
 
 import lombok.Getter;
 
-public enum HttpHeader {
+public enum HttpSession {
 
-    CONTENT_TYPE("Content-Type"),
-    ACCEPT("Accept");
+    SESSION_IDENTIFIER("JSESSIONID");
 
     @Getter
     private final String value;
 
-    HttpHeader(String value){
+    HttpSession(String value){
         this.value = value;
     }
-
-
 }

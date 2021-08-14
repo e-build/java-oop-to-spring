@@ -8,6 +8,6 @@ public class UserRegistPageController implements Controller {
 
     @Override
     public void service(HttpRequest request, HttpResponse response) {
-        response.forward("/user/login");
+        response.forward("/user/register");
     }
 }

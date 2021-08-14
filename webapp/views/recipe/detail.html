@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>석
+    <meta charset="UTF-8">
+    <title>JOS</title>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <script src="../../js/common.js"></script>
+    <script src="../../js/main.js"></script>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-fixed-top navbar-default">
+        <div class="container">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <nav class="navbar-fullscreen" id="navbar-middle">
+                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <ul class="navbar-fullscreen-links">
+                    <li id="link-home"><a href="/" title="HOME">HOME</a></li>
+                    <li id="link-login"><a href="/user/login" title="LOGIN">LOGIN</a></li>
+                    <li id="link-logout"><a href="/user/logout" title="LOGOUT">LOGOUT</a></li>
+                    <li id="link-recipe"><a href="/recipe/list" title="RECIPE">RECIPE</a></li>
+                </ul>
+
+                <div class="footer-container">
+                    <p><small>© Recipe MoaMoa | Website created with E-build</small></p>
+                    <p class="footer-share-icons">
+                        <a href="https://github.com/e-build/java-oop-to-spring" class="fa-icon" title="java-oop-to-spring">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </a>
+                    </p>
+                </div>
+            </nav>
+        </div>
+    </nav>
+</header>
+
+<div class="section-container">
+    <!-- Add your site or app content here -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="template-example">
+                    <u><h1 class="template-title-example text-center" id="recipe-name">recipe-name</h1></u>
+                    <div class="row">
+                        <h3 class="col-md-4 " id="recipe-category">recipe-category</h3>
+                        <h3 class="col-md-4 text-right" id="recipe-createdBy">recipe-createdBy</h3>
+                        <h3 class="col-md-4 text-right" id="recipe-createdAt">recipe-createdAt</h3>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="recipe-contents" disabled>recipe-contents</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="template-example">
+                    <i><h4 class="template-title-example text-center">댓글</h4></i>
+                    <div class="comment-area">
+                        <div class="form-group">
+                            <label for="comment_1">누구</label>
+                            <input class="form-control" id="comment_1" disabled/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+        loadRecipe();
+    })
+    function loadRecipe(){
+        $.ajax({
+            url: "/api/recipe/detail?id=" + getParam("id"),
+            method: "GET",
+            // contentType: "application/json",
+            // data: JSON.stringify(data),
+            success: function(response, statusCode) {
+                $("#recipe-name").text(response.name);
+                $("#recipe-category").text(response.category);
+                $("#recipe-createdBy").text(response.createdBy);
+                $("#recipe-createdAt").text(response.createdAt);
+                $("#recipe-contents").val(response.contents);
+            },
+            error: function(e){
+                console.log(e);
+            }
+
+        })
+    }
+</script>
+</html>
