@@ -1,0 +1,24 @@
+<application>
+  <component name="FileTypeManager" version="18">
+    <extensionMap>
+      <mapping pattern="get-without-param" type="AUTO_DETECTED" />
+      <mapping pattern="current-stage-ingress" type="AUTO_DETECTED" />
+      <mapping pattern="current-real-ingress" type="AUTO_DETECTED" />
+      <mapping pattern="internal-auth-mongodb-keyfile" type="AUTO_DETECTED" />
+      <mapping pattern="init-log" type="AUTO_DETECTED" />
+      <mapping pattern="DockerfileTest" type="AUTO_DETECTED" />
+      <mapping pattern="MongoSetupDockerFile" type="AUTO_DETECTED" />
+      <mapping ext="ng" type="HTML" />
+      <mapping ext="space.kts" type="Kotlin" />
+      <mapping ext="gradle.kts" type="Kotlin" />
+      <mapping ext="main.kts" type="Kotlin" />
+      <mapping pattern="Dockerfile-dev" type="PLAIN_TEXT" />
+      <mapping pattern=".env" type="PLAIN_TEXT" />
+      <mapping ext="2021-02-20t07-57-38z-00000" type="PLAIN_TEXT" />
+      <mapping ext="conf-bak" type="PLAIN_TEXT" />
+      <mapping ext="lst" type="PLAIN_TEXT" />
+      <removed_mapping ext="apk" approved="true" type="ARCHIVE" />
+      <removed_mapping ext="psd" approved="true" type="Image" />
+    </extensionMap>
+  </component>
+</application>
