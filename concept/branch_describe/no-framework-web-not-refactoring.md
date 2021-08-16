@@ -32,48 +32,47 @@
 
 ***7. HttpSession 구현하여 로그인 완성하기***
 - 서블릿의 HttpSession API 중 몇가지 메서드를 직접 구현해볼 것
-  > 메서드
-  > > `String getId()`
-  > > 현재 세션에 할당되어 있는 고유한 세션 아이디를 반환
-  > > `void setAttribute(String name, Obejct value)`
-  > > 현재 세션에 value 인자로 전달되는 객체를 name 인자 이름으로 저장
-  > > `Object getAttribete(String name)`
-  > > 현재 세션에 name인자로 저장되어 있는 객체의 값을 반환
-  > > `void removeAttribete(String name)`
-  > > 현재 세션에 name인자로 저장되어 있는 객체의 값을 삭제
-  > > `void invalidate()`
-  > > 현재 세션에 저장되어 있는 모든 값을 삭제
+  - `String getId()` : 
+    현재 세션에 할당되어 있는 고유한 세션 아이디를 반환
+  - `void setAttribute(String name, Obejct value)` : 
+    현재 세션에 value 인자로 전달되는 객체를 name 인자 이름으로 저장
+  - `Object getAttribete(String name)` : 
+    현재 세션에 name인자로 저장되어 있는 객체의 값을 반환
+  - `void removeAttribete(String name)` : 
+    현재 세션에 name인자로 저장되어 있는 객체의 값을 삭제
+  - `void invalidate()` : 
+    현재 세션에 저장되어 있는 모든 값을 삭제
 - 쿠키와 세션을 활용하여 로그인 기능 완성하기
-  - 세션은 클라이언트와 서버 간에 상태 값을 공유하기 위해 고유한 아이디를 활용하고, 이 고유한 아이디는 쿠키를 활용해 공유한다.
+  - 세션은 클라이언트와 서버 간에 상태 값을 공유하기 위해 고유한 아이디를 활용하고, 이 고유한 아이디는 쿠키를 통해 공유한다.
   1. 고유한 아이디 생성
      - UUID 활용
   2. 쿠키를 활용해 아이디 전달
   3. 모든 클라이언트의 세션 데이터에 대한 저장소 추가
      서버는 다수의 클라이언트 세션을 지원해야 한다. 
      따라서 모든 클라이언트의 세션을 관리할 수 있는 저장소가 필요하다. 
-     이 저장고는 모든 세션을 매번 생성하는 것이 아니라 한번 생ㅎ성한 후 재사용 할 수 있어야 한다.
-```java
-public class HttpSessions{
-  private static Map<String, HttpSession> sessions = new HashMap<String, HttpSession>();
-  public static HttpSession getSession(String id){
-      ... 
+     이 저장고는 모든 세션을 매번 생성하는 것이 아니라 한번 생성한 후 재사용 할 수 있어야 한다.
+    ```java
+    public class HttpSessions{
+      private static Map<String, HttpSession> sessions = new HashMap<String, HttpSession>();
+      public static HttpSession getSession(String id){
+          ... 
+        }
     }
-}
-```
-4. 클라이언트별 세션 저장소 추가
-   - HttpRequest 에서 클라이언트에 해당하는 HttpSession에 접근 할 수 있도록 메서드 추가
-```java
-public class HttpRequest {
-    [...]
-  public HttpSession getSession() {
-        ...
-  }
-}
-```
+    ```
+  4. 클라이언트별 세션 저장소 추가
+     - HttpRequest 에서 클라이언트에 해당하는 HttpSession에 접근 할 수 있도록 메서드 추가
+    ```java
+    public class HttpRequest {
+        [...]
+      public HttpSession getSession() {
+            ...
+      }
+    }
+    ```
 
 ***8. 데이터베이스 연결하여 저장하기***
 - 필요한 의존성 추가
-- JDBC 인터페이스를 사용하여 H2 디비 커넥션.
+- JDBC API를 사용하여 H2 디비 커넥션.
 - JDBC 로 User, Recipe 관련 비즈니스 로직의 데이터 퍼시스턴스 수행
   - 회원가입, 로그인, 로그아웃, 레시피 CRUD
 
