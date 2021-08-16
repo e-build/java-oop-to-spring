@@ -1,100 +1,41 @@
 package com.bussiness.recipe.dao;
 
 import com.bussiness.recipe.domain.Recipe;
-import com.framework.core.db.ConnectionManager;
+import com.framework.core.db.JdbcTemplate;
+import com.framework.core.db.PreparedStatementSetter;
 import com.framework.utils.DateUtils;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDao {
 
-    public Recipe selectRecipeById(int id){
-        Connection conn = ConnectionManager.getConnection();
-        PreparedStatement pstmt = null;
-        Recipe recipe = null;
-        try{
-            pstmt = conn.prepareStatement("SELECT * FROM RECIPES WHERE ID = ?");
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-            while ( rs.next() )
-                recipe = createRecipeFromResultSet(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null)
-                    pstmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return recipe;
+    public Recipe selectRecipeById(int id){
+        return jdbcTemplate.queryForObject("SELECT * FROM RECIPES WHERE ID = ?", this::createRecipeFromResultSet, id);
     }
 
     public List<Recipe> selectRecipeList(){
-        Connection conn = ConnectionManager.getConnection();
-        PreparedStatement pstmt = null;
-        List<Recipe> recipeList = new ArrayList<Recipe>();
-        try{
-            pstmt = conn.prepareStatement("SELECT * FROM RECIPES");
-            ResultSet rs = pstmt.executeQuery();
-
-            while ( rs.next() )
-                recipeList.add(createRecipeFromResultSet(rs));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null)
-                    pstmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return recipeList;
+        return jdbcTemplate.query("SELECT * FROM RECIPES", this::createRecipeFromResultSet);
     }
 
-    public boolean insertOne(Recipe recipe){
-        Connection conn = ConnectionManager.getConnection();
-        PreparedStatement pstmt = null;
-        boolean result = false;
+    public int insertOne(Recipe recipe){
         String sql = "INSERT INTO RECIPES (NAME, CONTENTS, CATEGORY, CREATED_BY, CREATED_AT, UPDATED_BY, UPDATED_AT) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?)";
-        try{
-            pstmt = conn.prepareStatement(sql );
-            pstmt.setString(1, recipe.getName());
-            pstmt.setString(2, recipe.getContents());
-            pstmt.setString(3, recipe.getCategory());
-            pstmt.setInt(4, recipe.getCreatedBy());
-            pstmt.setTimestamp(5, DateUtils.LDTToTimestamp(recipe.getCreatedAt()));
-            pstmt.setInt(6, recipe.getUpdateBy());
-            pstmt.setTimestamp(7, DateUtils.LDTToTimestamp(recipe.getUpdateAt()));
-
-            int insertCount = pstmt.executeUpdate();
-            if (insertCount == 1)
-                result = true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null)
-                    pstmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                "VALUES(?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatementSetter pss = new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement pstmt) throws SQLException {
+                pstmt.setString(1, recipe.getName());
+                pstmt.setString(2, recipe.getContents());
+                pstmt.setString(3, recipe.getCategory());
+                pstmt.setInt(4, recipe.getCreatedBy());
+                pstmt.setTimestamp(5, DateUtils.LDTToTimestamp(recipe.getCreatedAt()));
+                pstmt.setInt(6, recipe.getUpdateBy());
+                pstmt.setTimestamp(7, DateUtils.LDTToTimestamp(recipe.getUpdateAt()));
             }
-        }
-        return result;
+        };
+        return jdbcTemplate.update(sql, pss);
     }
 
     private Recipe createRecipeFromResultSet(ResultSet rs) throws SQLException {
