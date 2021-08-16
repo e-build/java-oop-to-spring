@@ -39,11 +39,13 @@ public class ConnectionManager {
         try{
             conn = getConnection();
             stmt = conn.createStatement();
+
             stmt.executeUpdate("DROP TABLE IF EXISTS USERS");
             stmt.executeUpdate("DROP TABLE IF EXISTS RECIPES");
+
             stmt.executeUpdate(getCreateUsersTableSQL());
             stmt.executeUpdate(getCreateRecipesTableSQL());
-//            pstmt = conn.prepareStatement("INSERT INTO USERS VALUES('1', 'e-build@gmail.com', '1234qwer', 'e-build')");
+
             int insertRowCnt = 0;
             pstmt = conn.prepareStatement("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES('e-build@gmail.com', '1234qwer', 'e-build')");
             insertRowCnt += pstmt.executeUpdate();
