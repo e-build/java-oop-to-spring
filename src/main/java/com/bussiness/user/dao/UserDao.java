@@ -1,7 +1,9 @@
 package com.bussiness.user.dao;
 
 import com.bussiness.user.domain.User;
-import com.framework.core.db.ConnectionManager;
+import com.framework.core.db.JdbcTemplate;
+import com.framework.core.db.PreparedStatementSetter;
+import com.framework.core.db.RowMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,82 +13,31 @@ import java.sql.*;
 public class UserDao {
 
     Logger log = LoggerFactory.getLogger(UserDao.class);
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
     public void insertUser(User user){
-        PreparedStatement pstmt = null;
-        Connection conn = ConnectionManager.getConnection();
-        try {
-            pstmt = conn.prepareStatement("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES(?,?,?)");
+        PreparedStatementSetter pss = pstmt -> {
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getNickname());
-            int insertRowCnt = pstmt.executeUpdate();
-            if (insertRowCnt == 1)
-                log.info("USER INSERT SUCCESS");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null)
-                    pstmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        };
+        jdbcTemplate.update("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES(?,?,?)", pss);
     }
 
     public User selectUserByUsername(String username){
-        Connection conn = ConnectionManager.getConnection();
-        PreparedStatement pstmt = null;
-        User user = null;
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ?");
+        PreparedStatementSetter pss = pstmt -> {
             pstmt.setString(1, username);
-            ResultSet rs = pstmt.executeQuery();
-
-            while(rs.next())
-                user = createUserFromResultSet(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null)
-                    pstmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return user;
+        };
+        RowMapper<User> rowMapper = this::createUserFromResultSet;
+        return jdbcTemplate.queryForObject("SELECT * FROM USERS WHERE USERNAME = ?", pss, rowMapper);
     }
 
     public User selectUserById(int id){
-        Connection conn = ConnectionManager.getConnection();
-        PreparedStatement pstmt = null;
-        User user = null;
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM USERS WHERE ID = ?");
+        PreparedStatementSetter pss = pstmt -> {
             pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            while(rs.next())
-                user = createUserFromResultSet(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try {
-                if (pstmt != null)
-                    pstmt.close();
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return user;
+        };
+        RowMapper<User> rowMapper = this::createUserFromResultSet;
+        return jdbcTemplate.queryForObject("SELECT * FROM USERS WHERE ID = ?", pss, rowMapper);
     }
 
     private User createUserFromResultSet(ResultSet rs) throws SQLException {
