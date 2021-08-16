@@ -26,7 +26,7 @@ public class UserLoginApiController implements Controller {
             log.info("LOGIN SUCCESS");
             response.sendRedirect("/");
         } else {
-            response.sendRedirect("/user/login");
+            response.sendRedirect("/user/login?logined=false");
         }
     }
 
