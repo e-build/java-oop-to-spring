@@ -24,9 +24,9 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 개념을 설명하는 `concept` 디렉토리와 자바 소스코드로 구성되어 있습니다. 하나의 저장소에서 <i>**개념에 대한 학습**</i>과 <i>**실제 적용이 어떻게 이루어지는 지**</i> 보다 간편하게 파악할 수 있도록 
 구성하고자 하였습니다.
 모든 브런치는 가장 최신으로 정리된 `concept` 디렉토리가 유지되고, 소스코드를 기준으로 다음과 같이 브런치를 구분하였습니다.
-- [no-framework-web-refactoring](https://github.com/e-build/java-oop-to-spring/blob/no-framework-web-refactoring/concept/branch_describe/no-framework-not-refactoring.md) : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
-- [no-framework-web-refactoring-01-web](https://github.com/e-build/java-oop-to-spring/blob/no-framework-web-refactoring/concept/branch_describe/no-framework-web-refactoring-01-web.md) : no-framework-not-refactoring 브런치의 웹 요청 처리 로직 리팩토링
-- [no-framework-web-refactoring-02-data-access](https://github.com/e-build/java-oop-to-spring/blob/no-framework-web-refactoring/concept/branch_describe/no-framework-web-refactoring-02-data-access.md) : Data Access 로직 리팩토링 
+- [no-framework-web-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-not-refactoring.md) : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
+- [no-framework-web-refactoring-01-web](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-web-refactoring-01-web.md) : no-framework-not-refactoring 브런치의 웹 요청 처리 로직 리팩토링
+- [no-framework-web-refactoring-02-data-access](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-refactoring-02-data-access.md) : Data Access 로직 리팩토링 
 - di-framework-not-refactoring : no-framework 에 DI 컨테이너를 직접 구현 
 - di-framework-refactoring : di-framework-not-refactoring 브런치 리팩토링
 
