@@ -3,6 +3,7 @@ package com.framework.utils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +27,12 @@ public class QueryStringUtils {
             returnList.add(kv.getValue());
         }
         return returnList;
+    }
+
+    public static String toString(Map<String, String> queryStringMap){
+        List<String> builder = new ArrayList<String>();
+        for (String key : queryStringMap.keySet())
+            builder.add( key + "=" + queryStringMap.get(key) );
+        return String.join("&", builder);
     }
 }

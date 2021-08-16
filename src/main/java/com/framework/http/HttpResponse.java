@@ -1,6 +1,8 @@
 package com.framework.http;
 
+import com.framework.http.constants.ContentsType;
 import com.framework.utils.JsonUtils;
+import com.framework.utils.QueryStringUtils;
 import com.framework.utils.WebAppUtils;
 import com.google.common.collect.Maps;
 import lombok.Setter;
@@ -92,7 +94,13 @@ public class HttpResponse {
     public void responseBody(Object obj){
         String jsonString = JsonUtils.serialize(obj);
         body = jsonString.getBytes(StandardCharsets.UTF_8);
-        addHeader("Content-Type", "application/json;charset=UTF-8");
+        addHeader("Content-Type", ContentsType.APPLICATION_JSON.toString());
+        responseflush();
+    }
+
+    public void responseBodyQueryString(Map<String, String> queryStringMap){
+        body = QueryStringUtils.toString(queryStringMap).getBytes(StandardCharsets.UTF_8);
+        addHeader("Content-Type", ContentsType.APPLICATION_FORM_URLENCODED.toString());
         responseflush();
     }
 

@@ -105,8 +105,7 @@ public class HttpRequest {
     }
 
     public HttpSession getSession(){
-        return HttpSessions.getSession(getCookie("JSESSIONID"));
+        return HttpSessions.getSession(getCookie(com.framework.http.constants.HttpSession.SESSION_IDENTIFIER.getValue()));
     }
-
 
 }
