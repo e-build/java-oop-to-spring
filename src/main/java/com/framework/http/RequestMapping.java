@@ -24,7 +24,8 @@ public class RequestMapping {
         // API
         controllers.put(HandlerKey.of(HttpMethod.POST, "/api/user/register"), new UserRegistApiController());
         controllers.put(HandlerKey.of(HttpMethod.POST, "/api/user/login"), new UserLoginApiController());
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/user/logout"), new UserLogoutApiController());
+        controllers.put(HandlerKey.of(HttpMethod.GET, "/user/logout"), new UserLogoutController());
+        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/user/login/check"), new UserLoginCheckApiController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/api/recipe/list"), new RecipeListApiController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/api/recipe/detail"), new RecipeDetailApiController());
         controllers.put(HandlerKey.of(HttpMethod.POST, "/api/recipe/register"), new RecipeRegisterApiController());
