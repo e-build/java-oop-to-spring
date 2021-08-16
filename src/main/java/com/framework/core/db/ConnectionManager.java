@@ -54,7 +54,7 @@ public class ConnectionManager {
             pstmt = conn.prepareStatement("INSERT INTO RECIPES(NAME, CONTENTS, CATEGORY, CREATED_BY, CREATED_AT, UPDATED_BY, UPDATED_AT) VALUES('봉골레 파스타', '저만 아는 이태원 한적한 골목의 맛있는 파스타 전문점 레시피를 소개합니다! ', '양식', 1, '2021-08-15 07:01:17', 1, '2021-08-15 07:01:17')");
             insertRowCnt += pstmt.executeUpdate();
             pstmt = conn.prepareStatement("INSERT INTO RECIPES(NAME, CONTENTS, CATEGORY, CREATED_BY, CREATED_AT, UPDATED_BY, UPDATED_AT) VALUES('굴 자장면', '왜 굴은 짬뽕에만 넣는다고 생각하세요? 자장면과 굴의 환상적인 조합을 소개해드립니다!', '한식', 1, '2021-08-14 07:01:17', 1, '2021-08-14 07:01:17')");
-            insertRowCnt += pstmt.executeUpdate();
+            insertRowCnt +=  pstmt.executeUpdate();
 
             if (insertRowCnt == 4)
                 System.out.println("DATABASE INIT SUCCESS");
