@@ -31,7 +31,7 @@ public class JdbcTemplate {
         List<T> resultList = new ArrayList<>();
         try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             for ( int i = 0; i < params.length ; i++ )
-                pstmt.setObject(i, params[i]);
+                pstmt.setObject(i+1, params[i]);
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next())
