@@ -37,24 +37,20 @@ public class RequestHandler extends Thread {
                 response.addCookie(HttpSession.SESSION_IDENTIFIER.getValue(), UUIDUtils.newId());
 
             // 3. HTTP 요청에 해당하는 Controller 확인
-            Controller controller = RequestMapping.getController(request.getMethod(), request.getPath());
-
-            HandlerExecution handler = AnnotationHandlerMapping.getHandler(request);
-            if ( handler != null )
-                handler.handle(request, response);
-
-            // 4. HTTP 요청 처리
-            if (controller != null){
-                log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
-                // 4-1. Controller 로 작업 위임
-                controller.service(request, response);
-            } else {
-                // 4-2. 정적자원 포워딩
+            Object handler = getHandler(request);
+            if (handler == null){
+                // 4-1. 자원 처리
                 if ( WebAppUtils.existsResourceFile(request.getPath()) )
                     response.forwardResource(request.getPath());
-                // 4-3. HTTP 요청에 해당하는 자원 X
                 else
                     response.responseBody("404");
+            } else {
+                // 4-2. HTTP 요청 처리
+                log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
+                if ( handler instanceof Controller )
+                    ((Controller) handler).service(request, response);
+                else
+                    ((HandlerExecution) handler).handle(request, response);
             }
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -76,5 +72,15 @@ public class RequestHandler extends Thread {
         if (accept == null)
             return "*/*";
         return accept.split(",")[0];
+    }
+
+    private Object getHandler(HttpRequest request){
+        HandlerExecution handler = AnnotationHandlerMapping.getHandler(request);
+        if (handler != null)
+            return handler;
+        Controller controller = LegacyRequestMapping.getController(request.getMethod(), request.getPath());
+        if ( controller != null)
+            return controller;
+        return null;
     }
 }

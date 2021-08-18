@@ -8,7 +8,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public class RequestMapping {
+public class LegacyRequestMapping {
 
     private static final Map<HandlerKey, Controller> controllers = Maps.newHashMap();
 
