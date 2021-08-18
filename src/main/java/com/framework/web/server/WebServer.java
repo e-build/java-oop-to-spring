@@ -48,7 +48,7 @@ public class WebServer {
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
                 // Request 당 하나의 스레드 할당
-                Thread thread = new Thread(new RequestHandler(connection));
+                Thread thread = new Thread(new DispatchRequest(connection));
                 thread.start();
             }
         }

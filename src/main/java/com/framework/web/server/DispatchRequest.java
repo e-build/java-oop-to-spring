@@ -15,12 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RequestHandler extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+public class DispatchRequest extends Thread {
+    private static final Logger log = LoggerFactory.getLogger(DispatchRequest.class);
 
     private Socket connection;
 
-    public RequestHandler(Socket connectionSocket) {
+    public DispatchRequest(Socket connectionSocket) {
         this.connection = connectionSocket;
     }
 
