@@ -15,14 +15,14 @@ class AnnotationHandlerMappingTest {
     @BeforeEach
     public void setup() {
         handlerMapping = new AnnotationHandlerMapping("core.nmvc");
-//        handlerMapping.initialize();
+        handlerMapping.initialize();
 
         response = new MockHttpServletResponse();
     }
 
     @Test
     public void list() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/users");
+//        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/users");
 //        HandlerExecution execution = handlerMapping.getHandler(request);
 //        ModelAndView mav = execution.handle(request, response);
 //        mav.getView().render(mav.getModel(), request, response);
