@@ -2,7 +2,7 @@ package com.business.user.controller;
 
 import com.business.user.dao.UserDao;
 import com.business.user.domain.User;
-import com.framework.http.Controller;
+import com.framework.core.mvc.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;
 import com.framework.utils.QueryStringUtils;

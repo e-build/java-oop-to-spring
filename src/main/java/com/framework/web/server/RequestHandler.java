@@ -3,6 +3,7 @@ package com.framework.web.server;
 import java.io.*;
 import java.net.Socket;
 
+import com.framework.core.mvc.Controller;
 import com.framework.core.new_mvc.HandlerExecution;
 import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.http.*;
@@ -47,7 +48,7 @@ public class RequestHandler extends Thread {
             } else {
                 // 4-2. HTTP 요청 처리
                 log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
-                if ( handler instanceof Controller )
+                if ( handler instanceof Controller)
                     ((Controller) handler).service(request, response);
                 else
                     ((HandlerExecution) handler).handle(request, response);

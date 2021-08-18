@@ -18,14 +18,6 @@ public class AnnotationHandlerMapping implements HandlerMapping{
         this.scanPackage = scanPackage;
     }
 
-    public void initialize(){
-        Set<Class<?>> controllerClasses = ControllerScanner.scan(scanPackage);
-        for( Class<?> controller : controllerClasses ){
-            Method[] methods = controller.getDeclaredMethods();
-            addHandler(controller, methods);
-        }
-    }
-
     private void addHandler(Class<?> controller, Method[] methods){
         for ( Method method : methods ){
             if ( method.isAnnotationPresent(RequestMapping.class) )
@@ -45,6 +37,15 @@ public class AnnotationHandlerMapping implements HandlerMapping{
         }
     }
 
+    public void initialize(){
+        Set<Class<?>> controllerClasses = ControllerScanner.scan(scanPackage);
+        for( Class<?> controller : controllerClasses ){
+            Method[] methods = controller.getDeclaredMethods();
+            addHandler(controller, methods);
+        }
+    }
+
+    @Override
     public HandlerExecution getHandler(HttpRequest request){
         return handlers.get(HandlerKey.of(request.getMethod(), request.getPath()));
     }
