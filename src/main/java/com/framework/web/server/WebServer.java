@@ -2,6 +2,8 @@ package com.framework.web.server;
 
 import com.framework.core.db.ConnectionManager;
 import com.framework.core.new_mvc.AnnotationHandlerMapping;
+import com.framework.core.new_mvc.HandlerMapping;
+import com.framework.http.LegacyHandlerMapping;
 import org.h2.engine.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +11,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WebServer {
 
+    private static List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
     private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
     private static final int DEFAULT_PORT = 8080;
 
@@ -29,9 +34,17 @@ public class WebServer {
             // 데이터 베이스 초기화 (테이블 생성)
             ConnectionManager.executeInitialScript();
 
+            // 레거시 컨트롤러 초기화 매핑
+            LegacyHandlerMapping legacyHandlerMapping = new LegacyHandlerMapping();
+            legacyHandlerMapping.initialize();
+
             // 어노테이션 컨트롤러 초기화 매핑
             AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("com.business");
             annotationHandlerMapping.initialize();
+
+            handlerMappings.add(annotationHandlerMapping);
+            handlerMappings.add(legacyHandlerMapping);
+
 
             // 클라이언트 대기
             Socket connection;
@@ -41,5 +54,9 @@ public class WebServer {
                 thread.start();
             }
         }
+    }
+
+    public static List<HandlerMapping> getHandlerMappings(){
+        return handlerMappings;
     }
 }
