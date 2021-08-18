@@ -73,11 +73,17 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.50</version>
         </dependency>
-<!--        스프링 테스트 Mocking 라이브러리 추가-->
+        <!--  스프링 테스트 Mocking 라이브러리 추가 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${org.springframework.version}</version>
+        </dependency>
+        <!-- DI 프레임워크 구현 -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.12</version>
         </dependency>
     </dependencies>
 
