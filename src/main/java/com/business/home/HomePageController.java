@@ -1,13 +1,13 @@
-package com.bussiness.user.controller;
+package com.business.home;
 
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;
 
-public class UserRegistPageController implements Controller {
+public class HomePageController implements Controller {
 
     @Override
     public void service(HttpRequest request, HttpResponse response) {
-        response.forward("/user/register");
+        response.forward("/index");
     }
 }

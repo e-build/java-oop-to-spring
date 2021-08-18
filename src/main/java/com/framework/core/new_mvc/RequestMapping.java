@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequestMappging {
+public @interface RequestMapping {
     String value() default "";
 
     HttpMethod method() default HttpMethod.GET;

@@ -1,16 +1,12 @@
-package com.bussiness.user.controller;
+package com.business.user.controller;
 
-import com.bussiness.user.dao.UserDao;
-import com.bussiness.user.domain.User;
+import com.business.user.dao.UserDao;
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;
 import com.framework.http.HttpSessions;
-import com.framework.http.constants.HttpSession;
-import com.framework.utils.QueryStringUtils;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
-package com.bussiness.recipe.dao;
+package com.business.recipe.dao;
 
-import com.bussiness.recipe.domain.Recipe;
+import com.business.recipe.domain.Recipe;
 import com.framework.core.db.JdbcTemplate;
 import com.framework.core.db.PreparedStatementSetter;
 import com.framework.utils.DateUtils;

@@ -1,6 +1,6 @@
-package com.bussiness.user.dao;
+package com.business.user.dao;
 
-import com.bussiness.user.domain.User;
+import com.business.user.domain.User;
 import com.framework.core.db.JdbcTemplate;
 import com.framework.core.db.PreparedStatementSetter;
 import com.framework.core.db.RowMapper;

@@ -1,8 +1,7 @@
-package com.bussiness.user.domain;
+package com.business.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter

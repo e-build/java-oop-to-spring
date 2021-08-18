@@ -1,4 +1,4 @@
-package com.bussiness.recipe.controller;
+package com.business.recipe.controller;
 
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;

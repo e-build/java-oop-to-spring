@@ -1,6 +1,6 @@
-package com.bussiness.recipe.controller;
+package com.business.recipe.controller;
 
-import com.bussiness.recipe.dao.RecipeDao;
+import com.business.recipe.dao.RecipeDao;
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;

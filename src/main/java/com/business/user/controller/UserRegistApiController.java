@@ -1,7 +1,7 @@
-package com.bussiness.user.controller;
+package com.business.user.controller;
 
-import com.bussiness.user.dao.UserDao;
-import com.bussiness.user.domain.User;
+import com.business.user.dao.UserDao;
+import com.business.user.domain.User;
 import com.framework.http.Controller;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;

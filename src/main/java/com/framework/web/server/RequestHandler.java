@@ -31,8 +31,6 @@ public class RequestHandler extends Thread {
 
             // 2. 응답 헤더 공통 세팅
             response.addHeader(HttpHeader.CONTENT_TYPE.getValue(), parseContentType(request.getHeader(HttpHeader.ACCEPT.getValue()))+";charset=utf-8");
-//            if ( isLogin(request.getCookie("login")) )
-//                response.addCookie("login", "true");
             if (request.getCookie(HttpSession.SESSION_IDENTIFIER.getValue()) == null)
                 response.addCookie(HttpSession.SESSION_IDENTIFIER.getValue(), UUIDUtils.newId());
 

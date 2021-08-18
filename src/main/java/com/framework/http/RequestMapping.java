@@ -1,8 +1,8 @@
 package com.framework.http;
 
-import com.bussiness.home.HomePageController;
-import com.bussiness.recipe.controller.*;
-import com.bussiness.user.controller.*;
+import com.business.home.HomePageController;
+import com.business.recipe.controller.*;
+import com.business.user.controller.*;
 import com.framework.http.constants.HttpMethod;
 import com.google.common.collect.Maps;
 
