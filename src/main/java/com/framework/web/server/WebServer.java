@@ -29,7 +29,7 @@ public class WebServer {
             // 데이터 베이스 초기화 (테이블 생성)
             ConnectionManager.executeInitialScript();
 
-            // 어노테이션 컨틀로러 초기화 매핑
+            // 어노테이션 컨트롤러 초기화 매핑
             AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("com.business");
             annotationHandlerMapping.initialize();
 
