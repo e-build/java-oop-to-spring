@@ -45,8 +45,8 @@ public class AnnotationHandlerMapping {
         }
     }
 
-    public HandlerExecution getHandler(HttpRequest request){
-        return handlers.get(HandlerKey.of(request.getUrl(), request.getPath()));
+    public static HandlerExecution getHandler(HttpRequest request){
+        return handlers.get(HandlerKey.of(request.getMethod(), request.getPath()));
     }
 
 }

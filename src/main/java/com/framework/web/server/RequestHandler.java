@@ -3,6 +3,8 @@ package com.framework.web.server;
 import java.io.*;
 import java.net.Socket;
 
+import com.framework.core.new_mvc.AnnotationHandlerMapping;
+import com.framework.core.new_mvc.HandlerExecution;
 import com.framework.http.*;
 import com.framework.http.constants.HttpHeader;
 import com.framework.http.constants.HttpSession;
@@ -35,7 +37,11 @@ public class RequestHandler extends Thread {
                 response.addCookie(HttpSession.SESSION_IDENTIFIER.getValue(), UUIDUtils.newId());
 
             // 3. HTTP 요청에 해당하는 Controller 확인
-            Controller controller = RequestMapping.getController(HandlerKey.of(request.getMethod(), request.getPath()));
+            Controller controller = RequestMapping.getController(request.getMethod(), request.getPath());
+
+            HandlerExecution handler = AnnotationHandlerMapping.getHandler(request);
+            if ( handler != null )
+                handler.handle(request, response);
 
             // 4. HTTP 요청 처리
             if (controller != null){

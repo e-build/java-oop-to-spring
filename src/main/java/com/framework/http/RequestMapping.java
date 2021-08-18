@@ -14,7 +14,7 @@ public class RequestMapping {
 
     static {
         // PAGE
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/"), new HomePageController());
+//        controllers.put(HandlerKey.of(HttpMethod.GET, "/"), new HomePageController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/login"), new UserLoginPageController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/logout"), new UserLogoutController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/register"), new UserRegistPageController());
@@ -31,7 +31,7 @@ public class RequestMapping {
         controllers.put(HandlerKey.of(HttpMethod.POST, "/api/recipe/register"), new RecipeRegisterApiController());
     }
 
-    public static Controller getController(HandlerKey handlerKey) {
-        return controllers.get(handlerKey);
+    public static Controller getController(String method, String path) {
+        return controllers.get(HandlerKey.of(method, path));
     }
 }

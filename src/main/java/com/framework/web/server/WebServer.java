@@ -1,6 +1,7 @@
 package com.framework.web.server;
 
 import com.framework.core.db.ConnectionManager;
+import com.framework.core.new_mvc.AnnotationHandlerMapping;
 import org.h2.engine.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,10 @@ public class WebServer {
 
             // 데이터 베이스 초기화 (테이블 생성)
             ConnectionManager.executeInitialScript();
+
+            // 어노테이션 컨틀로러 초기화 매핑
+            AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("com.business");
+            annotationHandlerMapping.initialize();
 
             // 클라이언트 대기
             Socket connection;
