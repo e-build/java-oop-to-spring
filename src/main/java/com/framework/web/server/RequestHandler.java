@@ -3,8 +3,8 @@ package com.framework.web.server;
 import java.io.*;
 import java.net.Socket;
 
-import com.framework.core.new_mvc.AnnotationHandlerMapping;
 import com.framework.core.new_mvc.HandlerExecution;
+import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.http.*;
 import com.framework.http.constants.HttpHeader;
 import com.framework.http.constants.HttpSession;
@@ -74,13 +74,11 @@ public class RequestHandler extends Thread {
         return accept.split(",")[0];
     }
 
-    private Object getHandler(HttpRequest request){
-        HandlerExecution handler = AnnotationHandlerMapping.getHandler(request);
-        if (handler != null)
-            return handler;
-        Controller controller = LegacyRequestMapping.getController(request.getMethod(), request.getPath());
-        if ( controller != null)
-            return controller;
+    private Object getHandler(HttpRequest request) {
+        for (HandlerMapping handlerMapping : WebServer.getHandlerMappings() ){
+            if( handlerMapping.getHandler(request) != null )
+                return handlerMapping.getHandler(request);
+        }
         return null;
     }
 }
