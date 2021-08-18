@@ -27,7 +27,7 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 - [no-framework-web-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-not-refactoring.md) : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
 - [no-framework-web-refactoring-01-web](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-web-refactoring-01-web.md) : no-framework-not-refactoring 브런치의 웹 요청 처리 로직 리팩토링
 - [no-framework-web-refactoring-02-data-access](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-refactoring-02-data-access.md) : Data Access 로직 리팩토링 
-- di-framework-not-refactoring : no-framework 에 DI 컨테이너를 직접 구현 
+- [di-framework](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/di-framework.md) : no-framework 에 DI 컨테이너를 직접 구현 
 - di-framework-refactoring : di-framework-not-refactoring 브런치 리팩토링
 
 
