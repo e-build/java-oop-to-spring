@@ -1,20 +1,18 @@
 package com.framework.http;
 
-import com.business.home.HomePageController;
 import com.business.recipe.controller.*;
 import com.business.user.controller.*;
+import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.http.constants.HttpMethod;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public class LegacyRequestMapping {
+public class LegacyHandlerMapping implements HandlerMapping {
 
     private static final Map<HandlerKey, Controller> controllers = Maps.newHashMap();
 
-    static {
-        // PAGE
-//        controllers.put(HandlerKey.of(HttpMethod.GET, "/"), new HomePageController());
+    public void initialize(){
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/login"), new UserLoginPageController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/logout"), new UserLogoutController());
         controllers.put(HandlerKey.of(HttpMethod.GET, "/user/register"), new UserRegistPageController());
@@ -31,7 +29,8 @@ public class LegacyRequestMapping {
         controllers.put(HandlerKey.of(HttpMethod.POST, "/api/recipe/register"), new RecipeRegisterApiController());
     }
 
-    public static Controller getController(String method, String path) {
-        return controllers.get(HandlerKey.of(method, path));
+    @Override
+    public Object getHandler(HttpRequest request) {
+        return controllers.get(HandlerKey.of(request.getMethod(), request.getPath()));
     }
 }
