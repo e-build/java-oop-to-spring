@@ -76,7 +76,7 @@ public class DispatchRequest extends Thread {
     }
 
     private Object getHandler(HttpRequest request) {
-        for (HandlerMapping handlerMapping : WebServer.get정HandlerMappings() ){
+        for (HandlerMapping handlerMapping : WebServer.getHandlerMappings() ){
             Object handler = handlerMapping.getHandler(request);
             if( handler != null )
                 return handler;
