@@ -1,5 +1,4 @@
 
-
 ### 참고 서적
 ```
 - 이펙티브 자바 (조슈아 블로크 지음)
@@ -14,7 +13,7 @@
 현업에서 스쳐지나가는 자바와 OOP에 대한 수많은 고민과 경험들을 보다 구조적이고 도식화된 형태로 정리하고자하며, 해당 목적을 달성하는 과정에서 꾸준한 학습과 탐구를 지속하고자 합니다.
 
 OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 선배 개발자들이 강조하는 자바 개발자로써의 역량들에 대한 비판적 시각과,
-현업의 문제 해결과정에서 요구되는 역량에 대한 답을 찾아가는 과정될 것이라 생각합니다.
+현업의 문제 해결과정에서 요구되는 역량에 대한 답을 찾아가는 과정이 될 것이라 생각합니다.
 
 위에 명시된 서적들을 정리하고 실습 코드 예제를 고민하며 개념을 내재화하는 학습과정이, 신기술에 대한 학습이나 가슴뛰는 서비스를 만드는 과정보다 
 다소 지난한 과정일 수 있지만 정확히 내재화된 이 개념들은 추후 자바 개발자로써의 생활에 큰 밑거름이 될 것이라 생각합니다. 
@@ -25,12 +24,12 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 개념을 설명하는 `concept` 디렉토리와 자바 소스코드로 구성되어 있습니다. 하나의 저장소에서 <i>**개념에 대한 학습**</i>과 <i>**실제 적용이 어떻게 이루어지는 지**</i> 보다 간편하게 파악할 수 있도록 
 구성하고자 하였습니다.
 모든 브런치는 가장 최신으로 정리된 `concept` 디렉토리가 유지되고, 소스코드를 기준으로 다음과 같이 브런치를 구분하였습니다.
-- [no-framework-web-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-not-refactoring.md) : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
+- [no-framework-not-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-not-refactoring.md) : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
 - [no-framework-web-refactoring-01-web](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-web-refactoring-01-web.md) : no-framework-not-refactoring 브런치의 웹 요청 처리 로직 리팩토링
 - [no-framework-web-refactoring-02-data-access](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-refactoring-02-data-access.md) : Data Access 로직 리팩토링 
-- di-framework-not-refactoring : no-framework 에 DI 컨테이너를 직접 구현 
-- di-framework-refactoring : di-framework-not-refactoring 브런치 리팩토링
-
+- [no-framework-new-mvc](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-new-mvc.md) : 자바 리플렉션 API를 이용하여 애노테이션 기반의 새로운 MVC 프레임워크로 점진적 개선
+- [no-framework-new-mvc-refactoring-01-adapter](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-new-mvc-refactoring-01-adapter.md) : no-framework-new-mvc 브랜치에 확장성을 부여하는 리팩토링
+- [no-framework-di-container](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-di-container.md) : di 프레임워크를 구현
 
 # 목차
 [1. 자바 프로그램의 구동과 메모리 구조](https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md)
