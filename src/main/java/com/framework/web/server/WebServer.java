@@ -43,7 +43,6 @@ public class WebServer {
             handlerMappings.add(annotationHandlerMapping);
             handlerMappings.add(legacyHandlerMapping);
 
-
             // 클라이언트 대기
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
