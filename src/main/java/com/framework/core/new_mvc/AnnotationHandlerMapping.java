@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-public class AnnotationHandlerMapping implements HandlerMapping{
+public class AnnotationHandlerMapping implements HandlerMapping {
 
     private final String scanPackage;
     private static final Map<HandlerKey, HandlerExecution> handlers = Maps.newHashMap();

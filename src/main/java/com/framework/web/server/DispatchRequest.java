@@ -76,9 +76,10 @@ public class DispatchRequest extends Thread {
     }
 
     private Object getHandler(HttpRequest request) {
-        for (HandlerMapping handlerMapping : WebServer.getHandlerMappings() ){
-            if( handlerMapping.getHandler(request) != null )
-                return handlerMapping.getHandler(request);
+        for (HandlerMapping handlerMapping : WebServer.get정HandlerMappings() ){
+            Object handler = handlerMapping.getHandler(request);
+            if( handler != null )
+                return handler;
         }
         return null;
     }
