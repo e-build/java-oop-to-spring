@@ -25,7 +25,7 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 구성하고자 하였습니다.
 모든 브런치는 가장 최신으로 정리된 `concept` 디렉토리가 유지되고, 소스코드를 기준으로 다음과 같이 브런치를 구분하였습니다.
 - [no-framework-not-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-not-refactoring.md) : 서블릿을 사용하지 않고, 순수 자바로 웹 어플리케이션을 구현
-- [no-framework-web-refactoring-01-web](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-web-refactoring-01-web.md) : no-framework-not-refactoring 브런치의 웹 요청 처리 로직 리팩토링
+- [no-framework-web-refactoring-01-web](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-refactoring-01-web.md) : no-framework-not-refactoring 브런치의 웹 요청 처리 로직 리팩토링
 - [no-framework-web-refactoring-02-data-access](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-refactoring-02-data-access.md) : Data Access 로직 리팩토링 
 - [no-framework-new-mvc](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-new-mvc.md) : 자바 리플렉션 API를 이용하여 애노테이션 기반의 새로운 MVC 프레임워크로 점진적 개선
 - [no-framework-new-mvc-refactoring-01-adapter](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/no-framework-new-mvc-refactoring-01-adapter.md) : no-framework-new-mvc 브랜치에 확장성을 부여하는 리팩토링
