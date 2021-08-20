@@ -4,6 +4,10 @@ import com.framework.core.db.ConnectionManager;
 import com.framework.core.new_mvc.AnnotationHandlerMapping;
 import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.core.mvc.LegacyHandlerMapping;
+import com.framework.core.new_mvc.adapter.ControllerHandlerAdapter;
+import com.framework.core.new_mvc.adapter.HandlerAdapter;
+import com.framework.core.new_mvc.adapter.HandlerExecutionAdapter;
+import com.framework.core.new_mvc.adapter.ServletHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -15,6 +19,7 @@ import java.util.List;
 public class WebServer {
 
     private static List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
+    private static List<HandlerAdapter> handlerAdapters = new ArrayList<HandlerAdapter>();
     private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
     private static final int DEFAULT_PORT = 8080;
 
@@ -43,6 +48,10 @@ public class WebServer {
             handlerMappings.add(annotationHandlerMapping);
             handlerMappings.add(legacyHandlerMapping);
 
+            handlerAdapters.add(new ControllerHandlerAdapter());
+            handlerAdapters.add(new HandlerExecutionAdapter());
+            handlerAdapters.add(new ServletHandlerAdapter());
+
             // 클라이언트 대기
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
@@ -55,5 +64,8 @@ public class WebServer {
 
     public static List<HandlerMapping> getHandlerMappings(){
         return handlerMappings;
+    }
+    public static List<HandlerAdapter> getHandlerAdapters(){
+        return handlerAdapters;
     }
 }

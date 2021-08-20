@@ -6,6 +6,7 @@ import java.net.Socket;
 import com.framework.core.mvc.Controller;
 import com.framework.core.new_mvc.HandlerExecution;
 import com.framework.core.new_mvc.HandlerMapping;
+import com.framework.core.new_mvc.adapter.HandlerAdapter;
 import com.framework.http.*;
 import com.framework.http.constants.HttpHeader;
 import com.framework.http.constants.HttpSession;
@@ -39,6 +40,7 @@ public class DispatchRequest extends Thread {
 
             // 3. HTTP 요청에 해당하는 Controller 확인
             Object handler = getHandler(request);
+
             if (handler == null){
                 // 4-1. 자원 처리
                 if ( WebAppUtils.existsResourceFile(request.getPath()) )
@@ -48,10 +50,10 @@ public class DispatchRequest extends Thread {
             } else {
                 // 4-2. HTTP 요청 처리
                 log.info("[REQUEST] {} {}", request.getMethod(), request.getUrl());
-                if ( handler instanceof Controller)
-                    ((Controller) handler).service(request, response);
-                else
-                    ((HandlerExecution) handler).handle(request, response);
+                for ( HandlerAdapter handlerAdapter : WebServer.getHandlerAdapters() ) {
+                    if (handlerAdapter.support(handler))
+                        handlerAdapter.handle(request, response, handler);
+                }
             }
         } catch (IOException e) {
             log.error(e.getMessage());
