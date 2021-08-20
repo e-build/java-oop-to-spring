@@ -1,7 +1,7 @@
 package com.framework.core.di;
 
-import com.business.recipe.controller.RecipeController;
-import com.business.recipe.service.RecipeService;
+import com.framework.core.di.example.RecipeController;
+import com.framework.core.di.example.RecipeService;
 import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.Repository;
 import com.framework.core.new_mvc.annotation.Service;
@@ -36,7 +36,7 @@ public class BeanFactoryTest {
         assertNotNull(recipeController.getRecipeService());
 
         RecipeService recipeService = recipeController.getRecipeService();
-        assertNotNull(recipeService.getRecipeDao());
+        assertNotNull(recipeService.getRecipeRepository());
     }
 
     @SuppressWarnings("unchecked")

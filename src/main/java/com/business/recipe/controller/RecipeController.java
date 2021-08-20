@@ -13,7 +13,6 @@ import com.framework.http.constants.HttpMethod;
 import com.framework.utils.DateUtils;
 import com.framework.utils.JsonUtils;
 import com.google.common.collect.Maps;
-import lombok.Getter;
 
 import java.util.Map;
 
@@ -21,16 +20,6 @@ import java.util.Map;
 public class RecipeController {
 
     RecipeDao recipeDao = new RecipeDao();
-    RecipeService recipeService;
-
-    @Inject
-    public RecipeController(RecipeService recipeService){
-        this.recipeService = recipeService;
-    }
-
-    public RecipeService getRecipeService(){
-        return recipeService;
-    }
 
     @RequestMapping(method = HttpMethod.GET, value = "/recipe/list")
     public void listPage(HttpRequest request, HttpResponse response){
