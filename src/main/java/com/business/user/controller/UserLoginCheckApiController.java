@@ -19,12 +19,11 @@ public class UserLoginCheckApiController implements Controller {
     public void service(HttpRequest request, HttpResponse response) {
         Map<String, String> returnMap = Maps.newHashMap();
         Object user = request.getSession().getAttribute("loginUser");
-        log.info("session 목록 : {}", HttpSessions.getSessions());
+//        log.info("session 목록 : {}", HttpSessions.getSessions());
         if( user == null )
             returnMap.put("result", "false");
         else
             returnMap.put("result", "true");
         response.responseBody(returnMap);
     }
-
 }
