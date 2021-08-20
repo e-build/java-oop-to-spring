@@ -19,17 +19,17 @@ public class LegacyHandlerMapping implements HandlerMapping {
 //        controllers.put(HandlerKey.of(HttpMethod.GET, "/user/login"), new UserLoginPageController());
 //        controllers.put(HandlerKey.of(HttpMethod.GET, "/user/logout"), new UserLogoutController());
 //        controllers.put(HandlerKey.of(HttpMethod.GET, "/user/register"), new UserRegistPageController());
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/list"), new RecipeListPageController());
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/detail"), new RecipeDetailPageController());
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/form"), new RecipeFormPageController());
+//        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/list"), new RecipeListPageController());
+//        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/detail"), new RecipeDetailPageController());
+//        controllers.put(HandlerKey.of(HttpMethod.GET, "/recipe/form"), new RecipeFormPageController());
 
         // API
 //        controllers.put(HandlerKey.of(HttpMethod.POST, "/api/user/register"), new UserRegistApiController());
 //        controllers.put(HandlerKey.of(HttpMethod.POST, "/api/user/login"), new UserLoginApiController());
 //        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/user/login/check"), new UserLoginCheckApiController());
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/recipe/list"), new RecipeListApiController());
-        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/recipe/detail"), new RecipeDetailApiController());
-        controllers.put(HandlerKey.of(HttpMethod.POST, "/api/recipe/register"), new RecipeRegisterApiController());
+//        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/recipe/list"), new RecipeListApiController());
+//        controllers.put(HandlerKey.of(HttpMethod.GET, "/api/recipe/detail"), new RecipeDetailApiController());
+//        controllers.put(HandlerKey.of(HttpMethod.POST, "/api/recipe/register"), new RecipeRegisterApiController());
     }
 
     @Override
