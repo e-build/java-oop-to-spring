@@ -1,6 +1,7 @@
 package com.framework.core.new_mvc;
 
 import com.framework.core.di.ControllerScanner;
+import com.framework.core.new_mvc.annotation.RequestMapping;
 import com.framework.http.HandlerKey;
 import com.framework.http.HttpRequest;
 import com.google.common.collect.Maps;
