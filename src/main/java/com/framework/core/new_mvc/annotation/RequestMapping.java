@@ -1,4 +1,4 @@
-package com.framework.core.new_mvc;
+package com.framework.core.new_mvc.annotation;
 
 import com.framework.http.constants.HttpMethod;
 
@@ -12,6 +12,5 @@ import java.lang.annotation.Target;
 public @interface RequestMapping {
 
     String value() default "";
-
     HttpMethod method() default HttpMethod.GET;
 }

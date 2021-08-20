@@ -1,7 +1,7 @@
 package com.business.home.controller;
 
-import com.framework.core.new_mvc.Controller;
-import com.framework.core.new_mvc.RequestMapping;
+import com.framework.core.new_mvc.annotation.Controller;
+import com.framework.core.new_mvc.annotation.RequestMapping;
 import com.framework.http.HttpRequest;
 import com.framework.http.HttpResponse;
 import com.framework.http.constants.HttpMethod;

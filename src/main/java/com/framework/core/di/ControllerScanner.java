@@ -1,6 +1,6 @@
 package com.framework.core.di;
 
-import com.framework.core.new_mvc.Controller;
+import com.framework.core.new_mvc.annotation.Controller;
 import org.reflections.Reflections;
 
 import java.util.Set;
