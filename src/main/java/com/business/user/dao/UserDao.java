@@ -4,12 +4,14 @@ import com.business.user.domain.User;
 import com.framework.core.db.JdbcTemplate;
 import com.framework.core.db.PreparedStatementSetter;
 import com.framework.core.db.RowMapper;
+import com.framework.core.new_mvc.annotation.Repository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
+@Repository
 public class UserDao {
 
     Logger log = LoggerFactory.getLogger(UserDao.class);

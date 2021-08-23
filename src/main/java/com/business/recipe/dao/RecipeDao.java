@@ -3,11 +3,13 @@ package com.business.recipe.dao;
 import com.business.recipe.domain.Recipe;
 import com.framework.core.db.JdbcTemplate;
 import com.framework.core.db.PreparedStatementSetter;
+import com.framework.core.new_mvc.annotation.Repository;
 import com.framework.utils.DateUtils;
 
 import java.sql.*;
 import java.util.List;
 
+@Repository
 public class RecipeDao {
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();

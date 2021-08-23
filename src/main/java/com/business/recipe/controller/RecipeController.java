@@ -2,7 +2,6 @@ package com.business.recipe.controller;
 
 import com.business.recipe.dao.RecipeDao;
 import com.business.recipe.domain.Recipe;
-import com.business.recipe.service.RecipeService;
 import com.business.user.domain.User;
 import com.framework.core.di.annotation.Inject;
 import com.framework.core.new_mvc.annotation.Controller;
@@ -19,7 +18,12 @@ import java.util.Map;
 @Controller
 public class RecipeController {
 
-    RecipeDao recipeDao = new RecipeDao();
+    RecipeDao recipeDao;
+
+    @Inject
+    public RecipeController(RecipeDao recipeDao){
+        this.recipeDao = recipeDao;
+    }
 
     @RequestMapping(method = HttpMethod.GET, value = "/recipe/list")
     public void listPage(HttpRequest request, HttpResponse response){

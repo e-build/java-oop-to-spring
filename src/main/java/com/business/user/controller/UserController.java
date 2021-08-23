@@ -2,6 +2,7 @@ package com.business.user.controller;
 
 import com.business.user.dao.UserDao;
 import com.business.user.domain.User;
+import com.framework.core.di.annotation.Inject;
 import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.RequestMapping;
 import com.framework.http.HttpRequest;
@@ -19,7 +20,12 @@ import java.util.Map;
 public class UserController {
 
     Logger log = LoggerFactory.getLogger(UserController.class);
-    UserDao userDao = new UserDao();
+    UserDao userDao;
+
+    @Inject
+    public UserController(UserDao userDao){
+        this.userDao = userDao;
+    }
 
     @RequestMapping(method = HttpMethod.GET, value= "/user/login")
     public Object loginPage(HttpRequest request, HttpResponse response){
