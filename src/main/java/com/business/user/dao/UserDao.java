@@ -17,13 +17,13 @@ public class UserDao {
     Logger log = LoggerFactory.getLogger(UserDao.class);
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-    public void insertUser(User user){
+    public int insertUser(User user){
         PreparedStatementSetter pss = pstmt -> {
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getNickname());
         };
-        jdbcTemplate.update("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES(?,?,?)", pss);
+        return jdbcTemplate.update("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES(?,?,?)", pss);
     }
 
     public User selectUserByUsername(String username){

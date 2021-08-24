@@ -2,6 +2,7 @@ package com.business.user.controller;
 
 import com.business.user.dao.UserDao;
 import com.business.user.domain.User;
+import com.business.user.service.UserService;
 import com.framework.core.di.annotation.Inject;
 import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.RequestMapping;
@@ -20,11 +21,11 @@ import java.util.Map;
 public class UserController {
 
     Logger log = LoggerFactory.getLogger(UserController.class);
-    UserDao userDao;
+    private final UserService userService;
 
     @Inject
-    public UserController(UserDao userDao){
-        this.userDao = userDao;
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
     @RequestMapping(method = HttpMethod.GET, value= "/user/login")
@@ -48,12 +49,8 @@ public class UserController {
 
     @RequestMapping(method = HttpMethod.POST, value= "/api/user/register")
     public Object register(HttpRequest request, HttpResponse response){
-        Map<String, String>  requestBodyMap = QueryStringUtils.toMap(request.getRequestBody());
-        String username = requestBodyMap.get("username").trim();
-        String password = requestBodyMap.get("password").trim();
-        String nickname = requestBodyMap.get("nickname").trim();
-
-        userDao.insertUser(new User(username, password, nickname));
+        Map<String, String> requestBodyMap = QueryStringUtils.toMap(request.getRequestBody());
+        userService.register(requestBodyMap);
         response.sendRedirect("/");
         return null;
     }
@@ -63,7 +60,8 @@ public class UserController {
         Map<String, String> bodyParams = QueryStringUtils.toMap(request.getRequestBody());
         if ( login(bodyParams.get("username"), bodyParams.get("password")) ){
             response.addCookie("login", "true");
-            request.getSession().setAttribute("loginUser", userDao.selectUserByUsername(bodyParams.get("username")));
+
+            request.getSession().setAttribute("loginUser", userService.getUserByUsername(bodyParams.get("username")));
             log.info("LOGIN SUCCESS");
             response.sendRedirect("/");
         } else {
@@ -86,7 +84,7 @@ public class UserController {
     }
 
     private boolean login(String username, String password){
-        User user = userDao.selectUserByUsername(username);
+        User user = userService.getUserByUsername(username);;
         if (user == null)
             return false;
         return StringUtils.equals(user.getPassword(), password);
