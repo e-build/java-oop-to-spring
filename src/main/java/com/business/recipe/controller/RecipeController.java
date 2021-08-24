@@ -2,6 +2,7 @@ package com.business.recipe.controller;
 
 import com.business.recipe.dao.RecipeDao;
 import com.business.recipe.domain.Recipe;
+import com.business.recipe.service.RecipeService;
 import com.business.user.domain.User;
 import com.framework.core.di.annotation.Inject;
 import com.framework.core.new_mvc.annotation.Controller;
@@ -12,17 +13,18 @@ import com.framework.http.constants.HttpMethod;
 import com.framework.utils.DateUtils;
 import com.framework.utils.JsonUtils;
 import com.google.common.collect.Maps;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 
 @Controller
 public class RecipeController {
 
-    RecipeDao recipeDao;
+    RecipeService recipeService;
 
     @Inject
-    public RecipeController(RecipeDao recipeDao){
-        this.recipeDao = recipeDao;
+    public RecipeController(RecipeDao recipeDao, RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
     @RequestMapping(method = HttpMethod.GET, value = "/recipe/list")
@@ -42,33 +44,25 @@ public class RecipeController {
 
     @RequestMapping(method = HttpMethod.GET, value = "/api/recipe/list")
     public void list(HttpRequest request, HttpResponse response){
-        response.responseBody(recipeDao.selectRecipeList());
+        response.responseBody(recipeService.recipeList());
     }
 
     @RequestMapping(method = HttpMethod.GET, value = "/api/recipe/detail")
     public void detail(HttpRequest request, HttpResponse response){
         int id = Integer.parseInt(request.getParameter("id"));
-        response.responseBody(recipeDao.selectRecipeById(id));
+        response.responseBody(recipeService.recipeOne(id));
     }
 
     @RequestMapping(method = HttpMethod.POST, value = "/api/recipe/register")
     public void register(HttpRequest request, HttpResponse response){
         Map<String, String> params = JsonUtils.deserialize(request.getRequestBody(), Map.class);
-        User user = (User)request.getSession().getAttribute("user");
-
-        Recipe recipe = new Recipe();
-        recipe.setName(params.get("name"));
-        recipe.setContents(params.get("contents"));
-        recipe.setCategory(params.get("category"));
-        recipe.setCreatedAt(DateUtils.currentDateTime());
-//        recipe.setCreatedBy(user.getId());
-        recipe.setUpdateAt(DateUtils.currentDateTime());
-//        recipe.setUpdateBy(user.getId());
+        int insertCnt = 0;
+        if (!CollectionUtils.isEmpty(params))
+            insertCnt = recipeService.register(params);
 
         Map<String, Object> bodyMap = Maps.newHashMap();
-        bodyMap.put("result", recipeDao.insertOne(recipe));
+        bodyMap.put("result", insertCnt);
         response.responseBody(bodyMap);
     }
-
 
 }
