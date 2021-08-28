@@ -77,6 +77,84 @@ SRP를 위반하고 있다고 볼 수 있다. 이를 역할별로 클래스를 �
 # OCP(Open Closed Principle)
 개방 폐쇄 원칙이라고도 하며, 자신의 확장에는 열려있지만 환경의 변화에는 폐쇄적으로 설계하는 것을 의미한다. 즉, 기존의 코드를 변경하지 않으면서 기능을 확장할 수 있도록 설계가 되어야 한다는 의미이다.
 "개방"과 "폐쇄"라고 하는 단어의 역설때문에 처음 이해하는 입장에서 상당히 난해할 수 있다. 다음 예를 살펴보자.
+```java
+public class ElevatorA {
+
+    public void move(){
+
+    }
+
+    public void openLeftRight(){
+
+    }
+}
+
+```
+```java
+public class ElevatorB {
+
+    public void move(){
+        [...]
+    }
+    
+    public void openUpDown(){
+        [...]
+    }
+}
+```
+위와 같이 두 개의 엘레베이터 회사가 있고, 각기 다른 방식으로 문이 개방된다는 것을 알 수 있다. 그렇다면 엘레베이터 클래스들을 사용하는
+건물 클래스에서는 어떤 엘레베이터를 사용할 것인지에 따라 `Building` 클래스의 멤버필드로 선언해놓고 사용하는 곳에서 `openLeftRight()`혹은 `openUpDown()`을
+통해 엘레베이터 문을 열게 될 것이다. 
+```java
+public class Building {
+
+    ElevatorA elevatorA = new ElevatorA();
+    
+    void movePeople() {
+        [...]
+        
+        elevatorA.openLeftRight();
+        
+        [...]
+        
+        elevatorA.move();
+        
+        [...]
+    }
+}
+
+```
+`Building` 클래스를 보면 ElevatorA 멤버필드를 초기화하고 `movePeople()` 메서드 내에서 ElevatorA 인스턴스가 사용되고 있는 것을 볼 수 있다. 
+이와같이 A 엘레베이터를 이용해서 지금 당장 건물을 설계하는 것은 아무런 문제가 없어보일지도 모른다. 
+그러나 건물이 설계된 이후 엘레베이터가 고장났는데 A 회사가 망해서 더이상 시스템 설비를 받을 수 없는 상황으로 어쩔 수 없이
+모든 엘레베이터로 B 회사의 것으로 변경해야 한다면 어떨까? 
+
+다음의 코드와 같이 `Building` 클래스의 멤버필드를 ElevatorB로 수정하고 인스턴스를 할당하고,
+`movePeople()`메서드 내에서 `openLeftRight()` 메서드를 호출하도록 변경하게 해야 할 것이다.
+```java
+public class Building {
+
+    ElevatorB elevatorB = new ElevatorB();
+
+    void movePeople() {
+        [...]
+        
+        elevatorB.openLeftRight();
+        
+        [...]
+        
+        elevatorB.move();
+        
+        [...]
+    }
+}
+```
+엘레베이터 회사를 변경하는 상황에서 엘레베이터에 의존하고 있는 `Building` 클래스의 코드를 수정했다. 환경의 변화에 폐쇄적으로 설계되었다고 할 수 있을까?
+
+엘레베이터를 예시로 들었기 때문에 현실에서 쉽게 공감하지 못할 수도 있지만, 소프트웨어 세상에서 기능이 변경되거나 확장되는 상황은 정말 빈번하게 발생한다. 
+어쩌면 현실세계의 비즈니스는 이보다 훨씬 더 복잡한 변화와 통제할 수 없는 변인들이 존재할 수도 있다. 
+
+그렇다면 엘레베이터 회사가 어딘지와 상관없이 Building 클래스가 설계될 수 있도록 수정해보자.
 <table>
     <thead>
         <tr>
@@ -102,11 +180,6 @@ SRP를 위반하고 있다고 볼 수 있다. 이를 역할별로 클래스를 �
     </tbody>
 </table>
 
-위와 같이 두 개의 엘레베이터 회사가 있고, 탑승자는 엘레베이터를 이용할 때 마다 문이 열리는 방식이 각기 다르게 동작하는 엘레베이터를 이용해야 한다.
-현실세계에서는 그리 큰 문제가 아닐 수도 있지만, 객체지향 세계에서는 이러한 변화와 특성들이 적절히 추상화 되지 않았을 때 아주 복잡한 코드를 양산하게 된다.  
-OCP 원칙은 이러한 변화에 대해 사용자가 일일이 대응하지 않도록 하는 해법을 제시한다.
-
-
 <table>
     <thead>
         <tr>
@@ -124,11 +197,99 @@ OCP 원칙은 이러한 변화에 대해 사용자가 일일이 대응하지 않
         </tr>
     </tbody>
 </table>
+엘레베이터라는 인터페이스를 만들어서 A, B 엘레베이터 회사들이 해당 인터페이스를 구현하게 한다. 그렇다면 엘레베이터를 사용하는 건물 입장에선
+어떤 회사의 엘레베이터를 사용하는 지 알 필요없이 단순히 `문을 개방하다()`,`이동하다()` 메서드를 통해 엘레베이터를 동작시킬 수 있게 된다.
+이는 다음과 같이 Elevator를 인터페이스로 추상화할 수 있다.
 
-엘레베이터라는 인터페이스를 만들어서 A, B 엘레베이터 회사들이 해당 인터페이스를 구현하게 한다. 그렇다면 엘레베이터를 이용하는 사용자의 입장에선 
-어떤 회사의 엘레베이터를 사용하는 지 알 필요없이 단순히 `문을 개방하다()`,`이동하다()` 메서드를 통해 엘레베이터를 동작시킬 수 있게 되는 것이다.
-다양한 엘레베이터 회사들이 추가된다고 하더라도 엘레베이터 인터페이스 입장에서는 자신의 확장에는 개방되어 있는 것이고, 사용자의 입장에서는 주변의 변화에 폐쇄되어 있다고 할 수 있는 것이다.
+```java
+public interface Elevator {
 
+    public void move();
+    public void open();
+}
+``` 
+```java
+public class ElevatorA implements Elevator{
+
+    @Override
+    public void move() {
+        [...]
+    }
+
+    @Override
+    public void open() {
+        [...문이 좌우로 열리도록 동작...]
+    }
+}
+```
+```java
+public class ElevatorB implements Elevator{
+
+    @Override
+    public void move() {
+        [...]
+    }
+
+    @Override
+    public void open() {
+        [...문이 위아래로 열리도록 동작...]
+    }
+}
+```
+기존의 Building 클래스는 멤버필드로 구체클래스(Concreate Class)타입의 인스턴스를 선언해놨기 때문에 다른 타입이 필요한 상황이면
+당연히 기존 코드를 수정할 수 밖에 없었다. 또한 멤버필드 선언과 동시에 `new` 연산자로 인스턴스를 생성하여 할당했기 때문에, 이미 컴파일 시점에 
+어떤 객체를 사용하게 될지 결정되었다. 이는 의존하고 있는 객체의 변화에 대해 유연하게 대처하기 힘든 중요한 원인이 된다.
+따라서 멤버필드의 타입을 인터페이스로 정의하고 인스턴스는 외부에서 주입받을 수 있도록 생성자의 인자를 통해 인스턴스를 할당받도록 수정할 것이다.
+
+```java
+public class Building {
+
+    private Elevator elevator;
+
+    public Building(Elevator elevator){
+        this.elevator = elevator;
+    }
+    
+    void setElevator(Elevator elevator){
+        this.elevator = elevator;
+    }
+
+    void movePeople() {
+        [...]
+        
+        elevator.open();
+        
+        [...]
+
+        elevatorB.move();
+        
+        [...]
+    }
+}
+```
+위의 과정을 정리해보면 다음과 같다.
+1. 엘레베이터를 사용하고 있는 곳(Building)에서 구체클래스(ElevatorA, ElevatorB)로 멤버필드 선언과 동시에 인스턴스를 할당하여 사용하고 있었다.
+2. 엘레베이터 회사를 바꿔야 하는데, 엘레베이터 구체클래스를 사용하고 있는 기존 코드(Building)를 전부 수정해야 하는 문제가 발생했다.
+
+***리팩토링***
+1. 엘레베이터의 책임을 추상화하여 인터페이스로 분리한다.
+2. ElevatorA, ElevatorB 클래스가 인터페이스를 구현하게 한다.
+3. Building 클래스의 멤버필드 타입으로 Elevator 인터페이스로 선언하고 인스턴스를 생성자를 통해 외부에서 주입받는다.
+4. 엘레베이터 회사를 바꿔야 한다면, 기존 코드를 수정하지 않고 수정자(setElevator())를 통해 변경할 수 있다.
+```java
+public class Mainclass(){
+    
+    public static void main(String[] args){
+        
+        Building building = new Building(new ElevatorA());
+        
+        [...]
+        
+        building.setElevator(new ElevatorB());
+    }
+}
+```
+즉, OCP 원칙이 잘 지켜지려면 추상화가 우선 잘 되어야 하고, 상황에 유연하게 대처할 수 있도록 의존하고 있는 타입의 인스턴스를 외부에서 주입받아야 한다.
 자바에서도 이러한 OCP 원칙을 토대로 설계된 유용한 API들을 제공하고 있는데, 그 중 좋은 예가 JDBC(Java Database Connectivity) API이다.
 JDBC를 구현하여 각각의 DB벤더사(MySQL, MSSQL, Oracle, ...)들이 데이터베이스 커넥션을 제공하지만 JDBC 사용자의 입장에서는 Connection을 설정하는 것 외에는 
 DB 벤더사에 따라 API를 다른 방식으로 사용하지 않을 수 있다. 
