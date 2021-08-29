@@ -10,10 +10,14 @@ import java.util.Map;
 @Service
 public class UserService {
 
-    private final UserDao userDao;
+    private UserDao userDao;
 
+//    @Inject
+//    public UserService(UserDao userDao){
+//        this.userDao = userDao;
+//    }
     @Inject
-    public UserService(UserDao userDao){
+    public void setUserDao(UserDao userDao){
         this.userDao = userDao;
     }
 

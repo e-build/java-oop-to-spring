@@ -21,12 +21,13 @@ import java.util.Map;
 public class UserController {
 
     Logger log = LoggerFactory.getLogger(UserController.class);
-    private final UserService userService;
 
     @Inject
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
+    private UserService userService;
+
+//    public UserController(UserService userService){
+//        this.userService = userService;
+//    }
 
     @RequestMapping(method = HttpMethod.GET, value= "/user/login")
     public Object loginPage(HttpRequest request, HttpResponse response){
