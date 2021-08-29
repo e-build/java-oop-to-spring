@@ -1,12 +1,13 @@
 package com.framework.core.di;
 
-import static org.reflections.ReflectionUtils.getAllConstructors;
-import static org.reflections.ReflectionUtils.withAnnotation;
-
 import com.framework.core.di.annotation.Inject;
 import com.google.common.collect.Sets;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Set;
+
+import static org.reflections.ReflectionUtils.*;
 
 public class BeanFactoryUtils {
 
@@ -24,6 +25,34 @@ public class BeanFactoryUtils {
             return null;
         }
         return injectedConstructors.iterator().next();
+    }
+
+    /**
+     * @Inject 애노테이션이 설정되어 있는 필드를 반환
+     *
+     * @Inject 애노테이션이 설정되어 있는 생성자는 클래스당 하나로 가정한다.
+     * @param clazz
+     * @return
+     */
+    @SuppressWarnings({"unchecked" })
+    public static Set<Field> getInjectedFields(Class<?> clazz) {
+        Set<Field> injectedFields = getAllFields(clazz, withAnnotation(Inject.class));
+        if (injectedFields.isEmpty())
+            return null;
+        return injectedFields;
+    }
+
+    /**
+     * @Inject 애노테이션이 설정되어 있는 메서드를 반환
+     * @param clazz
+     * @return
+     */
+    @SuppressWarnings({"unchecked" })
+    public static Set<Method> getInjectedMethods(Class<?> clazz) {
+        Set<Method> injectedMethods = getAllMethods(clazz, withAnnotation(Inject.class));
+        if (injectedMethods.isEmpty())
+            return null;
+        return injectedMethods;
     }
 
     /**
