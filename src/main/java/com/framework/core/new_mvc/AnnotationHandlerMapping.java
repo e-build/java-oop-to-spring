@@ -1,22 +1,25 @@
 package com.framework.core.new_mvc;
 
-import com.framework.core.di.BeanFactory;
-import com.framework.core.di.BeanScanner;
+import com.framework.core.di.ApplicationContext;
+import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.RequestMapping;
 import com.framework.http.HandlerKey;
 import com.framework.http.HttpRequest;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+@Slf4j
 public class AnnotationHandlerMapping implements HandlerMapping {
 
-    private final String scanPackage;
+    private final String basePackage;
     private static final Map<HandlerKey, HandlerExecution> handlers = Maps.newHashMap();
 
-    public AnnotationHandlerMapping(String scanPackage){
-        this.scanPackage = scanPackage;
+    public AnnotationHandlerMapping(String basePackage){
+        this.basePackage = basePackage;
     }
 
     private void addHandler(Object object, Method[] methods){
@@ -32,17 +35,26 @@ public class AnnotationHandlerMapping implements HandlerMapping {
                 HandlerKey.of(mappedHandler.method(), mappedHandler.value()),
                 HandlerExecution.of(method, object)
         );
+        log.debug("register handlerExecution : url is {}, method is {}", mappedHandler.value(), method);
     }
 
     public void initialize(){
-        BeanScanner beanScanner = new BeanScanner(scanPackage);
-        BeanFactory beanFactory = new BeanFactory(beanScanner.scan());
-        beanFactory.initialize();
-        Map<Class<?>, Object> controllers = beanFactory.getControllers();
-        for( Class<?> clazz : controllers.keySet() ){
-            Method[] methods = clazz.getDeclaredMethods();
-            addHandler(controllers.get(clazz), methods);
+        ApplicationContext ac = new ApplicationContext(basePackage);
+        Map<Class<?>, Object> controllers = getControllers(ac);
+        for (Class<?> clazz : controllers.keySet())
+            addHandler( controllers.get(clazz) , clazz.getDeclaredMethods());
+        log.info("Initialized AnnotationHandlerMapping!");
+    }
+
+    private Map<Class<?>, Object> getControllers(ApplicationContext ac){
+        Map<Class<?>, Object> controllers = Maps.newHashMap();
+        for( Class<?> clazz : ac.getBeanClasses() ){
+            Annotation annotation = clazz.getAnnotation(Controller.class);
+            if ( annotation != null ){
+                controllers.put(clazz, ac.getBean(clazz));
+            }
         }
+        return controllers;
     }
 
     @Override

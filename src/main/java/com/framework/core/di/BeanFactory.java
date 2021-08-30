@@ -1,70 +1,100 @@
 package com.framework.core.di;
 
-import com.framework.core.di.inject.ConstructorInjector;
-import com.framework.core.di.inject.FieldInjector;
-import com.framework.core.di.inject.Injector;
-import com.framework.core.di.inject.SetterInjector;
-import com.framework.core.new_mvc.annotation.Controller;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 
-import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-public class BeanFactory {
+public class BeanFactory implements BeanDefinitionRegistry{
 
-    private final Set<Class<?>> preInstantiateBeans;
-    Map<Class<?>, Object> beans = Maps.newHashMap();
-    private final List<Injector> injectors;
-
-    public BeanFactory(Set<Class<?>> preInstantiateBeans){
-        this.preInstantiateBeans = preInstantiateBeans;
-        injectors = Lists.newArrayList(
-                new FieldInjector(this),
-                new SetterInjector(this),
-                new ConstructorInjector(this)
-        );
-    }
+    private final Map<Class<?>, Object> beans = Maps.newHashMap();
+    private final Map<Class<?>, BeanDefinition> beanDefinitions = Maps.newHashMap();
 
     public void initialize(){
-        for ( Class<?> clazz : preInstantiateBeans) {
-            if (beans.get(clazz) == null) {
-                inject(clazz);
-//                beans.put(clazz, instantiateClass(clazz));
-            }
+        for ( Class<?> clazz : getBeanClasses() )
+            getBean(clazz);
+    }
+
+    private Object inject(BeanDefinition beanDefinition){
+        if ( beanDefinition.getResolvedInjectMode() == InjectType.INJECT_NO )
+            return BeanUtils.instantiateClass(beanDefinition.getBeanClass());
+        if ( beanDefinition.getResolvedInjectMode() == InjectType.INJECT_CONSTRUCTOR )
+            return injectConstructor(beanDefinition);
+        return injectFields(beanDefinition);
+    }
+
+    private Object injectConstructor( BeanDefinition beanDefinition ) {
+        Constructor<?> constructor = beanDefinition.getInjectConstructor();
+        List<Object> args = Lists.newArrayList();
+
+        for ( Class<?> pTypeClazz : constructor.getParameterTypes() )
+            args.add(getBean(pTypeClazz));
+
+        return BeanUtils.instantiateClass(constructor, args);
+    }
+
+    private Object injectFields( BeanDefinition beanDefinition ) {
+        Object bean = BeanUtils.instantiateClass(beanDefinition.getBeanClass());
+        Set<Field> fields = beanDefinition.getInjectFields();
+
+        for ( Field field : fields )
+            injectField(bean, field);
+
+        return bean;
+    }
+
+    private void injectField(Object bean, Field field){
+        try {
+            field.setAccessible(true);
+            field.set(field, getBean(field.getType()));
+        } catch (IllegalAccessException e) {
+            log.error(e.getMessage());
         }
     }
 
-    private void inject(Class<?> clazz){
-        for ( Injector injector : injectors ){
-            injector.inject(clazz);
-        }
+    private void addBeanDefinition(Class<?> clazz, BeanDefinition beanDefinition){
+        this.beanDefinitions.put(clazz, beanDefinition);
+    }
+
+    private Class<?> findConcreteClass(Class<?> clazz){
+        Set<Class<?>> beanClasses = getBeanClasses();
+        Class<?> concreteClass = BeanFactoryUtils.findConcreteClass(clazz, beanClasses);
+
+        if ( !beanClasses.contains(concreteClass) )
+            throw new IllegalStateException(clazz + "는 Bean이 아닙니다.");
+
+        return concreteClass;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T getBean(Class<T> requiredType){
-        return (T) beans.get(requiredType);
+        Object bean = beans.get(requiredType);
+        if ( bean != null )
+            return (T)bean;
+        Class<?> concreteClass = findConcreteClass(requiredType);
+        BeanDefinition beanDefinition = new BeanDefinition(concreteClass);
+        bean = inject(beanDefinition);
+        addBean(concreteClass, bean);
+        return (T)bean;
     }
 
     public void addBean(Class<?> requiredType, Object object){
         beans.put(requiredType, object);
     }
 
-    public Set<Class<?>> getPreInstantiateBeans(){
-        return this.preInstantiateBeans;
+    public Set<Class<?>> getBeanClasses(){
+        return this.beanDefinitions.keySet();
     }
 
-    public Map<Class<?>, Object> getControllers(){
-        Map<Class<?>, Object> controllers = Maps.newHashMap();
-        for ( Class<?> clazz : preInstantiateBeans ){
-            Annotation controller  = clazz.getAnnotation(Controller.class);
-            if ( controller != null )
-                controllers.put(clazz, beans.get(clazz));
-        }
-        return controllers;
+    @Override
+    public void registerBeanDefinition(Class<?> clazz, BeanDefinition beanDefinition) {
+        addBeanDefinition(clazz, beanDefinition);
     }
 }
