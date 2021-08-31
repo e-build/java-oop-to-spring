@@ -1,6 +1,5 @@
 package com.business.user.controller;
 
-import com.business.user.dao.UserDao;
 import com.business.user.domain.User;
 import com.business.user.service.UserService;
 import com.framework.core.di.annotation.Inject;
@@ -24,10 +23,6 @@ public class UserController {
 
     @Inject
     private UserService userService;
-
-//    public UserController(UserService userService){
-//        this.userService = userService;
-//    }
 
     @RequestMapping(method = HttpMethod.GET, value= "/user/login")
     public Object loginPage(HttpRequest request, HttpResponse response){
