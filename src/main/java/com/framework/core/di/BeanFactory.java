@@ -18,8 +18,10 @@ public class BeanFactory implements BeanDefinitionRegistry{
     private final Map<Class<?>, BeanDefinition> beanDefinitions = Maps.newHashMap();
 
     public void initialize(){
-        for ( Class<?> clazz : getBeanClasses() )
+        for ( Class<?> clazz : getBeanClasses() ){
+            log.debug("bean name : {}", clazz.getTypeName());
             getBean(clazz);
+        }
     }
 
     private Object inject(BeanDefinition beanDefinition){
@@ -37,15 +39,17 @@ public class BeanFactory implements BeanDefinitionRegistry{
         for ( Class<?> pTypeClazz : constructor.getParameterTypes() )
             args.add(getBean(pTypeClazz));
 
-        return BeanUtils.instantiateClass(constructor, args);
+        return BeanUtils.instantiateClass(constructor, args.toArray());
     }
 
     private Object injectFields( BeanDefinition beanDefinition ) {
         Object bean = BeanUtils.instantiateClass(beanDefinition.getBeanClass());
         Set<Field> fields = beanDefinition.getInjectFields();
 
-        for ( Field field : fields )
+        for ( Field field : fields ){
             injectField(bean, field);
+            log.debug("field inject : {}, {}", bean, field);
+        }
 
         return bean;
     }
@@ -53,7 +57,7 @@ public class BeanFactory implements BeanDefinitionRegistry{
     private void injectField(Object bean, Field field){
         try {
             field.setAccessible(true);
-            field.set(field, getBean(field.getType()));
+            field.set(bean, getBean(field.getType()));
         } catch (IllegalAccessException e) {
             log.error(e.getMessage());
         }
@@ -82,7 +86,7 @@ public class BeanFactory implements BeanDefinitionRegistry{
         BeanDefinition beanDefinition = new BeanDefinition(concreteClass);
         bean = inject(beanDefinition);
         addBean(concreteClass, bean);
-        return (T)bean;
+        return (T) bean;
     }
 
     public void addBean(Class<?> requiredType, Object object){
