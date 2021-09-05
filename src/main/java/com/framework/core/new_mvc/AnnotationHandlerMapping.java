@@ -15,10 +15,10 @@ import java.util.Map;
 @Slf4j
 public class AnnotationHandlerMapping implements HandlerMapping {
 
-    private final String basePackage;
+    private final String[] basePackage;
     private static final Map<HandlerKey, HandlerExecution> handlers = Maps.newHashMap();
 
-    public AnnotationHandlerMapping(String basePackage){
+    public AnnotationHandlerMapping(String... basePackage){
         this.basePackage = basePackage;
     }
 
