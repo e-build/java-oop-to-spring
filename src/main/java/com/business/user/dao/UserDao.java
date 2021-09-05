@@ -4,6 +4,7 @@ import com.business.user.domain.User;
 import com.framework.core.db.JdbcTemplate;
 import com.framework.core.db.PreparedStatementSetter;
 import com.framework.core.db.RowMapper;
+import com.framework.core.di.annotation.Inject;
 import com.framework.core.new_mvc.annotation.Repository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,7 +16,9 @@ import java.sql.*;
 public class UserDao {
 
     Logger log = LoggerFactory.getLogger(UserDao.class);
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+
+    @Inject
+    private JdbcTemplate jdbcTemplate;
 
     public int insertUser(User user){
         PreparedStatementSetter pss = pstmt -> {

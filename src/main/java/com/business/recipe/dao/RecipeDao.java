@@ -3,6 +3,7 @@ package com.business.recipe.dao;
 import com.business.recipe.domain.Recipe;
 import com.framework.core.db.JdbcTemplate;
 import com.framework.core.db.PreparedStatementSetter;
+import com.framework.core.di.annotation.Inject;
 import com.framework.core.new_mvc.annotation.Repository;
 import com.framework.utils.DateUtils;
 
@@ -12,7 +13,8 @@ import java.util.List;
 @Repository
 public class RecipeDao {
 
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    @Inject
+    JdbcTemplate jdbcTemplate;
 
     public Recipe selectRecipeById(int id){
         return jdbcTemplate.queryForObject("SELECT * FROM RECIPES WHERE ID = ?", this::createRecipeFromResultSet, id);

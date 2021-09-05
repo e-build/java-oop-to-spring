@@ -10,16 +10,8 @@ import java.util.Map;
 @Service
 public class UserService {
 
-    private UserDao userDao;
-
-//    @Inject
-//    public UserService(UserDao userDao){
-//        this.userDao = userDao;
-//    }
     @Inject
-    public void setUserDao(UserDao userDao){
-        this.userDao = userDao;
-    }
+    private UserDao userDao;
 
     public int register(Map<String, String> params){
         String username = params.get("username").trim();
