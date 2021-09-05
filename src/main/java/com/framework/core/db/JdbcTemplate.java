@@ -1,6 +1,7 @@
 package com.framework.core.db;
 
 import com.framework.core.db.exception.DataAccessException;
+import com.framework.core.di.annotation.Component;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Component
 public class JdbcTemplate {
 
     public <T> List<T> query(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper) throws DataAccessException{
