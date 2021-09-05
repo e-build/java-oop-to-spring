@@ -1,5 +1,6 @@
 package com.framework.core.di;
 
+import com.framework.core.di.annotation.Component;
 import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.Repository;
 import com.framework.core.new_mvc.annotation.Service;
@@ -19,7 +20,7 @@ public class ClasspathBeanDefinitionScanner {
     @SuppressWarnings("unchecked")
     public void doScan(Object... basePackage){
         Reflections reflections = new Reflections(basePackage);
-        Set<Class<?>> beanClasses = getTypesAnnotatedWith(reflections, Controller.class, Service.class, Repository.class);
+        Set<Class<?>> beanClasses = getTypesAnnotatedWith(reflections, Controller.class, Service.class, Repository.class, Component.class);
         for( Class<?> clazz : beanClasses ){
             beanDefinitionRegistry.registerBeanDefinition(clazz, new BeanDefinition(clazz));
         }
