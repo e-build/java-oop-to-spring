@@ -42,7 +42,7 @@ public class WebServer {
             legacyHandlerMapping.initialize();
 
             // 어노테이션 컨트롤러 초기화 매핑
-            AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("com.business");
+            AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("com.business", "com.framework");
             annotationHandlerMapping.initialize();
 
             handlerMappings.add(annotationHandlerMapping);
