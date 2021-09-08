@@ -2,22 +2,9 @@ package com.framework.core.di;
 
 import java.util.Set;
 
-public class ApplicationContext {
+public interface ApplicationContext {
 
-    private BeanFactory beanFactory;
+    public <T> T getBean(Class<?> clazz);
 
-    public ApplicationContext(Object... basePackages){
-        beanFactory = new BeanFactory();
-        ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(beanFactory);
-        scanner.doScan(basePackages);
-        beanFactory.initialize();
-    }
-
-    public <T> T getBean(Class<T> clazz){
-        return beanFactory.getBean(clazz);
-    }
-
-    public Set<Class<?>> getBeanClasses(){
-        return beanFactory.getBeanClasses();
-    }
+    public Set<Class<?>> getBeanClasses();
 }
