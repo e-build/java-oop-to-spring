@@ -14,10 +14,10 @@
     ```java
     package com.framework.core.di.beans.factory.support;
     
-    import com.framework.core.di.BeanDefinition;
+    import com.framework.core.di.DefaultBeanDefinition;
         
     public interface BeanDefinitionRegistry {
-        void registerBeanDefinition(Class<?> clazz, BeanDefinition beanDefinition);
+        void registerBeanDefinition(Class<?> clazz, DefaultBeanDefinition beanDefinition);
     }
     ```
     ```java
@@ -52,7 +52,7 @@
    ```java
     package com.framework.core.di.beans.factory.config;
 
-    import com.framework.core.di.InjectType;
+    import com.framework.core.di.beans.factory.support.InjectType;
     
     import java.lang.reflect.Constructor;
     import java.lang.reflect.Field;
