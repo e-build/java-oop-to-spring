@@ -2,13 +2,19 @@ package com.framework.core.di;
 
 import com.framework.core.di.annotation.Inject;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.reflections.ReflectionUtils.*;
 
+@Slf4j
 public class BeanFactoryUtils {
 
     /**
@@ -64,18 +70,30 @@ public class BeanFactoryUtils {
      * @param preInstantiateBeans
      * @return
      */
-    public static Class<?> findConcreteClass(Class<?> injectedClazz, Set<Class<?>> preInstantiateBeans) {
-        if (!injectedClazz.isInterface()) {
-            return injectedClazz;
-        }
+    public static Optional<Class<?>> findConcreteClass(Class<?> injectedClazz, Set<Class<?>> preInstantiateBeans) {
+        if (!injectedClazz.isInterface())
+            return Optional.of(injectedClazz);
 
-        for (Class<?> clazz : preInstantiateBeans) {
+        for ( Class<?> clazz : preInstantiateBeans ) {
             Set<Class<?>> interfaces = Sets.newHashSet(clazz.getInterfaces());
             if (interfaces.contains(injectedClazz)) {
-                return clazz;
+                return Optional.of(clazz);
             }
         }
+        return Optional.empty();
+    }
 
-        throw new IllegalStateException(injectedClazz + "인터페이스를 구현하는 Bean이 존재하지 않는다.");
+    public static Optional<Object> invokeMethod(Method method, Object bean, Object[] args) {
+        try {
+            return Optional.ofNullable(method.invoke(bean, args));
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            log.error(e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    public static Set<Method> getBeanMethods(Class<?> clazz, Class<? extends Annotation> annotation) {
+        return getAllMethods(clazz, withAnnotation(annotation));
     }
 }
