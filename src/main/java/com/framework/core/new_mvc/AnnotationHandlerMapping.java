@@ -15,11 +15,11 @@ import java.util.Map;
 @Slf4j
 public class AnnotationHandlerMapping implements HandlerMapping {
 
-    private final String[] basePackage;
     private static final Map<HandlerKey, HandlerExecution> handlers = Maps.newHashMap();
+    private final ApplicationContext applicationContext;
 
-    public AnnotationHandlerMapping(String... basePackage){
-        this.basePackage = basePackage;
+    public AnnotationHandlerMapping(ApplicationContext applicationContext){
+        this.applicationContext = applicationContext;
     }
 
     private void addHandler(Object object, Method[] methods){
@@ -39,8 +39,7 @@ public class AnnotationHandlerMapping implements HandlerMapping {
     }
 
     public void initialize(){
-        ApplicationContext ac = new ApplicationContext(basePackage);
-        Map<Class<?>, Object> controllers = getControllers(ac);
+        Map<Class<?>, Object> controllers = getControllers(applicationContext);
         for (Class<?> clazz : controllers.keySet())
             addHandler( controllers.get(clazz) , clazz.getDeclaredMethods());
         log.info("Initialized AnnotationHandlerMapping!");
