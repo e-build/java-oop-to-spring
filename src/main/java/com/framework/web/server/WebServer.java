@@ -1,6 +1,8 @@
 package com.framework.web.server;
 
-import com.framework.core.db.ConnectionManager;
+import com.business.config.JosConfiguration;
+import com.framework.core.di.AnnotationConfigApplicationContext;
+import com.framework.core.di.ApplicationContext;
 import com.framework.core.new_mvc.AnnotationHandlerMapping;
 import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.core.mvc.LegacyHandlerMapping;
@@ -34,16 +36,16 @@ public class WebServer {
         try (ServerSocket listenSocket = new ServerSocket(port);){
             logger.info("Web Application Server started {} port.", port);
 
-            // 데이터 베이스 초기화 (테이블 생성)
-            ConnectionManager.executeInitialScript();
+            // 어노테이션 기반 DI 프레임워크
+            ApplicationContext applicationContext = new AnnotationConfigApplicationContext(JosConfiguration.class);
+
+            // 어노테이션 컨트롤러 초기화 매핑
+            AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping(applicationContext);
+            annotationHandlerMapping.initialize();
 
             // 레거시 컨트롤러 초기화 매핑
             LegacyHandlerMapping legacyHandlerMapping = new LegacyHandlerMapping();
             legacyHandlerMapping.initialize();
-
-            // 어노테이션 컨트롤러 초기화 매핑
-            AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("com.business", "com.framework");
-            annotationHandlerMapping.initialize();
 
             handlerMappings.add(annotationHandlerMapping);
             handlerMappings.add(legacyHandlerMapping);
