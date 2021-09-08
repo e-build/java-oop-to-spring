@@ -2,8 +2,10 @@ package com.framework.core.db;
 
 import com.framework.core.db.exception.DataAccessException;
 import com.framework.core.di.annotation.Component;
+import com.framework.core.di.annotation.Inject;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,9 +17,20 @@ import java.util.List;
 @Component
 public class JdbcTemplate {
 
+    private DataSource dataSource;
+
+    @Inject
+    public JdbcTemplate(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
+    private Connection getConnection() throws SQLException{
+        return this.dataSource.getConnection();
+    }
+
     public <T> List<T> query(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper) throws DataAccessException{
         List<T> resultList = new ArrayList<>();
-        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             pss.setValues(pstmt);
             ResultSet rs = pstmt.executeQuery();
 
@@ -31,7 +44,7 @@ public class JdbcTemplate {
 
     public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object...  params) throws DataAccessException{
         List<T> resultList = new ArrayList<>();
-        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             for ( int i = 0; i < params.length ; i++ )
                 pstmt.setObject(i+1, params[i]);
             ResultSet rs = pstmt.executeQuery();
@@ -60,7 +73,7 @@ public class JdbcTemplate {
 
     public int update(String sql, PreparedStatementSetter pss) throws DataAccessException {
         int updateCnt = 0;
-        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             pss.setValues(pstmt);
             updateCnt = pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -71,10 +84,9 @@ public class JdbcTemplate {
 
     public int update(String sql, Object... params) throws DataAccessException {
         int updateCnt = 0;
-        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)){
             for ( int i = 0; i < params.length ; i++ )
                 pstmt.setObject(i, params[i]);
-
             updateCnt = pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException(e);
