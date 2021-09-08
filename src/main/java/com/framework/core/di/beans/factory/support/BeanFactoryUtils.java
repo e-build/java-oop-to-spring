@@ -1,4 +1,4 @@
-package com.framework.core.di;
+package com.framework.core.di.beans.factory.support;
 
 import com.framework.core.di.annotation.Inject;
 import com.google.common.collect.Sets;

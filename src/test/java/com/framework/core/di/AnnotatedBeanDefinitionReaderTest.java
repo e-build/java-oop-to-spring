@@ -1,7 +1,8 @@
 package com.framework.core.di;
 
 import com.business.config.JosConfigurationTest;
-import lombok.extern.java.Log;
+import com.framework.core.di.beans.factory.support.DefaultBeanFactory;
+import com.framework.core.di.context.annotation.AnnotatedBeanDefinitionReader;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +15,9 @@ class AnnotatedBeanDefinitionReaderTest {
 
     @Test
     public void register_simple(){
-        BeanFactory beanFactory = new BeanFactory();
+        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
         AnnotatedBeanDefinitionReader abdr = new AnnotatedBeanDefinitionReader(beanFactory);
-        abdr.register(JosConfigurationTest.class);
+        abdr.loadBeanDefinitions(JosConfigurationTest.class);
         beanFactory.initialize();
         assertNotNull(beanFactory.getBean(DataSource.class));
         log.info(" {}", beanFactory.getBean(DataSource.class));

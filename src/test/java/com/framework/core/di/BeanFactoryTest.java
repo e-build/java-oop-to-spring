@@ -1,10 +1,9 @@
 package com.framework.core.di;
 
+import com.framework.core.di.beans.factory.support.DefaultBeanFactory;
+import com.framework.core.di.context.annotation.ClasspathBeanDefinitionScanner;
 import com.framework.core.di.example.RecipeController;
 import com.framework.core.di.example.RecipeService;
-import com.framework.core.new_mvc.annotation.Controller;
-import com.framework.core.new_mvc.annotation.Repository;
-import com.framework.core.new_mvc.annotation.Service;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BeanFactoryTest {
 
     private Reflections reflections;
-    private BeanFactory beanFactory;
+    private DefaultBeanFactory beanFactory;
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() {
-        beanFactory = new BeanFactory();
+        beanFactory = new DefaultBeanFactory();
         ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(beanFactory);
         scanner.doScan("com.framework.core.di.example");
         beanFactory.initialize();

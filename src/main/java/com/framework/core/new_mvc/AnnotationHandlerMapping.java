@@ -1,6 +1,6 @@
 package com.framework.core.new_mvc;
 
-import com.framework.core.di.ApplicationContext;
+import com.framework.core.di.context.ApplicationContext;
 import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.RequestMapping;
 import com.framework.http.HandlerKey;

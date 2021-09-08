@@ -1,5 +1,6 @@
-package com.framework.core.di;
+package com.framework.core.di.beans.factory.support;
 
+import com.framework.core.di.beans.factory.config.BeanDefinition;
 import com.google.common.collect.Sets;
 import org.springframework.util.CollectionUtils;
 
@@ -8,7 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-public class BeanDefinition {
+public class DefaultBeanDefinition implements BeanDefinition {
 
     private final Class<?> beanClazz;
     private final Constructor<?> injectConstructor;
@@ -18,7 +19,7 @@ public class BeanDefinition {
      * 인자로 전달되는 클래스를 통해, 리플렉션으로 생성자, 수정자, 필드 주입할 요소들 초기화
      * @param beanClazz
      */
-    public BeanDefinition(Class<?> beanClazz){
+    public DefaultBeanDefinition(Class<?> beanClazz){
         this.beanClazz = beanClazz;
         this.injectConstructor = getInjectConstructor(beanClazz);
         this.injectFields = getInjectFields(beanClazz);
@@ -84,32 +85,36 @@ public class BeanDefinition {
 
     /**
      * 주입될 생성자 반환
-     * @return
+     * @return Constructor<?>
      */
+    @Override
     public Constructor<?> getInjectConstructor(){
         return this.injectConstructor;
     }
 
     /**
      * 주입될 멤버필드 반환
-     * @return
+     * @return Set<Field>
      */
+    @Override
     public Set<Field> getInjectFields(){
         return this.injectFields;
     }
 
     /**
      * 빈으로 생성될 클래스 반환
-     * @return
+     * @return Class<?>
      */
+    @Override
     public Class<?> getBeanClass(){
         return this.beanClazz;
     }
 
     /**
      * 생성자 주입, 필드 주입, 멤버필드 주입없이 빈 생성가능한 지 확인
-     * @return
+     * @return InjectType
      */
+    @Override
     public InjectType getResolvedInjectMode(){
         if( injectConstructor != null)
             return InjectType.INJECT_CONSTRUCTOR;

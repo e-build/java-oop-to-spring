@@ -1,7 +1,8 @@
-package com.framework.core.di;
+package com.framework.core.di.beans.factory.support;
 
-import com.framework.core.di.annotation.AnnotatedBeanDefinition;
+import com.framework.core.di.context.annotation.AnnotatedBeanDefinition;
 import com.framework.core.di.annotation.PostConstruct;
+import com.framework.core.di.beans.factory.BeanFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +17,10 @@ import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
-public class BeanFactory implements BeanDefinitionRegistry{
+public class DefaultBeanFactory implements BeanFactory , BeanDefinitionRegistry {
 
     private final Map<Class<?>, Object> beans = Maps.newHashMap();
-    private final Map<Class<?>, BeanDefinition> beanDefinitions = Maps.newHashMap();
+    private final Map<Class<?>, DefaultBeanDefinition> beanDefinitions = Maps.newHashMap();
 
     public void initialize(){
         for ( Class<?> clazz : getBeanClasses() ){
@@ -28,7 +29,7 @@ public class BeanFactory implements BeanDefinitionRegistry{
         }
     }
 
-    private Object inject(BeanDefinition beanDefinition){
+    private Object inject(DefaultBeanDefinition beanDefinition){
         if ( beanDefinition.getResolvedInjectMode() == InjectType.INJECT_NO )
             return BeanUtils.instantiateClass(beanDefinition.getBeanClass());
         if ( beanDefinition.getResolvedInjectMode() == InjectType.INJECT_CONSTRUCTOR )
@@ -36,13 +37,13 @@ public class BeanFactory implements BeanDefinitionRegistry{
         return injectFields(beanDefinition);
     }
 
-    private Object injectConstructor( BeanDefinition beanDefinition ) {
+    private Object injectConstructor( DefaultBeanDefinition beanDefinition ) {
         Constructor<?> constructor = beanDefinition.getInjectConstructor();
         List<Object> args = Lists.newArrayList();
         return BeanUtils.instantiateClass(constructor, populateArguments(constructor.getParameterTypes()));
     }
 
-    private Object injectFields( BeanDefinition beanDefinition ) {
+    private Object injectFields( DefaultBeanDefinition beanDefinition ) {
         Object bean = BeanUtils.instantiateClass(beanDefinition.getBeanClass());
         Set<Field> fields = beanDefinition.getInjectFields();
 
@@ -63,11 +64,11 @@ public class BeanFactory implements BeanDefinitionRegistry{
         }
     }
 
-    private void addBeanDefinition(Class<?> clazz, BeanDefinition beanDefinition){
+    private void addBeanDefinition(Class<?> clazz, DefaultBeanDefinition beanDefinition){
         this.beanDefinitions.put(clazz, beanDefinition);
     }
 
-    private Optional<Object> createAnnotatedBean(BeanDefinition beanDefinition) {
+    private Optional<Object> createAnnotatedBean(DefaultBeanDefinition beanDefinition) {
         AnnotatedBeanDefinition abd = (AnnotatedBeanDefinition) beanDefinition;
         Method method = abd.getMethod();
         Object[] args = populateArguments(method.getParameterTypes());
@@ -97,13 +98,14 @@ public class BeanFactory implements BeanDefinitionRegistry{
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T getBean(Class<T> clazz){
         Object bean = beans.get(clazz);
         if ( bean != null )
             return (T) bean;
 
-        BeanDefinition beanDefinition = beanDefinitions.get(clazz);
+        DefaultBeanDefinition beanDefinition = beanDefinitions.get(clazz);
         if ( beanDefinition instanceof AnnotatedBeanDefinition ){
             Optional<Object> optionalBean = createAnnotatedBean(beanDefinition);
             optionalBean.ifPresent(b -> beans.put(clazz, b));
@@ -126,12 +128,18 @@ public class BeanFactory implements BeanDefinitionRegistry{
         beans.put(clazz, object);
     }
 
+    @Override
     public Set<Class<?>> getBeanClasses(){
         return this.beanDefinitions.keySet();
     }
 
     @Override
-    public void registerBeanDefinition(Class<?> clazz, BeanDefinition beanDefinition) {
+    public void registerBeanDefinition(Class<?> clazz, DefaultBeanDefinition beanDefinition) {
         addBeanDefinition(clazz, beanDefinition);
+    }
+
+    @Override
+    public void clear() {
+        beans.clear();
     }
 }

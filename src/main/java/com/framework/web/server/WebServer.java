@@ -1,8 +1,8 @@
 package com.framework.web.server;
 
 import com.business.config.JosConfiguration;
-import com.framework.core.di.AnnotationConfigApplicationContext;
-import com.framework.core.di.ApplicationContext;
+import com.framework.core.di.context.support.AnnotationConfigApplicationContext;
+import com.framework.core.di.context.ApplicationContext;
 import com.framework.core.new_mvc.AnnotationHandlerMapping;
 import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.core.mvc.LegacyHandlerMapping;

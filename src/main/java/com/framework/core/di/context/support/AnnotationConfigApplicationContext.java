@@ -1,6 +1,10 @@
-package com.framework.core.di;
+package com.framework.core.di.context.support;
 
 import com.framework.core.di.annotation.ComponentScan;
+import com.framework.core.di.beans.factory.support.DefaultBeanFactory;
+import com.framework.core.di.context.ApplicationContext;
+import com.framework.core.di.context.annotation.AnnotatedBeanDefinitionReader;
+import com.framework.core.di.context.annotation.ClasspathBeanDefinitionScanner;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,15 +13,15 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-public class AnnotationConfigApplicationContext implements ApplicationContext{
+public class AnnotationConfigApplicationContext implements ApplicationContext {
 
-    private BeanFactory beanFactory;
+    private final DefaultBeanFactory beanFactory;
 
     public AnnotationConfigApplicationContext(Class<?>... annotatedClasses){
         Object[] basePackages = findBasePackages(annotatedClasses);
-        this.beanFactory = new BeanFactory();
+        this.beanFactory = new DefaultBeanFactory();
         AnnotatedBeanDefinitionReader abdr = new AnnotatedBeanDefinitionReader(beanFactory);
-        abdr.register(annotatedClasses);
+        abdr.loadBeanDefinitions(annotatedClasses);
 
         if (basePackages.length > 0){
             ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(beanFactory);

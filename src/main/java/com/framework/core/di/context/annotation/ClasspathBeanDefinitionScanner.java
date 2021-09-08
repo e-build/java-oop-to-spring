@@ -1,6 +1,8 @@
-package com.framework.core.di;
+package com.framework.core.di.context.annotation;
 
 import com.framework.core.di.annotation.Component;
+import com.framework.core.di.beans.factory.support.BeanDefinitionRegistry;
+import com.framework.core.di.beans.factory.support.DefaultBeanDefinition;
 import com.framework.core.new_mvc.annotation.Controller;
 import com.framework.core.new_mvc.annotation.Repository;
 import com.framework.core.new_mvc.annotation.Service;
@@ -22,7 +24,7 @@ public class ClasspathBeanDefinitionScanner {
         Reflections reflections = new Reflections(basePackage);
         Set<Class<?>> beanClasses = getTypesAnnotatedWith(reflections, Controller.class, Service.class, Repository.class, Component.class);
         for( Class<?> clazz : beanClasses ){
-            beanDefinitionRegistry.registerBeanDefinition(clazz, new BeanDefinition(clazz));
+            beanDefinitionRegistry.registerBeanDefinition(clazz, new DefaultBeanDefinition(clazz));
         }
     }
 
