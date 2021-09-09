@@ -39,7 +39,7 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 # 목차
 [1. 자바 프로그램의 구동과 메모리 구조](https://github.com/e-build/java-oop-to-spring/blob/main/concept/java-program-running-and-memory-change.md)
 
-[2. 자바의 객체지향](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-on-java.md)
+[2. 객체 지향 4대 특성](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-on-java.md)
 
 [3. 객체지향 설계 5원칙](https://github.com/e-build/java-oop-to-spring/blob/main/concept/oop-5-principle.md)
 
