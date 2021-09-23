@@ -4,6 +4,7 @@ import com.framework.core.db.ConnectionManager;
 import com.framework.core.new_mvc.AnnotationHandlerMapping;
 import com.framework.core.new_mvc.HandlerMapping;
 import com.framework.core.mvc.LegacyHandlerMapping;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class WebServer {
 
-    private static List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
+    private static final List<HandlerMapping> handlerMappings = Lists.newArrayList();
     private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
     private static final int DEFAULT_PORT = 8080;
 
