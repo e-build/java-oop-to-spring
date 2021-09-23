@@ -29,11 +29,11 @@ OKKY, 페이스북 그룹 등과 같은 여러 개발 커뮤니티의 수많은 
 - [03-data-access-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/03-data-access-refactoring.md) : Data Access 로직 리팩토링 
 - [04-new-mvc](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/04-new-mvc.md) : 자바 리플렉션 API를 이용하여 애노테이션 기반의 새로운 MVC 프레임워크로 점진적 개선
 - [05-new-mvc-refactoring-using-adapter](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/05-new-mvc-refactoring-using-adapter.md) : no-framework-new-mvc 브랜치에 확장성을 부여하는 리팩토링
-- [07-di-container-constructor](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/07-di-container-constructor.md) : DI 프레임워크를 구현
-- [08-di-container-setter-field](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/08-di-container-setter-field.md) :
-- [09-di-container-setter-field-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/09-di-container-setter-field-refactoring.md) :
-- [10-di-container-get-flexible](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/10-di-container-get-flexible.md) :
-- [11-di-container-with-interface](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/11-di-container-with-interface.md) :
+- [07-di-container-constructor](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/07-di-container-constructor.md) : DI 프레임워크를 구현. 생성자 주입으로만 선언가능
+- [08-di-container-setter-field](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/08-di-container-setter-field.md) : DI 프레임워크 수정자주입, 필드 주입 추가 
+- [09-di-container-setter-field-refactoring](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/09-di-container-setter-field-refactoring.md) : DI 프레임워크 리팩토링
+- [10-di-container-get-flexible](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/10-di-container-get-flexible.md) : 프레임워크를 재사용 가능하도록 유연성 확보 
+- [11-di-container-with-interface](https://github.com/e-build/java-oop-to-spring/blob/main/concept/branch_describe/11-di-container-with-interface.md) : 확장가능한 부분에 대하여 인터페이스로 추상화하고, 객체간 의존관계 설정에 인터페이스를 활용하도록 수정   
  
 
 # 목차
