@@ -6,7 +6,7 @@
  
 # 한계
 1. UserDao, RecipeDao 클래스의 중복된 코드
-   - Connection 을 가져와서 매번 try-catch 절을 사용하여 SQLException을 처리해야 한다. 
+   - Connection을 가져와서 매번 try-catch 절을 사용하여 SQLException을 처리해야 한다. 
      데이터베이스에 접근할 때 비즈니스 로직에 따라 변화하는 로직보다 불필요하게 중복해서 작성해야 하는 코드들이 너무 많다.   
 2. 소스코드의 가독성 저하 
    - SQLException 컴파일 Exception 때문에 매번 try-catch 절 처리를 해야 함. 너무 무분별하게 사용됨으로써 소스코드의 가독성을 떨어뜨리는 주된 이유.
