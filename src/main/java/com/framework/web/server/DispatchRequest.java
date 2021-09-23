@@ -58,17 +58,6 @@ public class DispatchRequest extends Thread {
         }
     }
 
-    private boolean isLogin(String loginCookie){
-        log.info("loginCookie : {}", loginCookie);
-        if (StringUtils.isBlank(loginCookie))
-            return false;
-        return StringUtils.equals(loginCookie, "true");
-    }
-
-    private boolean isFirstConnect(String sessionCookie){
-        return StringUtils.isBlank(sessionCookie);
-    }
-
     private String parseContentType(String accept){
         if (accept == null)
             return "*/*";
