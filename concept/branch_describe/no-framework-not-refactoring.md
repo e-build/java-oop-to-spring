@@ -79,7 +79,7 @@
 ***9. Ajax를 활용해 새로고침 없이 데이터 갱신하기***
 - 레시피 등록, 레시피 리스트 조회, 레시피 상세 조회 Ajax를 활용해 구현
 - HTTP 응답 메시지
-  - Content-Type : application/json; charset=UTF-8
+  - Content-Type : `application/json; charset=UTF-8`
   - 응답본문에 queryString, json 형태의 데이터 전달하고, 클라이언트에서 파싱하여 사용함
 
 ### 비즈니스 로직
