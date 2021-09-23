@@ -10,18 +10,18 @@ import com.framework.core.new_mvc.adapter.ControllerHandlerAdapter;
 import com.framework.core.new_mvc.adapter.HandlerAdapter;
 import com.framework.core.new_mvc.adapter.HandlerExecutionAdapter;
 import com.framework.core.new_mvc.adapter.ServletHandlerAdapter;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WebServer {
 
-    private static List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
-    private static List<HandlerAdapter> handlerAdapters = new ArrayList<HandlerAdapter>();
+    private static final List<HandlerMapping> handlerMappings = Lists.newArrayList();
+    private static final List<HandlerAdapter> handlerAdapters = Lists.newArrayList();
     private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
     private static final int DEFAULT_PORT = 8080;
 
