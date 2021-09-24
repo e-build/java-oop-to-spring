@@ -1,13 +1,11 @@
 package com.framework.web.server;
 
 import com.framework.core.db.ConnectionManager;
-import org.h2.engine.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
 
 public class WebServer {
 
@@ -32,7 +30,7 @@ public class WebServer {
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
                 // Request 당 하나의 스레드 할당
-                Thread thread = new Thread(new RequestHandler(connection));
+                Thread thread = new Thread(new DispatchRequest(connection));
                 thread.start();
             }
         }
