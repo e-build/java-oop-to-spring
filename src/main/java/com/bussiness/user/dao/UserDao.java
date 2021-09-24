@@ -36,12 +36,12 @@ public class UserDao {
 
     public User selectUserByUsername(String username){
         Connection conn = ConnectionManager.getConnection();
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         User user = null;
         try {
-            stmt = conn.createStatement();
-            String query = "SELECT * FROM USERS WHERE USERNAME="+username;
-            ResultSet rs = stmt.executeQuery(query);
+            pstmt = conn.prepareStatement("SELECT * FROM USERS WHERE USERNAME=?");
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
 
             while(rs.next())
                 user = createUserFromResultSet(rs);
@@ -49,8 +49,8 @@ public class UserDao {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null)
-                    stmt.close();
+                if (pstmt != null)
+                    pstmt.close();
                 if (conn != null)
                     conn.close();
             } catch (SQLException e) {

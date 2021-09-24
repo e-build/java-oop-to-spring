@@ -2,6 +2,7 @@ package com.framework.web.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
@@ -64,6 +65,7 @@ public class DispatchRequest extends Thread {
             String requestBody = null;
             if ( contentLength != null)
                 requestBody = IOUtils.readData(bufferedReader, Integer.parseInt(contentLength));
+            requestBody = requestBody != null ? URLDecoder.decode(requestBody) : null;
 
             // 응답 처리
             Map<String, String> headersToAdd = Maps.newHashMap();
