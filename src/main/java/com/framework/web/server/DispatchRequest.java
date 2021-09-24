@@ -119,6 +119,8 @@ public class DispatchRequest extends Thread {
     }
 
     private String parseContentType(String accept){
+        if (accept == null)
+            return "*/*";
         return accept.split(",")[0];
     }
 
