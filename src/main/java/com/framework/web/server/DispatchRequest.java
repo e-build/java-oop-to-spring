@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
 
-import com.bussiness.Database;
+import com.bussiness.user.dao.UserDao;
 import com.bussiness.user.domain.User;
 import com.framework.utils.IOUtils;
 import com.framework.utils.QueryStringUtils;
@@ -16,19 +16,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RequestHandler extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+public class DispatchRequest extends Thread {
+    private static final Logger log = LoggerFactory.getLogger(DispatchRequest.class);
+
+    private final UserDao userDao = new UserDao();
 
     private Socket connection;
 
-    public RequestHandler(Socket connectionSocket) {
+    public DispatchRequest(Socket connectionSocket) {
         this.connection = connectionSocket;
     }
 
     public void run() {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
             // Request Line 추출
             String requestLineString = bufferedReader.readLine();
@@ -77,7 +79,7 @@ public class RequestHandler extends Thread {
                 } else if ( StringUtils.equals(path, "/user/login") ) {
                     resourceFile = new File(htmlBaseDirectory + "/user/login.html");
                 } else if ( StringUtils.equals(path, "/user/isUser") ){ // GET 방식 파라미터 처리
-                    User user = findUserByUsername(params.get("username"));
+                    User user = userDao.selectUserByUsername(params.get("username"));
                     if (user != null)
                         resourceFile = new File(htmlBaseDirectory + "/user/userTrue.html");
                     else
@@ -125,11 +127,10 @@ public class RequestHandler extends Thread {
     }
 
     private boolean login(String username, String password){
-        for ( Integer key : Database.USER.keySet() ){
-            if (StringUtils.equals(Database.USER.get(key).getUsername(), username))
-                return StringUtils.equals(Database.USER.get(key).getUsername(), password);
-        }
-        return false;
+        User user = userDao.selectUserByUsername(username);
+        if( user == null)
+            return false;
+        return StringUtils.equals(user.getPassword(), password);
     }
 
     private Map<String, String> parseCookie(String cookieString){
@@ -154,14 +155,6 @@ public class RequestHandler extends Thread {
     private Map<String, String> parseQueryString(String url){
         int idx = url.indexOf("?");
         return QueryStringUtils.toMap(url.substring(idx+1));
-    }
-
-    private User findUserByUsername(String username){
-        for (int key : Database.USER.keySet()){
-            if ( StringUtils.equals(username, Database.USER.get(key).getUsername()) )
-                return  Database.USER.get(key);
-        }
-        return null;
     }
 
     private void responseHeader(DataOutputStream dos, String statusCode, int lengthOfBodyContent, Map<String, String> headersToAdd) {
