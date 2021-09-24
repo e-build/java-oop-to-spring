@@ -16,7 +16,11 @@ public class UserDao {
         PreparedStatement pstmt = null;
         Connection conn = ConnectionManager.getConnection();
         try {
-            pstmt = conn.prepareStatement("INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES("+user.getUsername()+","+user.getPassword()+","+user.getNickname()+")");
+            String sql = "INSERT INTO USERS(USERNAME, PASSWORD, NICKNAME) VALUES(?,?,?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getNickname());
             int insertRowCnt = pstmt.executeUpdate();
             if (insertRowCnt == 1)
                 log.info("USER INSERT SUCCESS");
@@ -34,12 +38,12 @@ public class UserDao {
         }
     }
 
-    public User selectUserByUsername(String username){
+    public User selectUserByUsername(String username) {
         Connection conn = ConnectionManager.getConnection();
         PreparedStatement pstmt = null;
         User user = null;
         try {
-            pstmt = conn.prepareStatement("SELECT * FROM USERS WHERE USERNAME=?");
+            pstmt = conn.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ?");
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
@@ -62,12 +66,13 @@ public class UserDao {
 
     public User selectUserById(String id){
         Connection conn = ConnectionManager.getConnection();
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         User user = null;
         try {
-            stmt = conn.createStatement();
-            String query = "SELECT * FROM USERS WHERE ID = " + id;
-            ResultSet rs = stmt.executeQuery(query);
+            String sql = "SELECT * FROM USERS WHERE ID = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
 
             while(rs.next())
                 user = createUserFromResultSet(rs);
