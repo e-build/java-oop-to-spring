@@ -1,5 +1,5 @@
 <templateSet group="Java">
-  <template name="tdd" value="@Test&#10;void test(){&#10;&#10;}" description="generate test code snipet" toReformat="false" toShortenFQNames="true">
+  <template name="tdd" value="@Test&#10;void test(){&#10;    // given&#10;    &#10;    // when&#10;    &#10;    // then&#10;&#10;}" description="generate test code snipet" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="JAVA_CODE" value="true" />
     </context>
