@@ -6,6 +6,7 @@
       <mapping pattern="current-real-ingress" type="AUTO_DETECTED" />
       <mapping pattern="internal-auth-mongodb-keyfile" type="AUTO_DETECTED" />
       <mapping pattern="init-log" type="AUTO_DETECTED" />
+      <mapping pattern="Dockerfile-local" type="AUTO_DETECTED" />
       <mapping pattern="DockerfileTest" type="AUTO_DETECTED" />
       <mapping pattern="MongoSetupDockerFile" type="AUTO_DETECTED" />
       <mapping ext="ng" type="HTML" />
