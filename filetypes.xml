@@ -3,6 +3,7 @@
     <extensionMap>
       <mapping pattern="get-without-param" type="AUTO_DETECTED" />
       <mapping pattern="current-stage-ingress" type="AUTO_DETECTED" />
+      <mapping pattern="Jenkinsfiles" type="AUTO_DETECTED" />
       <mapping pattern="current-real-ingress" type="AUTO_DETECTED" />
       <mapping pattern="internal-auth-mongodb-keyfile" type="AUTO_DETECTED" />
       <mapping pattern="init-log" type="AUTO_DETECTED" />
