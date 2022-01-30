@@ -2,6 +2,7 @@
   <component name="FileTypeManager" version="18">
     <extensionMap>
       <mapping pattern="get-without-param" type="AUTO_DETECTED" />
+      <mapping pattern="Jenkinsfile_batch" type="AUTO_DETECTED" />
       <mapping pattern="current-stage-ingress" type="AUTO_DETECTED" />
       <mapping pattern="Jenkinsfiles" type="AUTO_DETECTED" />
       <mapping pattern="current-real-ingress" type="AUTO_DETECTED" />
