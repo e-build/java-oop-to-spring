@@ -20,6 +20,7 @@
       <mapping ext="2021-02-20t07-57-38z-00000" type="PLAIN_TEXT" />
       <mapping ext="conf-bak" type="PLAIN_TEXT" />
       <mapping ext="lst" type="PLAIN_TEXT" />
+      <removed_mapping ext="adoc" approved="true" type="PLAIN_TEXT" />
       <removed_mapping ext="apk" approved="true" type="ARCHIVE" />
       <removed_mapping ext="psd" approved="true" type="Image" />
     </extensionMap>
